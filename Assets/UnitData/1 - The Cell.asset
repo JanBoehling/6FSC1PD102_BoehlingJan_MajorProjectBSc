@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7963239a09b3f134e8900eb2137a9456, type: 3}
   m_Name: 1 - The Cell
   m_EditorClassIdentifier: 
+  IsCompleted: 0
   Title: Die Zelle
+  Assignments:
+  - IsCompleted: 0
+    IsVideo: 1
+    Title: Video 1
+    Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    Video: {fileID: 0}
+  - IsCompleted: 0
+    IsVideo: 0
+    Title: Assignment 1
+    Icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+    Video: {fileID: 0}
