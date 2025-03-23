@@ -23,5 +23,5 @@ public struct Assignment
 
     public VideoClip Video;
 
-
+    public int XP;
 }
