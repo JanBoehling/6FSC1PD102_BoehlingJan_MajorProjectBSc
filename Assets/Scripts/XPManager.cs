@@ -1,10 +1,9 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class XPManager : MonoSingleton<XPManager>
 {
-    [SerializeField] private Slider _xpSlider;
+    [SerializeField] private TMP_Text _xpText;
     [SerializeField] private TMP_Text _levelText;
 
     public static int XP { get; private set; }
@@ -15,7 +14,7 @@ public class XPManager : MonoSingleton<XPManager>
 
     private void Start()
     {
-        UpdateXPDisplay();
+        UpdateDisplay();
     }
 
     public void RaiseXP(int value)
@@ -28,12 +27,12 @@ public class XPManager : MonoSingleton<XPManager>
             Level++;
         }
 
-        UpdateXPDisplay();
+        UpdateDisplay();
     }
 
-    private void UpdateXPDisplay()
+    public void UpdateDisplay()
     {
-        _xpSlider.value = XP;
+        _xpText.text = $"{XP} XP";
         _levelText.text = Level.ToString();
     }
 }

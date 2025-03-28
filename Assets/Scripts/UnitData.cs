@@ -9,11 +9,11 @@ public class UnitData : ScriptableObject
 
     public string Title;
 
-    public List<Assignment> Assignments;
+    public List<Milestone> Milestones;
 }
 
 [System.Serializable]
-public struct Assignment
+public struct Milestone
 {
     public bool IsCompleted;
     public bool IsVideo;
@@ -24,4 +24,6 @@ public struct Assignment
     public VideoClip Video;
 
     public int XP;
+
+    public Assignment[] Assignments;
 }

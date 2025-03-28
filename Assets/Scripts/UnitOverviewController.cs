@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UnitOverviewController : MonoBehaviour, IToggleVisibility
+public class UnitOverviewController : MonoSingleton<UnitOverviewController>, IToggleVisibility
 {
     [SerializeField] private UnitListItem _unitListItemPrefab;
     [SerializeField] private Transform _unitListContainer;
@@ -16,10 +16,10 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
 
         TopIslandController.Instance.DisplayTitle(unitData.Title);
 
-        foreach (var assignment in unitData.Assignments)
+        foreach (var milestone in unitData.Milestones)
         {
             var listItem = Instantiate(_unitListItemPrefab, _unitListContainer);
-            listItem.InitUnitListItem(assignment.Icon, assignment.Title);
+            listItem.Init(milestone);
         }
     }
 
