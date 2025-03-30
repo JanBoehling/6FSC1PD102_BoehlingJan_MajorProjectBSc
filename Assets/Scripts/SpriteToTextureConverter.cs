@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestionImageLoader : MonoBehaviour
+public class SpriteToTextureConverter : MonoBehaviour
 {
     private RawImage img;
 
@@ -12,6 +12,8 @@ public class QuestionImageLoader : MonoBehaviour
 
     public void LoadImage(Sprite sprite)
     {
+        if (!sprite) return;
+
         img.texture = sprite.texture;
         img.SetNativeSize();
     }

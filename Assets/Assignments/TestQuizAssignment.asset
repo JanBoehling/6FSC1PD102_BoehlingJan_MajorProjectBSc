@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2147d0a507964d84bb18698b16b253c6, type: 3}
   m_Name: TestQuizAssignment
   m_EditorClassIdentifier: 
-  _assignmentUIPrefab: {fileID: 4052917125916940370, guid: c6436fd3509b0e5479bd395fc7bdb283, type: 3}
+  _assignmentSceneIndex: 1
   _question: Test Question
   _questionSprite: {fileID: 0}
   _answers:

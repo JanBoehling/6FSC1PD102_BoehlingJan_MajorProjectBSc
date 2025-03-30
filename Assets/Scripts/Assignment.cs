@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class Assignment : ScriptableObject
 {
-    [SerializeField] private GameObject _assignmentUIPrefab;
+    [SerializeField] private int _assignmentSceneIndex;
 
     public void LoadAssignmentUI()
     {
-        AssignmentController.Instance.Enable(_assignmentUIPrefab);
+        SceneManager.LoadScene(_assignmentSceneIndex);
     }
 }
 

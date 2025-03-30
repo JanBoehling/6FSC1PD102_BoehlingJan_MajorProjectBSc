@@ -4,12 +4,12 @@ using UnityEngine;
 public class AnswerUI : MonoBehaviour
 {
     private TMP_Text _answerText;
-    private QuestionImageLoader _answerImage;
+    private SpriteToTextureConverter _answerImage;
 
-    private void Start()
+    private void Awake()
     {
         _answerText = GetComponentInChildren<TMP_Text>();
-        _answerImage = GetComponentInChildren<QuestionImageLoader>();
+        _answerImage = GetComponentInChildren<SpriteToTextureConverter>();
     }
 
     public void Init(string answerText, Sprite answerSprite)

@@ -4,12 +4,13 @@ using UnityEngine;
 public class QuizAssignmentController : MonoBehaviour
 {
     [SerializeField] private TMP_Text _questionText;
-    [SerializeField] private QuestionImageLoader _questionImageLoader;
+    [SerializeField] private SpriteToTextureConverter _questionImageLoader;
     [SerializeField] private Transform _answerContainer;
+    [SerializeField] private QuizAssignment _assignmentData;
 
     private void OnEnable()
     {
-        Init();
+        Init(_assignmentData);
     }
 
     public void Init(QuizAssignment quiz)

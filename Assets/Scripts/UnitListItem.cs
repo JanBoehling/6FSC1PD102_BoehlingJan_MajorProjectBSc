@@ -20,6 +20,5 @@ public class UnitListItem : MonoBehaviour
 
         var button = GetComponent<Button>();
         button.onClick.AddListener(() => milestone.Assignments[0].LoadAssignmentUI());
-        //button.onClick.AddListener(UnitOverviewController.Instance.Hide);
     }
 }
