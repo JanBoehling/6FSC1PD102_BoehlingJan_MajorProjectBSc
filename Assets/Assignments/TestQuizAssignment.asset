@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestQuizAssignment
   m_EditorClassIdentifier: 
   _assignmentSceneIndex: 1
+  _uiPrefab: {fileID: 4052917125916940370, guid: c6436fd3509b0e5479bd395fc7bdb283, type: 3}
   _question: Test Question
   _questionSprite: {fileID: 0}
   _answers:

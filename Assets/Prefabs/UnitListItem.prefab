@@ -291,6 +291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 1324671828149480216}
   _titleText: {fileID: 3124503717411109436}
+  _baseColor: {r: 1, g: 0, b: 0, a: 1}
+  _completedColor: {r: 0, g: 1, b: 0.30780363, a: 1}
 --- !u!114 &5049466900970232636
 MonoBehaviour:
   m_ObjectHideFlags: 0

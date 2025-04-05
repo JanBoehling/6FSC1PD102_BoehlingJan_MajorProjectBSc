@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public abstract class Assignment : ScriptableObject
 {
     [SerializeField] private int _assignmentSceneIndex;
+    [SerializeField] private GameObject _uiPrefab;
+    public GameObject UIPrefab => _uiPrefab;
 
     public void LoadAssignmentUI()
     {
