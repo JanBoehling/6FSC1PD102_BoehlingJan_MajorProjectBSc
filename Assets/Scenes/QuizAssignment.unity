@@ -522,8 +522,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 75}
+  m_SizeDelta: {x: -200, y: -350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &442865861
 MonoBehaviour:
@@ -537,6 +537,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ffc5c32cdce5341abd011b627d1425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debugOverrideMilestone: 1
+  _debugAssignments:
+  - {fileID: 11400000, guid: 90e42b5e7b1397e4693f3e69c7370c89, type: 2}
+  - {fileID: 11400000, guid: 2eb545fbf46bf274fa33916717c18d77, type: 2}
   _quizPrefab: {fileID: 2249927129898066941, guid: c6436fd3509b0e5479bd395fc7bdb283, type: 3}
   _sendAnswerButton: {fileID: 118119167}
   _continueButton: {fileID: 434801211}

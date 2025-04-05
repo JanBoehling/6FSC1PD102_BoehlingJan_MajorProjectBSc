@@ -41,7 +41,7 @@ public class PageMoveController : MonoSingleton<PageMoveController>
     private IEnumerator MovePageCO()
     {
         var priorPos = transform.localPosition;
-        var targetPos = priorPos + ((RectTransform)transform).rect.width * Vector3.left;
+        var targetPos = priorPos + Screen.width * Vector3.left;
 
         float elapsedTime = 0f;
 

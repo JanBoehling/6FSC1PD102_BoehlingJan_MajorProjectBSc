@@ -23,3 +23,11 @@ MonoBehaviour:
     XP: 10
     Assignments:
     - {fileID: 11400000, guid: 90e42b5e7b1397e4693f3e69c7370c89, type: 2}
+    - {fileID: 11400000, guid: 2eb545fbf46bf274fa33916717c18d77, type: 2}
+  - IsCompleted: 0
+    IsVideo: 1
+    Title: Test Video
+    Icon: {fileID: 0}
+    Video: {fileID: 32900000, guid: 1096d6b254316d64f9691652c6e1f663, type: 3}
+    XP: 10
+    Assignments: []

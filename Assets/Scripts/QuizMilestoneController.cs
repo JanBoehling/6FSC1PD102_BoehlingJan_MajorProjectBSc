@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class QuizMilestoneController : MonoBehaviour
 {
+    [SerializeField] private bool _debugOverrideMilestone;
+    [SerializeField] private Assignment[] _debugAssignments;
+    [Space]
     [SerializeField] private QuizAssignmentController _quizPrefab;
     [Space]
     [SerializeField] private Button _sendAnswerButton;
@@ -21,14 +24,30 @@ public class QuizMilestoneController : MonoBehaviour
 
     private void Start()
     {
-        InitQuizzes(RuntimeDataHolder.CurrentMilestone.Assignments);
+#if UNITY_EDITOR
+        if (_debugOverrideMilestone && _debugAssignments is not null && _debugAssignments.Length > 0)
+        {
+            InitQuizzes(_debugAssignments);
+        }
+        else
+#endif
+            InitQuizzes(RuntimeDataHolder.CurrentMilestone.Assignments);
     }
 
     private void InitQuizzes(Assignment[] assignments)
     {
-        foreach (var item in assignments.Cast<QuizAssignment>())
+        /*foreach (var item in assignments.Cast<QuizAssignment>())
         {
-            var quizUI = Instantiate(item.UIPrefab, transform).GetComponent<QuizAssignmentController>();
+            var quizUI = Instantiate(item.UIPrefab, transform.position + _pages.CurrentPage * ((RectTransform)transform).rect.width * Vector3.right, Quaternion.identity, transform).GetComponent<QuizAssignmentController>();
+            quizUI.Init(item);
+            _loadedAssignments.Add(quizUI);
+        }*/
+
+        for (int i = 0; i < assignments.Length; i++)
+        {
+            var item = assignments[i] as QuizAssignment;
+
+            var quizUI = Instantiate(item.UIPrefab, transform.position + i * (Screen.width * Vector3.right), Quaternion.identity, transform).GetComponent<QuizAssignmentController>();
             quizUI.Init(item);
             _loadedAssignments.Add(quizUI);
         }
