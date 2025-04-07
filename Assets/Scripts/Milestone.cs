@@ -15,4 +15,19 @@ public struct Milestone
     public int XP;
 
     public Assignment[] Assignments;
+
+    public readonly int CompletedAssignments
+    {
+        get
+        {
+            int completedAssignments = 0;
+
+            foreach (var assignment in Assignments)
+            {
+                if (assignment.IsCompleted) completedAssignments++;
+            }
+
+            return completedAssignments;
+        } 
+    }
 }

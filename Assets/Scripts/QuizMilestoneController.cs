@@ -55,7 +55,8 @@ public class QuizMilestoneController : MonoBehaviour
 
     public void CheckAnswer()
     {
-        var answerButtons = _loadedAssignments[_pages.CurrentPage].AnswerButtons;
+        var currentAssignment = _loadedAssignments[_pages.CurrentPage];
+        var answerButtons = currentAssignment.AnswerButtons;
 
         var correctAnswers = new List<int>();
         var selectedAnswers = new List<int>();
@@ -69,11 +70,30 @@ public class QuizMilestoneController : MonoBehaviour
         }
 
         bool isSelectionCorrect = correctAnswers.SequenceEqual(selectedAnswers);
-        if (isSelectionCorrect) Debug.Log("<color=green>Answer correct!");
-        else Debug.Log("<color=red>Answer wrong!");
+        if (isSelectionCorrect)
+        {
+            currentAssignment.AssignmentData.IsCompleted = true;
+
+            Debug.Log("<color=green>Answer correct!");
+        }
+        else
+        {
+            Debug.Log("<color=red>Answer wrong!");
+        }
 
         _sendAnswerButton.gameObject.SetActive(false);
-        if (_loadedAssignments.Count > _pages.CurrentPage) _continueButton.gameObject.SetActive(true);
+
+        if (_pages.CurrentPage < _loadedAssignments.Count - 1) EndMilestone();
         else _endMilestoneButton.gameObject.SetActive(true);
+    }
+
+    private void EndMilestone()
+    {
+        _continueButton.gameObject.SetActive(true);
+    }
+
+    private void OnDestroy()
+    {
+        RuntimeDataHolder.CurrentMilestone = null;
     }
 }

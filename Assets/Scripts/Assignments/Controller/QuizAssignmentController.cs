@@ -12,6 +12,8 @@ public class QuizAssignmentController : MonoBehaviour
     private readonly List<AnswerUI> _answerButtons = new();
     public List<AnswerUI> AnswerButtons => _answerButtons;
 
+    public QuizAssignment AssignmentData { get; private set; }
+
     public void Init(QuizAssignment quiz)
     {
         _questionText.text = quiz.Question;
@@ -26,5 +28,7 @@ public class QuizAssignmentController : MonoBehaviour
             answerUI.Init(answer.AnswerText, answer.AnswerSprite, answer.IsCorrect, i);
             _answerButtons.Add(answerUI);
         }
+
+        AssignmentData = quiz;
     }
 }
