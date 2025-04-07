@@ -83,17 +83,15 @@ public class QuizMilestoneController : MonoBehaviour
 
         _sendAnswerButton.gameObject.SetActive(false);
 
-        if (_pages.CurrentPage < _loadedAssignments.Count - 1) EndMilestone();
+        if (_pages.CurrentPage < _loadedAssignments.Count - 1) _continueButton.gameObject.SetActive(true);
         else _endMilestoneButton.gameObject.SetActive(true);
     }
 
-    private void EndMilestone()
+    public void EndMilestone()
     {
-        _continueButton.gameObject.SetActive(true);
     }
 
     private void OnDestroy()
     {
-        RuntimeDataHolder.CurrentMilestone = null;
     }
 }

@@ -2,21 +2,21 @@
 using UnityEngine.Video;
 
 [System.Serializable]
-public struct Milestone
+public class Milestone
 {
-    public bool IsCompleted;
     public bool IsVideo;
-
+    public VideoClip Video;
+    [Space]
     public string Title;
     public Sprite Icon;
-
-    public VideoClip Video;
-
+    [Space]
     public int XP;
-
+    [Space]
     public Assignment[] Assignments;
+    [Space]
+    public float CompletionPercentThreshold;
 
-    public readonly int CompletedAssignments
+    public int CompletedAssignments
     {
         get
         {
@@ -30,4 +30,6 @@ public struct Milestone
             return completedAssignments;
         } 
     }
+
+    public bool IsCompleted => CompletedAssignments / Assignments.Length < CompletionPercentThreshold;
 }
