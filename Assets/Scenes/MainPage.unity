@@ -8702,9 +8702,9 @@ MonoBehaviour:
   <DayStreak>k__BackingField: 0
   _streakText: {fileID: 1150661139}
   _streakMessages:
-  - '{X}? Krass.'
-  - Let's goo, {X} Tage schon!
-  - Wow, schon {X} Tage? Wie schnell die Zeit vergeht...
+  - '%s? Krass.'
+  - Let's goo, %s Tage schon!
+  - Wow, schon %s Tage? Wie schnell die Zeit vergeht...
   _customStreakMessages:
   - DayStreak: 0
     Message: Achtung, Baustelle. Hier entsteht eine neue Streak!
@@ -8712,6 +8712,7 @@ MonoBehaviour:
     Message: Der Anfang einer neuen Streak
   - DayStreak: 69
     Message: Nice
+  <UseDebugDay>k__BackingField: 0
 --- !u!1001 &4893245059554759054
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static readonly object instanceLock = new();
     private static T instance = null;
@@ -14,7 +14,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
                 if (instance) return instance;
 
                 // Find T in scene
-                instance = GameObject.FindObjectOfType<T>();
+                instance = GameObject.FindFirstObjectByType<T>();
 
                 // If T exists in scene, return it
                 if (instance) return instance;
