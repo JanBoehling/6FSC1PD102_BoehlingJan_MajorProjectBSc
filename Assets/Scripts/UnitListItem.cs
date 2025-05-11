@@ -19,7 +19,7 @@ public class UnitListItem : MonoBehaviour
     public void Init(Milestone milestone)
     {
         _iconImage.sprite = milestone.Icon;
-        _titleText.text += milestone.Title;
+        _titleText.text = milestone.Title;
 
         var button = GetComponent<Button>();
         button.onClick.AddListener(() => RuntimeDataHolder.CurrentMilestone = milestone);
