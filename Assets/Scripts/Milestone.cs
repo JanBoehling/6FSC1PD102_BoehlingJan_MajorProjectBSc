@@ -58,5 +58,5 @@ public class Milestone
         }
     }
 
-    public bool IsCompleted => CompletedAssignments / Assignments.Length > CompletionPercentThreshold;
+    public bool IsCompleted => CompletedAssignments / Assignments.Length >= CompletionPercentThreshold;
 }

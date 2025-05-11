@@ -27,13 +27,13 @@ public class ProgressController : MonoBehaviour
     {
         (VideoProgress, AssignmentProgress, TotalProgress) = CalculateProgress(currentUnitData);
 
-        if (_videoProgressDisplay) _videoProgressDisplay.value = VideoProgress * 100f;
+        if (_videoProgressDisplay) _videoProgressDisplay.value = VideoProgress;
         if (_videoProgressDisplayText) _videoProgressDisplayText.text = (VideoProgress * 100f).ToString("0");
 
-        if (_assignmentProgressDisplay) _assignmentProgressDisplay.value = AssignmentProgress * 100f;
+        if (_assignmentProgressDisplay) _assignmentProgressDisplay.value = AssignmentProgress;
         if (_assignmentProgressDisplayText) _assignmentProgressDisplayText.text = (AssignmentProgress * 100f).ToString("0");
 
-        if (_totalProgressDisplay) _totalProgressDisplay.fillAmount = TotalProgress * 100f;
+        if (_totalProgressDisplay) _totalProgressDisplay.fillAmount = TotalProgress;
         if (_totalProgressDisplayText) _totalProgressDisplayText.text = (TotalProgress * 100f).ToString("0");
     }
 
@@ -67,10 +67,13 @@ public class ProgressController : MonoBehaviour
             else assignmentCount++;
         }
 
+        float x = (float)totalProgress / milestoneCount;
+        float total = MathF.Round(x, 2);
+
         return (
             videoCount == 0 ? 1f : MathF.Round(completedVideos / videoCount, 2),
             assignmentCount == 0 ? 1f : MathF.Round(completedAssignments / assignmentCount, 2),
-            MathF.Round(totalProgress / milestoneCount, 2)
+            total
             );
     }
 }
