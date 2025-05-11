@@ -4,9 +4,6 @@ using UnityEngine.Video;
 [System.Serializable]
 public class Milestone
 {
-    public bool IsVideo;
-    public VideoClip Video;
-    [Space]
     public string Title;
     public Sprite Icon;
     [Space]
@@ -31,5 +28,35 @@ public class Milestone
         } 
     }
 
-    public bool IsCompleted => CompletedAssignments / Assignments.Length < CompletionPercentThreshold;
+    public int VideoCount
+    {
+        get
+        {
+            int videoCount = 0;
+
+            foreach (var assignment in Assignments)
+            {
+                if (assignment is VideoAssignment) videoCount++;
+            }
+
+            return videoCount;
+        }
+    }
+
+    public int CompletedVideos
+    {
+        get
+        {
+            int completedVideos = 0;
+
+            foreach (var assignment in Assignments)
+            {
+                if (assignment is VideoAssignment && assignment.IsCompleted) completedVideos++;
+            }
+
+            return completedVideos;
+        }
+    }
+
+    public bool IsCompleted => CompletedAssignments / Assignments.Length > CompletionPercentThreshold;
 }

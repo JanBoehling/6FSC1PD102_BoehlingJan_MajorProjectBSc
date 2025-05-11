@@ -15,19 +15,16 @@ MonoBehaviour:
   IsCompleted: 0
   Title: Die Zelle
   Milestones:
-  - IsVideo: 0
-    Video: {fileID: 0}
-    Title: Test Quiz
+  - Title: Test Quiz
     Icon: {fileID: 0}
     XP: 100
     Assignments:
     - {fileID: 11400000, guid: 90e42b5e7b1397e4693f3e69c7370c89, type: 2}
     - {fileID: 11400000, guid: 2eb545fbf46bf274fa33916717c18d77, type: 2}
     CompletionPercentThreshold: 0.9
-  - IsVideo: 1
-    Video: {fileID: 32900000, guid: 1096d6b254316d64f9691652c6e1f663, type: 3}
-    Title: Test Video
+  - Title: Test Video
     Icon: {fileID: 0}
     XP: 10
-    Assignments: []
+    Assignments:
+    - {fileID: 11400000, guid: 9a6069caa27001e45a66202c9025192d, type: 2}
     CompletionPercentThreshold: 1

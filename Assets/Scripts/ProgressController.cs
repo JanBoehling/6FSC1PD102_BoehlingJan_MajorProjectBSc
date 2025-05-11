@@ -49,19 +49,21 @@ public class ProgressController : MonoBehaviour
         int videoCount = 0;
         int assignmentCount = 0;
 
+        // Counts the completion count of videos, assignments and the total completion
         for (int i = 0; i < milestoneCount; i++)
         {
-            if (!milestones[0].IsCompleted) continue;
+            if (!milestones[i].IsCompleted) continue;
 
-            if (milestones[0].IsVideo) completedVideos++;
+            if (milestones[i].Assignments[0] is VideoAssignment) completedVideos++;
             else completedAssignments++;
 
             totalProgress++;
         }
 
+        // Counts videos and assignments
         for (int i = 0; i < milestoneCount; i++)
         {
-            if (milestones[0].IsVideo) videoCount++;
+            if (milestones[i].Assignments[0] is VideoAssignment) videoCount++;
             else assignmentCount++;
         }
 

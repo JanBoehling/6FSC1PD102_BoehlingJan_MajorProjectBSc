@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _assignmentSceneIndex: 2
   _uiPrefab: {fileID: 0}
-  IsCompleted: 0
-  video: {fileID: 32900000, guid: 1096d6b254316d64f9691652c6e1f663, type: 3}
+  <Video>k__BackingField: {fileID: 32900000, guid: 1096d6b254316d64f9691652c6e1f663, type: 3}
+  <WatchtimePercentThreshold>k__BackingField: 0.9

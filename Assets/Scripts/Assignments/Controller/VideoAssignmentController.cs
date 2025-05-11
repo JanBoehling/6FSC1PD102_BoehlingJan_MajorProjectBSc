@@ -1,24 +1,32 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class VideoAssignmentController : MonoBehaviour
 {
-    private VideoPlayer _videoPlayer;
-    private RawImage _videoPlayerImage;
-    [Space]
-    private Texture _loadingVideoTexture;
-    private Texture _videoRenderTexture;
+    public VideoAssignment AssignmentData { get; private set; }
 
+    [SerializeField] private RawImage _videoPlayerImage;
+    [Space]
+    [SerializeField] private Texture _loadingVideoTexture;
+    [SerializeField] private Texture _videoRenderTexture;
+    
+    private VideoPlayer _videoPlayer;
+    private float _timer;
 
     private void Awake()
     {
         _videoPlayer = FindAnyObjectByType<VideoPlayer>();
     }
 
-    private void Start()
+    public void Init(VideoAssignment video)
     {
+        _videoPlayer.clip = AssignmentData.Video;
+
         _videoPlayer.prepareCompleted += PlayVideo;
+
+        AssignmentData = video;
     }
 
     public void StartVideo()
@@ -47,5 +55,24 @@ public class VideoAssignmentController : MonoBehaviour
     {
         _videoPlayerImage.texture = _videoRenderTexture;
         src.Play();
+        StartCoroutine(VideoWatchtimeWatcherCO());
+    }
+
+    private IEnumerator VideoWatchtimeWatcherCO()
+    {
+        var minimumWatchtime = AssignmentData.Duration * AssignmentData.WatchtimePercentThreshold;
+
+        while (true)
+        {
+            _timer += Time.deltaTime;
+
+            if (_timer > minimumWatchtime)
+            {
+                AssignmentData.IsCompleted = true;
+                break;
+            }
+
+            yield return null;
+        }
     }
 }

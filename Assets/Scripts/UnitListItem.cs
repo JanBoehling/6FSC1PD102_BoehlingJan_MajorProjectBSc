@@ -24,14 +24,7 @@ public class UnitListItem : MonoBehaviour
         var button = GetComponent<Button>();
         button.onClick.AddListener(() => RuntimeDataHolder.CurrentMilestone = milestone);
 
-        if (milestone.IsVideo)
-        {
-
-        }
-        else
-        {
-            button.onClick.AddListener(() => milestone.Assignments[0].LoadAssignmentUI());
-        }
+        button.onClick.AddListener(() => milestone.Assignments[0].LoadAssignmentUI());
 
         if (milestone.IsCompleted) _iconImage.color = _completedColor;
         else _iconImage.color = _baseColor;

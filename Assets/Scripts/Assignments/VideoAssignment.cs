@@ -4,8 +4,8 @@ using UnityEngine.Video;
 [CreateAssetMenu]
 public class VideoAssignment : Assignment
 {
-    [SerializeField] private VideoClip _video;
-    [SerializeField] private float _watchtimePercentThreshold;
+    [field: SerializeField] public VideoClip Video { get; private set; }
+    [field:SerializeField] public float WatchtimePercentThreshold { get; private set; }
 
-    public float Duration => (float)_video.length;
+    public float Duration => (float)Video.length;
 }
