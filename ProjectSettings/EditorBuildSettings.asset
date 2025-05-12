@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/QuizAssignmentScene.unity
     guid: a2f93750142916040aca32cbb8643873
+  - enabled: 1
+    path: Assets/Scenes/VideoAssignmentScene.unity
+    guid: 0a6b0af6995db8444b6e069f3abbda5b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
