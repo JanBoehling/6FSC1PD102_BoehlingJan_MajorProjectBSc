@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using System;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,7 +16,7 @@ public class VideoAssignmentController : MonoBehaviour
     public double VideoDuration => _videoPlayer.length;
 
     [SerializeField] private RawImage _videoPlayerImage;
-    [SerializeField] private Image _backgroundImage;
+    [SerializeField] private RectTransform _quitMessageContainer;
     [SerializeField] private RectTransform _videoControlsContainer;
     [Space]
     [SerializeField] private Texture _loadingVideoTexture;
@@ -26,7 +25,7 @@ public class VideoAssignmentController : MonoBehaviour
     [SerializeField] private VideoAssignment _debugVideoAssignment;
     
     private VideoPlayer _videoPlayer;
-    private float _timer;
+    [SerializeField] private float _timer;
 
     private bool _isFullscreen;
 
@@ -50,15 +49,6 @@ public class VideoAssignmentController : MonoBehaviour
         _videoPlayer.clip = AssignmentData.Video;
 
         _videoPlayer.prepareCompleted += PlayVideo;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.LogWarning("A");
-            
-        }
     }
 
     public void StartVideo()
@@ -95,7 +85,18 @@ public class VideoAssignmentController : MonoBehaviour
     /// </summary>
     public void FinishAssignment()
     {
+        _videoPlayer.Pause();
 
+        if (_quitMessageContainer) _quitMessageContainer.gameObject.SetActive(true);
+
+        if (AssignmentData.IsCompleted)
+        {
+            Debug.Log("Show message that video has been completely watched and offer a button to return to the main menu.");
+        }
+        else
+        {
+            Debug.Log("Show a message that the video has not been completely watched and offer a button to continue the video or abort the video.");
+        }
     }
 
     private void PlayVideo(VideoPlayer src)
@@ -118,6 +119,9 @@ public class VideoAssignmentController : MonoBehaviour
                 AssignmentData.IsCompleted = true;
                 break;
             }
+
+            // Pauses the timer until the video continues
+            if (_videoPlayer.isPaused) yield return new WaitWhile(() => _videoPlayer.isPaused);
 
             yield return null;
         }

@@ -202,34 +202,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PageMoveController, Assembly-CSharp
-        m_MethodName: MovePage
+      - m_Target: {fileID: 389054492}
+        m_TargetAssemblyTypeName: VideoAssignmentController, Assembly-CSharp
+        m_MethodName: FinishAssignment
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 164899662}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -563,6 +539,7 @@ MonoBehaviour:
   _loadingVideoTexture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
   _videoRenderTexture: {fileID: 8400000, guid: 6697bab18468798449bf1d6bdbe1f26b, type: 2}
   _debugVideoAssignment: {fileID: 11400000, guid: 9a6069caa27001e45a66202c9025192d, type: 2}
+  _timer: 0
 --- !u!1 &412387124
 GameObject:
   m_ObjectHideFlags: 0
