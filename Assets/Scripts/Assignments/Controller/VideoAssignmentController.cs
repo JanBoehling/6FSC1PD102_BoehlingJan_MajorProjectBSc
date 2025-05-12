@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,6 +18,7 @@ public class VideoAssignmentController : MonoBehaviour
 
     [SerializeField] private RawImage _videoPlayerImage;
     [SerializeField] private Image _backgroundImage;
+    [SerializeField] private RectTransform _videoControlsContainer;
     [Space]
     [SerializeField] private Texture _loadingVideoTexture;
     [SerializeField] private Texture _videoRenderTexture;
@@ -67,15 +70,24 @@ public class VideoAssignmentController : MonoBehaviour
     /// <summary>
     /// Toggles fullscreen mode for video on tap on the video
     /// </summary>
+    [Obsolete("This method is obsolete because in the future there will only be portrat videos")]
     public void ToggleFullscreen()
     {
         _isFullscreen = !_isFullscreen;
 
-        Screen.orientation = ScreenOrientation.LandscapeLeft;
-        _videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
+        // Rotates the orientation of the device
+        Screen.orientation = _isFullscreen ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
 
-        _videoPlayerImage.gameObject.SetActive(false);
-        _backgroundImage.gameObject.SetActive(false);
+        // Switches from render texture to camera screen
+        _videoPlayer.renderMode = _isFullscreen ? VideoRenderMode.CameraNearPlane : VideoRenderMode.RenderTexture;
+
+        // Disables or enables the render texture view
+        _videoPlayerImage.gameObject.SetActive(!_isFullscreen);
+
+        // Moves the video control bar
+        _videoControlsContainer.offsetMin = new Vector2(_isFullscreen ? 0f : 50f, _videoControlsContainer.offsetMin.y);
+        _videoControlsContainer.offsetMax = new Vector2(_isFullscreen ? 0f : 50f, _videoControlsContainer.offsetMax.y);
+        _videoControlsContainer.anchoredPosition = new Vector2(_videoControlsContainer.anchoredPosition.x, _isFullscreen ? 0f : 280f);
     }
 
     /// <summary>
