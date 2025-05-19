@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class KnobControls : VideoControls, IDragHandler
+public class KnobControls : VideoControls, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     private RectTransform _knob;
     private RectTransform _barParent;
@@ -20,5 +20,15 @@ public class KnobControls : VideoControls, IDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         Wind(eventData.position);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        _videoPlayer.Play();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        _videoPlayer.Pause();
     }
 }
