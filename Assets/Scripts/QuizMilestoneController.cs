@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,9 +18,12 @@ public class QuizMilestoneController : MonoBehaviour
     private PageMoveController _pages;
     private List<QuizAssignmentController> _loadedAssignments = new();
 
+    private ParticleSystem _confettiCanon;
+
     private void Awake()
     {
         _pages = GetComponent<PageMoveController>();
+        _confettiCanon = FindFirstObjectByType<ParticleSystem>();
     }
 
     private void Start()
@@ -74,25 +78,45 @@ public class QuizMilestoneController : MonoBehaviour
         if (isSelectionCorrect)
         {
             currentAssignment.AssignmentData.IsCompleted = true;
-
-            Debug.Log("<color=green>Answer correct!");
+            
+            OnCorrectAnswer();
         }
         else
         {
-            Debug.Log("<color=red>Answer wrong!");
+            OnWrongAnswer();
         }
 
         _sendAnswerButton.gameObject.SetActive(false);
+        _continueButton.gameObject.SetActive(true);
 
-        if (_pages.CurrentPage < _loadedAssignments.Count - 1) _continueButton.gameObject.SetActive(true);
-        else _endMilestoneButton.gameObject.SetActive(true);
+        // If last page, override continue button action with back to menu
+        if (_pages.CurrentPage >= _loadedAssignments.Count - 1)
+        {
+            _continueButton.GetComponentInChildren<TMP_Text>().text = "Und wieder zurück!";
+            _continueButton.onClick = new();
+            _continueButton.onClick.AddListener(OnEndMilestone);
+            _continueButton.gameObject.SetActive(true);
+        }
     }
 
-    public void EndMilestone()
+    private void OnCorrectAnswer(bool useDebug = false)
     {
+        if (useDebug) Debug.Log("<color=green>Answer correct!");
+
+        _continueButton.image.color = Color.green;
+
+        _confettiCanon.Play();
     }
 
-    private void OnDestroy()
+    private void OnWrongAnswer(bool useDebug = false)
     {
+        if (useDebug) Debug.Log("<color=red>Answer wrong!");
+
+        _continueButton.image.color = Color.red;
+    }
+
+    public void OnEndMilestone()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
