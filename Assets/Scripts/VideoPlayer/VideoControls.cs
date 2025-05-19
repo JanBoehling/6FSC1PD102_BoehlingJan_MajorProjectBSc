@@ -12,12 +12,15 @@ public abstract class VideoControls : MonoBehaviour
 
     protected virtual void Awake() => _videoPlayer = FindAnyObjectByType<VideoPlayer>();
 
+    /// <summary>
+    /// Winds the video back or forth depending on the given positional offset on the bar
+    /// </summary>
+    /// <param name="position">The positional offset on the bar</param>
     protected void Wind(Vector2 position)
     {
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_progressBar.rectTransform, position, null, out var localPoint))
-        {
-            float progress = Mathf.InverseLerp(_progressBar.rectTransform.rect.xMin, _progressBar.rectTransform.rect.xMax, localPoint.x);
-            _videoPlayer.time = progress * _videoPlayer.length;
-        }
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(_progressBar.rectTransform, position, null, out var localPoint)) return;
+
+        float progress = Mathf.InverseLerp(_progressBar.rectTransform.rect.xMin, _progressBar.rectTransform.rect.xMax, localPoint.x);
+        _videoPlayer.time = progress * _videoPlayer.length;
     }
 }

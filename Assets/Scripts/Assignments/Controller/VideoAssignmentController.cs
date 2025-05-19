@@ -18,20 +18,24 @@ public class VideoAssignmentController : MonoBehaviour
     [SerializeField] private RawImage _videoPlayerImage;
     [SerializeField] private RectTransform _quitMessageContainer;
     [SerializeField] private RectTransform _videoControlsContainer;
+    [SerializeField] private Button _continueButton;
     [Space]
     [SerializeField] private Texture _loadingVideoTexture;
     [SerializeField] private Texture _videoRenderTexture;
     [Space]
     [SerializeField] private VideoAssignment _debugVideoAssignment;
+    [Space]
+    [SerializeField] private float _timer;
     
     private VideoPlayer _videoPlayer;
-    [SerializeField] private float _timer;
+    private ParticleSystem _confettiCanon;
 
     private bool _isFullscreen;
 
     private void Awake()
     {
         _videoPlayer = FindAnyObjectByType<VideoPlayer>();
+        _confettiCanon = FindFirstObjectByType<ParticleSystem>();
     }
 
     private void Start()
@@ -87,16 +91,29 @@ public class VideoAssignmentController : MonoBehaviour
     {
         _videoPlayer.Pause();
 
-        if (_quitMessageContainer) _quitMessageContainer.gameObject.SetActive(true);
-
         if (AssignmentData.IsCompleted)
         {
-            Debug.Log("Show message that video has been completely watched and offer a button to return to the main menu.");
+            _confettiCanon.Play();
+            _continueButton.image.color = Color.green;
+            _continueButton.onClick = new();
+            _continueButton.onClick.AddListener(ReturnToMenu);
         }
         else
         {
-            Debug.Log("Show a message that the video has not been completely watched and offer a button to continue the video or abort the video.");
+            _quitMessageContainer.gameObject.SetActive(true);
+            _continueButton.onClick = new();
+            _continueButton.onClick.AddListener(() => _quitMessageContainer.gameObject.SetActive(true));
         }
+    }
+
+    public void ReturnToMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
+    public void CloseQuitMessage()
+    {
+        _quitMessageContainer.gameObject.SetActive(false);
+        _continueButton.onClick = new();
+        _continueButton.onClick.AddListener(FinishAssignment);
+        _videoPlayer.Play();
     }
 
     private void PlayVideo(VideoPlayer src)
