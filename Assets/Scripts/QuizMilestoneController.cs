@@ -47,7 +47,8 @@ public class QuizMilestoneController : MonoBehaviour
         {
             var item = assignments[i] as QuizAssignment;
 
-            var quizUI = Instantiate(item.UIPrefab, transform.position + i * (Screen.width * Vector3.right), Quaternion.identity, transform).GetComponent<QuizAssignmentController>();
+            var quizUI = Instantiate(item.UIPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0)).GetComponent<QuizAssignmentController>();
+            quizUI.transform.SetParent(transform, false);
             quizUI.Init(item);
             _loadedAssignments.Add(quizUI);
         }
