@@ -8413,20 +8413,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d68758dfa37c5d45a19b8dc84c44e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _assignments:
+  <Units>k__BackingField:
+  - {fileID: 11400000, guid: 01ddc49bf15d61648a35006eec1c6bc3, type: 2}
+  - {fileID: 11400000, guid: 65434025daadb844491a98429d5cf772, type: 2}
+  <Assignments>k__BackingField:
   - {fileID: 11400000, guid: 90e42b5e7b1397e4693f3e69c7370c89, type: 2}
   - {fileID: 11400000, guid: 2eb545fbf46bf274fa33916717c18d77, type: 2}
   - {fileID: 11400000, guid: 9a6069caa27001e45a66202c9025192d, type: 2}
   - {fileID: 11400000, guid: 9e4f86ca318065b4c9819bb0ff0840f4, type: 2}
-  _milestones:
-  - Title: 
-    Icon: {fileID: 0}
-    XP: 100
-    Assignments: 0000000001000000
-    CompletionPercentThreshold: 0.9
-  _units:
-  - {fileID: 11400000, guid: 01ddc49bf15d61648a35006eec1c6bc3, type: 2}
-  - {fileID: 11400000, guid: 65434025daadb844491a98429d5cf772, type: 2}
 --- !u!1 &2073315869
 GameObject:
   m_ObjectHideFlags: 0

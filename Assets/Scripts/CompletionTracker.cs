@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CompletionTracker : MonoSingleton<CompletionTracker>
 {
-    [SerializeField] private UnitData[] _units;
-    [SerializeField] private AssignmentData[] _assignments;
+    [field:SerializeField] public UnitData[] Units { get; private set; }
+    [field:SerializeField] public AssignmentData[] Assignments { get; private set; }
 
     public bool[] AssignmentCompletionState { get; private set; }
     public bool[] UnitCompletionState { get; private set; }
@@ -13,8 +13,8 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     {
         base.Awake();
 
-        AssignmentCompletionState = new bool[_assignments.Length];
-        UnitCompletionState = new bool[_units.Length];
+        AssignmentCompletionState = new bool[Assignments.Length];
+        UnitCompletionState = new bool[Units.Length];
     }
 
     public void SetAssignmentCompletionState(uint id)
@@ -37,15 +37,15 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
         UnitCompletionState[id] = true;
     }
 
-    public AssignmentData GetAssignmentByID(uint id) => _assignments[id];
+    public AssignmentData GetAssignmentByID(uint id) => Assignments[id];
 
-    public UnitData GetUnitByID(uint id) => _units[id];
+    public UnitData GetUnitByID(uint id) => Units[id];
 
     public uint GetID(AssignmentData assignmentData, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
     {
-        for (uint i = 0; i < _assignments.Length; i++)
+        for (uint i = 0; i < Assignments.Length; i++)
         {
-            if (_assignments[i] != assignmentData) continue;
+            if (Assignments[i] != assignmentData) continue;
 
             return i;
         }
@@ -56,9 +56,9 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
     public uint GetID(UnitData unitData, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
     {
-        for (uint i = 0; i < _units.Length; i++)
+        for (uint i = 0; i < Units.Length; i++)
         {
-            if (_units[i] != unitData) continue;
+            if (Units[i] != unitData) continue;
 
             return i;
         }
@@ -69,9 +69,9 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
     public void SetCompletionState(AssignmentData assignment, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
     {
-        for (int i = 0; i < _assignments.Length; i++)
+        for (int i = 0; i < Assignments.Length; i++)
         {
-            if (_assignments[i] != assignment) continue;
+            if (Assignments[i] != assignment) continue;
             AssignmentCompletionState[i] = true;
             return;
         }
@@ -81,9 +81,9 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
     public void SetCompletionState(UnitData unitData, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
     {
-        for (int i = 0; i < _units.Length; i++)
+        for (int i = 0; i < Units.Length; i++)
         {
-            if (_units[i] != unitData) continue;
+            if (Units[i] != unitData) continue;
             UnitCompletionState[i] = true;
             return;
         }

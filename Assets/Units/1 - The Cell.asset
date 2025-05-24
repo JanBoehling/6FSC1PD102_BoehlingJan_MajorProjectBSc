@@ -16,7 +16,7 @@ MonoBehaviour:
   <Milestones>k__BackingField:
   - Title: Test Quiz
     Icon: {fileID: 0}
-    XP: 0
+    XP: 100
     Assignments: 0000000001000000
     CompletionPercentThreshold: 1
   - Title: Test Video
