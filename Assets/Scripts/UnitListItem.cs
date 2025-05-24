@@ -23,6 +23,7 @@ public class UnitListItem : MonoBehaviour
 
         var button = GetComponent<Button>();
         button.onClick.AddListener(() => RuntimeDataHolder.CurrentMilestone = milestone);
+        //button.onClick.AddListener(() => CompletionTracker.Instance.CurrentMilestone = milestone);
 
         button.onClick.AddListener(() => CompletionTracker.Instance.GetAssignmentByID(milestone.Assignments[0]).LoadAssignmentUI());
 

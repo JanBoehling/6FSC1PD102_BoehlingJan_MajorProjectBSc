@@ -15,7 +15,7 @@ public class ProgressController : MonoBehaviour
     [SerializeField] private TMP_Text _totalProgressDisplayText;
 
     public float VideoProgress { get; private set; }
-    public float AssignmentProgress { get; private set; }
+    public float MilestoneProgress { get; private set; }
     public float TotalProgress { get; private set; }
 
     private void Start()
@@ -25,26 +25,25 @@ public class ProgressController : MonoBehaviour
 
     public void UpdateProgressDisplay(UnitData currentUnitData)
     {
-        (VideoProgress, AssignmentProgress, TotalProgress) = CalculateProgress(currentUnitData);
+        (VideoProgress, MilestoneProgress, TotalProgress) = CalculateProgress(currentUnitData);
 
         if (_videoProgressDisplay) _videoProgressDisplay.value = VideoProgress;
         if (_videoProgressDisplayText) _videoProgressDisplayText.text = (VideoProgress * 100f).ToString("0");
 
-        if (_assignmentProgressDisplay) _assignmentProgressDisplay.value = AssignmentProgress;
-        if (_assignmentProgressDisplayText) _assignmentProgressDisplayText.text = (AssignmentProgress * 100f).ToString("0");
+        if (_assignmentProgressDisplay) _assignmentProgressDisplay.value = MilestoneProgress;
+        if (_assignmentProgressDisplayText) _assignmentProgressDisplayText.text = (MilestoneProgress * 100f).ToString("0");
 
         if (_totalProgressDisplay) _totalProgressDisplay.fillAmount = TotalProgress;
         if (_totalProgressDisplayText) _totalProgressDisplayText.text = (TotalProgress * 100f).ToString("0");
     }
 
-    // TODO: Needs fixing! Must use the CompletionTracker class!
-    private (float videoProgress, float assignmentProgress, float totalProgress) CalculateProgress(UnitData currentUnitData)
+    private (float videoProgress, float milestoneProgress, float totalProgress) CalculateProgress(UnitData currentUnitData)
     {
         var milestones = currentUnitData.Milestones;
         int milestoneCount = milestones.Count;
 
         int completedVideos = 0;
-        int completedAssignments = 0;
+        int completedMilestones = 0;
         int totalProgress = 0;
 
         int videoCount = 0;
@@ -55,8 +54,8 @@ public class ProgressController : MonoBehaviour
         {
             if (!milestones[i].IsCompleted) continue;
 
-            if (milestones[i].Assignments[0] is VideoAssignment) completedVideos++;
-            else completedAssignments++;
+            if (CompletionTracker.Instance.GetAssignmentByID(milestones[i].Assignments[0]) is VideoAssignment) completedVideos++;
+            else completedMilestones++;
 
             totalProgress++;
         }
@@ -64,7 +63,7 @@ public class ProgressController : MonoBehaviour
         // Counts videos and assignments
         for (int i = 0; i < milestoneCount; i++)
         {
-            if (milestones[i].Assignments[0] is VideoAssignment) videoCount++;
+            if (CompletionTracker.Instance.GetAssignmentByID(milestones[i].Assignments[0]) is VideoAssignment) videoCount++;
             else assignmentCount++;
         }
 
@@ -72,8 +71,8 @@ public class ProgressController : MonoBehaviour
         float total = MathF.Round(x, 2);
 
         return (
-            videoCount == 0 ? 1f : MathF.Round(completedVideos / videoCount, 2),
-            assignmentCount == 0 ? 1f : MathF.Round(completedAssignments / assignmentCount, 2),
+            videoCount == 0 ? 1 : MathF.Round(completedVideos / videoCount, 2),
+            assignmentCount == 0 ? 1 : MathF.Round(completedMilestones / assignmentCount, 2),
             total
             );
     }

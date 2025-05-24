@@ -1,56 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CompletionTracker : MonoSingleton<CompletionTracker>
 {
-    [SerializeField] private AssignmentData[] _assignments;
-    //[SerializeField] private Milestone[] _milestones;
     [SerializeField] private UnitData[] _units;
+    [SerializeField] private AssignmentData[] _assignments;
 
-    [field:SerializeField, Tooltip("Serialized for debugging purposes")] public bool[] AssignmentCompletionState { get; private set; }
-    [field:SerializeField, Tooltip("Serialized for debugging purposes")] public bool[] UnitCompletionState { get; private set; }
-
-    public UnitData CurrentUnit { get; private set; }
-    public Milestone CurrentMilestone { get; private set; }
-    public AssignmentData CurrentAssignment { get; private set; }
-
-    //public int CompletedAssignmentCount
-    //{
-    //    get
-    //    {
-    //        int completedAssignments = 0;
-
-    //        foreach (var isCompleted in AssignmentCompletionState)
-    //        {
-    //            if (isCompleted) completedAssignments++;
-    //        }
-
-    //        return completedAssignments;
-    //    }
-    //}
-
-    //public int CompletedVideoCount
-    //{
-    //    get
-    //    {
-    //        int completedAssignments = 0;
-
-    //        System.Collections.Generic.List<int> videoIndices = new();
-
-    //        for (int i = 0; i < _assignments.Length; i++)
-    //        {
-    //            if (_assignments[i] is VideoAssignment) videoIndices.Add(i);
-    //        }
-
-    //        for (int i = 0; i < videoIndices.Count; i++)
-    //        {
-    //            if (AssignmentCompletionState[videoIndices[i]]) completedAssignments++;
-    //        }
-
-    //        return completedAssignments;
-    //    }
-    //}
+    public bool[] AssignmentCompletionState { get; private set; }
+    public bool[] UnitCompletionState { get; private set; }
 
     protected override void Awake()
     {
@@ -81,6 +38,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     }
 
     public AssignmentData GetAssignmentByID(uint id) => _assignments[id];
+
     public UnitData GetUnitByID(uint id) => _units[id];
 
     public uint GetID(AssignmentData assignmentData, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
