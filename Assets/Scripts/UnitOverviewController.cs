@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UnitOverviewController : MonoSingleton<UnitOverviewController>, IToggleVisibility
+public class UnitOverviewController : MonoBehaviour, IToggleVisibility
 {
     [SerializeField] private UnitListItem _unitListItemPrefab;
     [SerializeField] private Transform _unitListContainer;

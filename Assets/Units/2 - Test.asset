@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7963239a09b3f134e8900eb2137a9456, type: 3}
   m_Name: 2 - Test
   m_EditorClassIdentifier: 
+  IsCompleted: 0
   Title: 
+  Milestones: []

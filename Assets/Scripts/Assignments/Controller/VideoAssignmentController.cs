@@ -10,8 +10,6 @@ using UnityEditor;
 
 public class VideoAssignmentController : MonoBehaviour
 {
-    public VideoAssignment AssignmentData { get; private set; }
-
     public double CurrentWatchtime => _videoPlayer.time;
     public double VideoDuration => _videoPlayer.length;
 
@@ -32,6 +30,8 @@ public class VideoAssignmentController : MonoBehaviour
 
     private bool _isFullscreen;
 
+    private uint _assignmentID;
+
     private void Awake()
     {
         _videoPlayer = FindAnyObjectByType<VideoPlayer>();
@@ -40,17 +40,16 @@ public class VideoAssignmentController : MonoBehaviour
 
     private void Start()
     {
-        var currentMilestone = RuntimeDataHolder.CurrentMilestone;
-        var videoAssignment = currentMilestone?.Assignments[0] as VideoAssignment;
+        _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
+        var _assignmentData = CompletionTracker.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
 
-        if (videoAssignment != null) AssignmentData = videoAssignment;
-        else
+        if (_assignmentData == null)
         {
-            AssignmentData = _debugVideoAssignment;
+            _assignmentData = _debugVideoAssignment;
             Debug.LogWarning("Could not fetch video assignment data. Using debug video assignment instead.");
         }
 
-        _videoPlayer.clip = AssignmentData.Video;
+        _videoPlayer.clip = _assignmentData.Video;
 
         _videoPlayer.prepareCompleted += PlayVideo;
     }
@@ -91,7 +90,7 @@ public class VideoAssignmentController : MonoBehaviour
     {
         _videoPlayer.Pause();
 
-        if (AssignmentData.IsCompleted)
+        if (CompletionTracker.Instance.GetAssignmentCompletionState(_assignmentID))
         {
             _confettiCanon.Play();
             _continueButton.image.color = Color.green;
@@ -125,7 +124,8 @@ public class VideoAssignmentController : MonoBehaviour
 
     private IEnumerator VideoWatchtimeWatcherCO()
     {
-        var minimumWatchtime = AssignmentData.Duration * AssignmentData.WatchtimePercentThreshold;
+        var assignmentData = CompletionTracker.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
+        var minimumWatchtime = assignmentData.Duration * assignmentData.WatchtimePercentThreshold;
 
         while (true)
         {
@@ -133,7 +133,7 @@ public class VideoAssignmentController : MonoBehaviour
 
             if (_timer > minimumWatchtime)
             {
-                AssignmentData.IsCompleted = true;
+                CompletionTracker.Instance.SetAssignmentCompletionState(_assignmentID);
                 break;
             }
 

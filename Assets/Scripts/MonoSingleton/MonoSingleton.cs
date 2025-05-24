@@ -36,10 +36,12 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         if (!instance) instance = gameObject.GetComponent<T>();
 
         // Otherwise, check if this object differs from the object set in instance. If so, destroy it.
-        else if (instance.GetInstanceID() != GetInstanceID())
-        {
-            Destroy(gameObject);
-            Debug.LogError($"Instance of {this.GetType().FullName} already exists, removing {this}");
-        }
+        //else if (instance.GetInstanceID() != GetInstanceID())
+        //{
+        //    Destroy(gameObject);
+        //    Debug.LogError($"Instance of {this.GetType().FullName} already exists, removing {this}");
+        //}
+
+        DontDestroyOnLoad(instance.gameObject);
     }
 }

@@ -72,10 +72,27 @@ public class UnitCarousel : MonoSingleton<UnitCarousel>
 
     public UnitData GetCurrentUnitData()
     {
-        var currentUnitObject = transform.GetChild(UnitIndex);
+        return GetUnitDataByIndex(UnitIndex);
+    }
+
+    public UnitData GetUnitDataByIndex(int index)
+    {
+        var currentUnitObject = transform.GetChild(index);
         var currentUnit = currentUnitObject.GetComponent<Unit>();
         var data = currentUnit.GetUnitData();
         
         return data;
+    }
+
+    public UnitData[] GetAllUnitData()
+    {
+        var unitData = new UnitData[transform.childCount];
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            unitData[i] = GetUnitDataByIndex(i);
+        }
+
+        return unitData;
     }
 }

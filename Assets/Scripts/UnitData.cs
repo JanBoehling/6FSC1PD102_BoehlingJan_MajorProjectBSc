@@ -4,9 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Unit Data", menuName = "Units/Unit Data")]
 public class UnitData : ScriptableObject
 {
-    public bool IsCompleted;
+    [field: SerializeField] public string Title { get; private set; }
 
-    public string Title;
-
-    public List<Milestone> Milestones;
+    [field: SerializeField] public List<Milestone> Milestones { get; private set; }
 }

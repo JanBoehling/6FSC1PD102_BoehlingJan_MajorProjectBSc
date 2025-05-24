@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] private UnitData _unitData;
+    [SerializeField] private uint _unitID;
 
-    public UnitData GetUnitData() => _unitData;
+    public UnitData GetUnitData() => CompletionTracker.Instance.GetUnitByID(_unitID);
 }

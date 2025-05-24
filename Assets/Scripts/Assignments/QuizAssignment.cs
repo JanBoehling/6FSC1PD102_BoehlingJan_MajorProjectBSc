@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu]
-public class QuizAssignment : Assignment
+public class QuizAssignment : AssignmentData
 {
     [SerializeField] private string _question;
     [SerializeField, Tooltip("Optional")] private Sprite _questionSprite;

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -12,10 +11,12 @@ public class QuizAssignmentController : MonoBehaviour
     private readonly List<AnswerUI> _answerButtons = new();
     public List<AnswerUI> AnswerButtons => _answerButtons;
 
-    public QuizAssignment AssignmentData { get; private set; }
+    public uint AssignmentID { get; private set; }
 
-    public void Init(QuizAssignment quiz)
+    public void Init(uint assignmentID)
     {
+        var quiz = CompletionTracker.Instance.GetAssignmentByID(assignmentID) as QuizAssignment;
+
         _questionText.text = quiz.Question;
         _questionImageLoader.LoadImage(quiz.QuestionSprite);
 
@@ -29,6 +30,6 @@ public class QuizAssignmentController : MonoBehaviour
             _answerButtons.Add(answerUI);
         }
 
-        AssignmentData = quiz;
+        AssignmentID = assignmentID;
     }
 }

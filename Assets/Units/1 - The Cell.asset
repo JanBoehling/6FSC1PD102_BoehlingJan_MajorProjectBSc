@@ -12,19 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7963239a09b3f134e8900eb2137a9456, type: 3}
   m_Name: 1 - The Cell
   m_EditorClassIdentifier: 
-  IsCompleted: 0
-  Title: Die Zelle
-  Milestones:
+  <Title>k__BackingField: Die Zelle
+  <Milestones>k__BackingField:
   - Title: Test Quiz
     Icon: {fileID: 0}
-    XP: 100
-    Assignments:
-    - {fileID: 11400000, guid: 90e42b5e7b1397e4693f3e69c7370c89, type: 2}
-    - {fileID: 11400000, guid: 2eb545fbf46bf274fa33916717c18d77, type: 2}
-    CompletionPercentThreshold: 0.9
+    XP: 0
+    Assignments: 0000000001000000
+    CompletionPercentThreshold: 1
   - Title: Test Video
     Icon: {fileID: 0}
-    XP: 10
-    Assignments:
-    - {fileID: 11400000, guid: 9a6069caa27001e45a66202c9025192d, type: 2}
+    XP: 0
+    Assignments: 02000000
     CompletionPercentThreshold: 1

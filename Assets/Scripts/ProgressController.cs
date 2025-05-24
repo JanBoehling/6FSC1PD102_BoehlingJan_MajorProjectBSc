@@ -37,6 +37,7 @@ public class ProgressController : MonoBehaviour
         if (_totalProgressDisplayText) _totalProgressDisplayText.text = (TotalProgress * 100f).ToString("0");
     }
 
+    // TODO: Needs fixing! Must use the CompletionTracker class!
     private (float videoProgress, float assignmentProgress, float totalProgress) CalculateProgress(UnitData currentUnitData)
     {
         var milestones = currentUnitData.Milestones;

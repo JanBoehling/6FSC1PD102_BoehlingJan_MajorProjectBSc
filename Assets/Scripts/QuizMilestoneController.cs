@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class QuizMilestoneController : MonoBehaviour
 {
     [SerializeField] private bool _debugOverrideMilestone;
-    [SerializeField] private Assignment[] _debugAssignments;
+    [SerializeField] private uint[] _debugAssignments;
     [Space]
     [SerializeField] private QuizAssignmentController _quizPrefab;
     [Space]
@@ -38,7 +38,7 @@ public class QuizMilestoneController : MonoBehaviour
             InitQuizzes(RuntimeDataHolder.CurrentMilestone.Assignments);
     }
 
-    private void InitQuizzes(Assignment[] assignments)
+    private void InitQuizzes(uint[] assignments)
     {
         /*foreach (var item in assignments.Cast<QuizAssignment>())
         {
@@ -49,11 +49,11 @@ public class QuizMilestoneController : MonoBehaviour
 
         for (int i = 0; i < assignments.Length; i++)
         {
-            var item = assignments[i] as QuizAssignment;
+            var item = CompletionTracker.Instance.GetAssignmentByID(assignments[i]);
 
             var quizUI = Instantiate(item.UIPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0)).GetComponent<QuizAssignmentController>();
             quizUI.transform.SetParent(transform, false);
-            quizUI.Init(item);
+            quizUI.Init(assignments[i]);
             _loadedAssignments.Add(quizUI);
         }
     }
@@ -77,7 +77,7 @@ public class QuizMilestoneController : MonoBehaviour
         bool isSelectionCorrect = correctAnswers.SequenceEqual(selectedAnswers);
         if (isSelectionCorrect)
         {
-            currentAssignment.AssignmentData.IsCompleted = true;
+            CompletionTracker.Instance.SetAssignmentCompletionState(currentAssignment.AssignmentID);
             
             OnCorrectAnswer();
         }

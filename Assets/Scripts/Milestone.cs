@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Video;
 
 [System.Serializable]
 public class Milestone
@@ -9,7 +8,7 @@ public class Milestone
     [Space]
     public int XP;
     [Space]
-    public Assignment[] Assignments;
+    public uint[] Assignments;
     [Space]
     public float CompletionPercentThreshold;
 
@@ -19,44 +18,44 @@ public class Milestone
         {
             int completedAssignments = 0;
 
-            foreach (var assignment in Assignments)
+            foreach (var isCompleted in CompletionTracker.Instance.AssignmentCompletionState)
             {
-                if (assignment.IsCompleted) completedAssignments++;
+                if (isCompleted) completedAssignments++;
             }
 
             return completedAssignments;
         } 
     }
 
-    public int VideoCount
-    {
-        get
-        {
-            int videoCount = 0;
+    //public int VideoCount
+    //{
+    //    get
+    //    {
+    //        int videoCount = 0;
 
-            foreach (var assignment in Assignments)
-            {
-                if (assignment is VideoAssignment) videoCount++;
-            }
+    //        foreach (uint assignmentID in Assignments)
+    //        {
+    //            if (CompletionTracker.Instance.GetAssignmentByID(assignmentID) is VideoAssignment) videoCount++;
+    //        }
 
-            return videoCount;
-        }
-    }
+    //        return videoCount;
+    //    }
+    //}
 
-    public int CompletedVideos
-    {
-        get
-        {
-            int completedVideos = 0;
+    //public int CompletedVideos
+    //{
+    //    get
+    //    {
+    //        int completedVideos = 0;
 
-            foreach (var assignment in Assignments)
-            {
-                if (assignment is VideoAssignment && assignment.IsCompleted) completedVideos++;
-            }
+    //        foreach (uint assignmentID in Assignments)
+    //        {
+    //            if (CompletionTracker.Instance.GetAssignmentByID(assignmentID) is VideoAssignment && CompletionTracker.Instance.AssignmentCompletionState[assignmentID]) completedVideos++;
+    //        }
 
-            return completedVideos;
-        }
-    }
+    //        return completedVideos;
+    //    }
+    //}
 
     public bool IsCompleted => CompletedAssignments / Assignments.Length >= CompletionPercentThreshold;
 }

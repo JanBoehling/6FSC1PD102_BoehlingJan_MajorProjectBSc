@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[System.Obsolete("This class is not up to date")]
 public abstract class Achievement : ScriptableObject
 {
     [SerializeField] protected Sprite _achievementIcon;
