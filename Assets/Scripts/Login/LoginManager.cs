@@ -120,7 +120,7 @@ public class LoginManager : MonoBehaviour
 
     private bool AddProgressionData(string username)
     {
-        var userID = _dbHandler.SQL(select: "userID", from: "user", where: "username", predicate: username);
+        var userID = _dbHandler.SQL(select: "userID", from: "UserData", where: "username", predicate: username);
 
         if (userID.Length == 0)
         {
@@ -153,14 +153,14 @@ public class LoginManager : MonoBehaviour
 
         foreach (var item in unitData)
         {
-            if (_dbHandler.SQLInsert(item)) continue;
+            if (_dbHandler.SQLInsert(item, "UnitProgress")) continue;
 
             Debug.LogError($"Could not insert unit with link number {item["unitLink"]}");
             return false;
         }
         foreach (var item in assignmentData)
         {
-            if (_dbHandler.SQLInsert(item)) continue;
+            if (_dbHandler.SQLInsert(item, "AssignmentProgress")) continue;
 
             Debug.LogError($"Could not insert assignment with link number {item["assignmentLink"]}");
             return false;
@@ -171,7 +171,7 @@ public class LoginManager : MonoBehaviour
 
     public UserData GetUser(string username)
     {
-        var userDataRaw = _dbHandler.SQL($"SELECT * FROM user WHERE username = '{username}';");
+        var userDataRaw = _dbHandler.SQL($"SELECT * FROM UserData WHERE username = '{username}';");
         return new UserData(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
     }
 }

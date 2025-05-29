@@ -2,6 +2,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using Debug = UnityEngine.Debug;
 
 public class DatabaseHandler
@@ -9,7 +10,7 @@ public class DatabaseHandler
 #if UNITY_EDITOR
     private const string ServerAddress = "localhost";
     private const string User = "root";
-    private const string DatabaseName = "";
+    private const string DatabaseName = "UserData";
     private const int Port = -1;
     private const string Password = "";
 #else
@@ -68,7 +69,7 @@ public class DatabaseHandler
 
     public dynamic[] SQL(string select, string from, string where, string predicate) => SQL($"SELECT {select} FROM {from} WHERE {where} = '{predicate}';");
 
-    public bool SQLInsert(Dictionary<string, dynamic> values)
+    public bool SQLInsert(Dictionary<string, dynamic> values, string dbName = DatabaseName)
     {
         bool success = false;
 
@@ -77,7 +78,7 @@ public class DatabaseHandler
             _connection.Open();
             Debug.Log("Database connection successful");
 
-            var sql = new StringBuilder($"INSERT INTO {DatabaseName} (");
+            var sql = new StringBuilder($"INSERT INTO {dbName} (");
             for (int i = 0; i < values.Count; i++)
             {
                 sql.Append($"{values.ElementAt(i).Key}");
