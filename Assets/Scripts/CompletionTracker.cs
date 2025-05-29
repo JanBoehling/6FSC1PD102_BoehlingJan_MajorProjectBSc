@@ -35,16 +35,18 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
         // Fetch completion data from DB
         if (_dbHandler is null) return;
 
+        // ToDo: Use 'assignmentLink' as index for AssignmentCompletionState[]
+        var assignmentCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            string sql = "SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID";
-            AssignmentCompletionState[0] = (bool)_dbHandler.SQL(sql)[0]; // does this work?
+            AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
         }
 
+        var unitCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
             string sql = "SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID";
-            UnitCompletionState[0] = (bool)_dbHandler.SQL(sql)[0];
+            UnitCompletionState[i] = (bool)unitCompletion[i];
         }
     }
 
@@ -52,10 +54,11 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     {
         if (id >= AssignmentCompletionState.Length)
         {
-            Debug.LogError($"Assignment with ID {id} could not be found.");
+            Debug.LogError($"Assignment with ID {id} could not be found."); 
             return;
         }
         AssignmentCompletionState[id] = true;
+        _dbHandler.SQL($"UPDATE AssignmentProgress SET isCompleted=1 WHERE userID={CurrentUser.UserID} AND assignmentLink={id};");
     }
 
     public void SetUnitCompletionState(uint id)

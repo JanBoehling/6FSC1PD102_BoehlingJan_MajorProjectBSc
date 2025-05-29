@@ -4,6 +4,7 @@
 
     public static uint Streak => Data.Streak;
     public static uint XP => Data.XP;
+    public static uint UserID => Data.UserID;
 
     public static void SetUser(UserData user)
     {
