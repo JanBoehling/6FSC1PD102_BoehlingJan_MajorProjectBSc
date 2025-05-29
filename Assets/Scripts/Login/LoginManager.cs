@@ -43,8 +43,13 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
-        var userDataRaw = _dbHandler.SQL($"SELECT * FROM user WHERE username = '{username}';");
+        var userData = GetUser(username);
+        CurrentUser.SetUser(userData);
+    }
 
-        var userData = new User(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
+    public UserData GetUser(string username)
+    {
+        var userDataRaw = _dbHandler.SQL($"SELECT * FROM user WHERE username = '{username}';");
+        return new UserData(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
     }
 }

@@ -10,7 +10,8 @@ using UnityEditor;
 
 public class StreakManager : MonoSingleton<StreakManager>
 {
-    [field:SerializeField] public int DayStreak { get; private set; }
+    public uint DayStreak => CurrentUser.Streak;
+
     [SerializeField] private TMP_Text _streakText;
 
     [SerializeField, Tooltip("Use %s as a placeholder for the streak.")] private string[] _streakMessages;
@@ -28,7 +29,6 @@ public class StreakManager : MonoSingleton<StreakManager>
 
     private void Start()
     {
-        FetchCurrentStreak();
         if (!IsStreakRefreshed) UpdateStreak();
     }
 
@@ -41,10 +41,10 @@ public class StreakManager : MonoSingleton<StreakManager>
 
         if (today == dayAfterLastRefresh)
         {
-            DayStreak++;
+            CurrentUser.RaiseStreak();
             _lastStreakRefresh = today;
         }
-        else DayStreak = 0;
+        else CurrentUser.ResetStreak();
     }
 
     public void UpdateDisplay()
@@ -66,14 +66,6 @@ public class StreakManager : MonoSingleton<StreakManager>
         message = message.Replace(StreakNumberPlaceholder, DayStreak.ToString());
 
         _streakText.text = message;
-    }
-    
-    /// <summary>
-    /// Fetches the current streak
-    /// </summary>
-    public void FetchCurrentStreak()
-    {
-        DayStreak = 0;
     }
 
     public void OverrideLastRefreshDate(DateTime date) => _lastStreakRefresh = date;
