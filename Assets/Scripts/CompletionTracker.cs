@@ -9,12 +9,43 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     public bool[] AssignmentCompletionState { get; private set; }
     public bool[] UnitCompletionState { get; private set; }
 
+    private DatabaseHandler _dbHandler;
+
     protected override void Awake()
     {
         base.Awake();
 
         AssignmentCompletionState = new bool[Assignments.Length];
         UnitCompletionState = new bool[Units.Length];
+
+        try
+        {
+            _dbHandler = new();
+        }
+        catch (System.Exception ex)
+        {
+#if UNITY_EDITOR
+            Debug.LogException(ex);
+#endif
+        }
+    }
+
+    private void Start()
+    {
+        // Fetch completion data from DB
+        if (_dbHandler is null) return;
+
+        for (int i = 0; i < AssignmentCompletionState.Length; i++)
+        {
+            string sql = "FROM ";
+            _dbHandler.SQL(sql);
+        }
+
+        for (int i = 0; i < UnitCompletionState.Length; i++)
+        {
+            string sql = "";
+            _dbHandler.SQL(sql);
+        }
     }
 
     public void SetAssignmentCompletionState(uint id)

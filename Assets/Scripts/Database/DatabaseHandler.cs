@@ -2,7 +2,6 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static UnityEngine.Rendering.DebugUI;
 using Debug = UnityEngine.Debug;
 
 public class DatabaseHandler

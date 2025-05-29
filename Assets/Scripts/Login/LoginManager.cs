@@ -1,16 +1,21 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _usernameInput;
     [SerializeField] private TMP_InputField _passwordInput;
+    [SerializeField] private Button _loginButton;
+    [SerializeField] private Button _registerButton;
     [SerializeField] private TMP_Text _messageDisplay;
 
     private DatabaseHandler _dbHandler;
 
     private const int MinPasswordLength = 5;
+
+    
 
     private void Awake()
     {
@@ -20,7 +25,10 @@ public class LoginManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            _messageDisplay.text = "Connection to database could not be established.";
+            _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
+
+            _loginButton.interactable = false;
+            _registerButton.interactable = false;
 #if UNITY_EDITOR
             Debug.LogException(ex);
 #endif
@@ -38,7 +46,7 @@ public class LoginManager : MonoBehaviour
         // User could not be found
         if (passwordResult?.Length == 0)
         {
-            _messageDisplay.text = "User could not be found";
+            _messageDisplay.text = ErrorMessages.UserNotFoundError;
             _usernameInput.image.color = Color.red;
             return;
         }
@@ -46,14 +54,14 @@ public class LoginManager : MonoBehaviour
         // Edge-case error
         if (passwordResult.Length > 1 || passwordResult[0] is not string)
         {
-            _messageDisplay.text = "Critical error. I have no idea what went wrong";
+            _messageDisplay.text = ErrorMessages.GenericError;
             return;
         }
 
         // Wrong password
         if (!passwordResult[0].Equals(password))
         {
-            _messageDisplay.text = "Wrong password!";
+            _messageDisplay.text = ErrorMessages.WrongPasswordError;
             _passwordInput.image.color = Color.red;
             return;
         }
@@ -69,19 +77,19 @@ public class LoginManager : MonoBehaviour
 
         if (username.Length == 0)
         {
-            _messageDisplay.text = "Enter a username!";
+            _messageDisplay.text = ErrorMessages.UsernamePromptEmptyError;
             return;
         }
 
         if (password.Length < MinPasswordLength)
         {
-            _messageDisplay.text = "Password needs to be at least 5 characters long!";
+            _messageDisplay.text = ErrorMessages.PasswordPromptEmptyError;
             return;
         }
 
         if (_dbHandler.SQL(select: "username", from: "user", where: username, predicate: username).Length == 0)
         {
-            _messageDisplay.text = "User with this name already exists!";
+            _messageDisplay.text = ErrorMessages.UserAlreadyExistsError;
             return;
         }
 
@@ -93,13 +101,72 @@ public class LoginManager : MonoBehaviour
             {"XP", 0}
         };
 
+        // Insert new user to db
         if (!_dbHandler.SQLInsert(newUserData))
         {
-            _messageDisplay.text = "Could not register user.";
+            _messageDisplay.text = ErrorMessages.RegisterUserFailedError;
+            return;
+        }
+
+        // Add every progression data to user
+        if (!AddProgressionData(username))
+        {
+            _messageDisplay.text = ErrorMessages.AddProgressionDataFailedError;
             return;
         }
 
         TrySubmitLogin();
+    }
+
+    private bool AddProgressionData(string username)
+    {
+        var userID = _dbHandler.SQL(select: "userID", from: "user", where: "username", predicate: username);
+
+        if (userID.Length == 0)
+        {
+            string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", userID.ToString());
+            Debug.LogError(errorMessage);
+            return false;
+        }
+
+        var unitData = new Dictionary<string, object>[CompletionTracker.Instance.Units.Length];
+        for (int i = 0; i < unitData.Length; i++)
+        {
+            unitData[i] = new()
+            {
+                {"unitLink", i},
+                {"isCompleted", 0},
+                {"userID", userID[0]}
+            };
+        }
+
+        var assignmentData = new Dictionary<string, object>[CompletionTracker.Instance.Assignments.Length];
+        for (int i = 0; i < CompletionTracker.Instance.Assignments.Length; i++)
+        {
+            unitData[i] = new()
+            {
+                {"assignmentLink", i},
+                {"isCompleted", 0},
+                {"userID", userID[0]}
+            };
+        }
+
+        foreach (var item in unitData)
+        {
+            if (_dbHandler.SQLInsert(item)) continue;
+
+            Debug.LogError($"Could not insert unit with link number {item["unitLink"]}");
+            return false;
+        }
+        foreach (var item in assignmentData)
+        {
+            if (_dbHandler.SQLInsert(item)) continue;
+
+            Debug.LogError($"Could not insert assignment with link number {item["assignmentLink"]}");
+            return false;
+        }
+
+        return true;
     }
 
     public UserData GetUser(string username)
