@@ -37,13 +37,13 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            string sql = "FROM ";
+            string sql = "SELECT isCompleted FROM User INNER JOIN AssignmentProgress ON User.userID = AssignmentProgress.userID";
             _dbHandler.SQL(sql);
         }
 
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
-            string sql = "";
+            string sql = "SELECT isCompleted FROM User INNER JOIN UnitProgress ON User.userID = UnitProgress.userID";
             _dbHandler.SQL(sql);
         }
     }
