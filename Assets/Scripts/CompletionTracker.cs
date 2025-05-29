@@ -41,6 +41,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
     public UnitData GetUnitByID(uint id) => Units[id];
 
+#nullable enable
     public uint GetID(AssignmentData assignmentData, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
     {
         for (uint i = 0; i < Assignments.Length; i++)
