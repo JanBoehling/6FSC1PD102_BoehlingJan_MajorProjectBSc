@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b940f3f2de0fe824488cdc676612a0fa, type: 3}
   m_Name: TESTBiomembranVideo
   m_EditorClassIdentifier: 
-  _assignmentSceneIndex: 2
+  _assignmentSceneIndex: 3
   _uiPrefab: {fileID: 0}
-  <IsCompleted>k__BackingField: 1
   <Video>k__BackingField: {fileID: 32900000, guid: 69ef18400a5108a4fa235a3ea15bca4e, type: 3}
   <WatchtimePercentThreshold>k__BackingField: 0.9

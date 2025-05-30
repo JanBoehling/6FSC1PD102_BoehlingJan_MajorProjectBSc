@@ -1,5 +1,5 @@
 [System.Serializable]
-public class User
+public class UserData
 {
     public uint UserID;
     public string UserName;
@@ -7,7 +7,7 @@ public class User
     public uint Streak;
     public uint XP;
 
-    public User(uint userID, string userName, string password, uint streak, uint xp)
+    public UserData(uint userID, string userName, string password, uint streak, uint xp)
     {
         UserID = userID;
         UserName = userName;

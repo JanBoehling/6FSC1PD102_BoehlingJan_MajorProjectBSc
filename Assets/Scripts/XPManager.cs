@@ -6,11 +6,11 @@ public class XPManager : MonoSingleton<XPManager>
     [SerializeField] private TMP_Text _xpText;
     [SerializeField] private TMP_Text _levelText;
 
-    public static int XP { get; private set; }
+    public static uint XP => CurrentUser.XP;
 
-    public static int Level { get; private set; }
+    public static uint Level => CurrentUser.XP / XpPerLevel;
 
-    private const int XpPerLevel = 1000;
+    private const uint XpPerLevel = 1000;
 
     private void Start()
     {
@@ -19,13 +19,7 @@ public class XPManager : MonoSingleton<XPManager>
 
     public void RaiseXP(int value)
     {
-        XP += value;
-
-        if (XP >= XpPerLevel)
-        {
-            XP -= XpPerLevel;
-            Level++;
-        }
+        CurrentUser.RaiseXP(value);
 
         UpdateDisplay();
     }
