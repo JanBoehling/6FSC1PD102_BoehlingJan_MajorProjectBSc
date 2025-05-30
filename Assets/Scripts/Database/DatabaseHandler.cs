@@ -1,30 +1,46 @@
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public class DatabaseHandler
 {
-#if UNITY_EDITOR
-    private const string ServerAddress = "localhost";
-    private const string User = "root";
-    private const string DatabaseName = "UserData";
-    private const int Port = -1;
-    private const string Password = "";
-#else
-    private const string ServerAddress = "";
-    private const string User = "";
-    private const string DatabaseName = "";
-    private const int Port = -1;
-    private const string Password = ""; //I know, this is very dangerous, but I trust you :)
-#endif
+    private readonly string CredentialsPath = Path.Combine(Application.dataPath, "DBCredentials.json");
+    private DBCredentials _credentials;
 
     private readonly MySqlConnection _connection;
 
-    public DatabaseHandler() => _connection = new MySqlConnection($"server={ServerAddress};user={User};database={DatabaseName};port={Port};password={Password}");
+    public DatabaseHandler() => _connection = new MySqlConnection(LoadCredentials().GetConnectionString());
     ~DatabaseHandler() => _connection.Close();
+
+    public DBCredentials LoadCredentials()
+    {
+        if (!File.Exists(CredentialsPath))
+        {
+            GeneratePathFile();
+            Debug.Log($"FEHLER: Credentials-Datei fehlt. ?ffne DBCredentials.json und f?lle die Felder aus. Datei befindet sich im Pfad {CredentialsPath}");
+            return _credentials;
+        }
+
+        using var reader = new StreamReader(CredentialsPath);
+        string json = reader.ReadToEnd();
+
+        _credentials = JsonUtility.FromJson<DBCredentials>(json);
+
+        return _credentials;
+    }
+
+    public void GeneratePathFile()
+    {
+        string json = JsonUtility.ToJson(new DBCredentials(), true);
+        File.Create(CredentialsPath).Close();
+        using var stream = new StreamWriter(CredentialsPath);
+        stream.Write(json);
+        stream.Close();
+    }
 
     /// <summary>
     /// Tries to open up a connection to the database and queries for the given string.
@@ -69,7 +85,7 @@ public class DatabaseHandler
 
     public dynamic[] SQL(string select, string from, string where, string predicate) => SQL($"SELECT {select} FROM {from} WHERE {where} = '{predicate}';");
 
-    public bool SQLInsert(Dictionary<string, dynamic> values, string dbName = DatabaseName)
+    public bool SQLInsert(Dictionary<string, dynamic> values, string tableName = "UserData")
     {
         bool success = false;
 
@@ -78,7 +94,7 @@ public class DatabaseHandler
             _connection.Open();
             Debug.Log("Database connection successful");
 
-            var sql = new StringBuilder($"INSERT INTO {dbName} (");
+            var sql = new StringBuilder($"INSERT INTO {tableName} (");
             for (int i = 0; i < values.Count; i++)
             {
                 sql.Append($"{values.ElementAt(i).Key}");
