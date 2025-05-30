@@ -42,6 +42,27 @@ public class DatabaseHandler
         stream.Close();
     }
 
+    public bool TestConnection()
+    {
+        bool success = false;
+
+        try
+        {
+            _connection.Open();
+            success = true;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        finally
+        {
+            _connection.Close();
+        }
+
+        return success;
+    }
+
     /// <summary>
     /// Tries to open up a connection to the database and queries for the given string.
     /// </summary>

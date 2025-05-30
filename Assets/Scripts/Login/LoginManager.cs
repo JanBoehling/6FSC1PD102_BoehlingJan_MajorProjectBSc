@@ -3,6 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class LoginManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _usernameInput;
@@ -175,3 +179,23 @@ public class LoginManager : MonoBehaviour
         return new UserData(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(LoginManager))]
+public class LoginManagerEditor : Editor
+{
+    private LoginManager _loginManager;
+
+    private void OnEnable()
+    {
+        _loginManager = (LoginManager)target;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Test MySQL Connection")) new DatabaseHandler().TestConnection();
+    }
+}
+#endif
