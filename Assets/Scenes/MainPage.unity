@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 85647813}
   - component: {fileID: 85647817}
   - component: {fileID: 85647816}
+  - component: {fileID: 85647818}
   m_Layer: 5
   m_Name: XPDisplayBG
   m_TagString: Untagged
@@ -329,6 +330,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85647812}
   m_CullTransparentMesh: 1
+--- !u!114 &85647818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85647812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294b80abb43b13546af06abc8adc9da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _xpText: {fileID: 1573138205}
+  _levelText: {fileID: 934252634}
 --- !u!1 &118933923
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,52 +2865,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645231691}
   m_CullTransparentMesh: 1
---- !u!1 &694180016
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 694180018}
-  - component: {fileID: 694180017}
-  m_Layer: 0
-  m_Name: XPManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &694180017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 694180016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 304657917da3f034b93275d60487b062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _xpText: {fileID: 1573138205}
-  _levelText: {fileID: 934252634}
---- !u!4 &694180018
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 694180016}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &697885016 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1915425726639503729, guid: 480e8517795d29e4199df258e0f22e09, type: 3}
@@ -3312,6 +3281,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775434673}
   m_CullTransparentMesh: 1
+--- !u!1 &813357127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 813357129}
+  - component: {fileID: 813357128}
+  m_Layer: 0
+  m_Name: DebugManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &813357128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813357127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d2e9bb8c7afb2438d27e7e9ff0e1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _useDebugUserData: 1
+  <DebugUserData>k__BackingField:
+    UserID: 0
+    UserName: Test
+    Password: pwd
+    Streak: 0
+    XP: 69
+--- !u!4 &813357129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813357127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &814916645
 GameObject:
   m_ObjectHideFlags: 0
@@ -8750,7 +8770,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24756e967fd7771438a1e98cc04429c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DayStreak>k__BackingField: 0
   _streakText: {fileID: 1150661139}
   _streakMessages:
   - '%s? Krass.'
@@ -8925,7 +8944,7 @@ SceneRoots:
   - {fileID: 1860868973}
   - {fileID: 1560126583}
   - {fileID: 713352736}
-  - {fileID: 694180018}
   - {fileID: 2103883612}
   - {fileID: 542902281}
   - {fileID: 2057840953}
+  - {fileID: 813357129}

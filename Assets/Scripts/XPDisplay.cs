@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class XPManager : MonoSingleton<XPManager>
+public class XPDisplay : MonoBehaviour
 {
     [SerializeField] private TMP_Text _xpText;
     [SerializeField] private TMP_Text _levelText;
@@ -12,15 +12,8 @@ public class XPManager : MonoSingleton<XPManager>
 
     private const uint XpPerLevel = 1000;
 
-    private void Start()
+    private void OnEnable()
     {
-        UpdateDisplay();
-    }
-
-    public void RaiseXP(int value)
-    {
-        CurrentUser.RaiseXP(value);
-
         UpdateDisplay();
     }
 

@@ -33,9 +33,35 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     private void Start()
     {
         // Fetch completion data from DB
-        if (_dbHandler is null) return;
+        if (_dbHandler is not null) FetchCompletionData();
+    }
 
-        // ToDo: Use 'assignmentLink' as index for AssignmentCompletionState[]
+    private void FetchCompletionData()
+    {
+        // TODO: Use 'assignmentLink' as index for AssignmentCompletionState[]
+
+
+
+        var assignmentCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
+        for (int i = 0; i < AssignmentCompletionState.Length; i++)
+        {
+            AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
+        }
+
+        var unitCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
+        for (int i = 0; i < UnitCompletionState.Length; i++)
+        {
+            string sql = "SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID";
+            UnitCompletionState[i] = (bool)unitCompletion[i];
+        }
+    }
+
+    /// <summary>
+    /// Loops through AssignmentCompletionState and UnitCompletionState arrays and sets the respective bool values in the DB
+    /// </summary>
+    public void SyncCompletionStates()
+    {
+        return;
         var assignmentCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
@@ -58,7 +84,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
             return;
         }
         AssignmentCompletionState[id] = true;
-        _dbHandler.SQL($"UPDATE AssignmentProgress SET isCompleted=1 WHERE userID={CurrentUser.UserID} AND assignmentLink={id};");
+        //_dbHandler.SQL($"UPDATE AssignmentProgress SET isCompleted=1 WHERE userID={CurrentUser.UserID} AND assignmentLink={id};");
     }
 
     public void SetUnitCompletionState(uint id)

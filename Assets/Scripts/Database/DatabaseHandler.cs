@@ -45,10 +45,15 @@ public class DatabaseHandler
     public bool TestConnection()
     {
         bool success = false;
+        _connection.InfoMessage += _connection_InfoMessage;
+
+        bool ping = _connection.Ping();
+        Debug.Log($"Ping success: {ping}");
 
         try
         {
             _connection.Open();
+            
             success = true;
         }
         catch (System.Exception ex)
@@ -57,10 +62,21 @@ public class DatabaseHandler
         }
         finally
         {
+            _connection.InfoMessage -= _connection_InfoMessage;
             _connection.Close();
         }
 
         return success;
+    }
+
+    private void _connection_InfoMessage(object sender, MySqlInfoMessageEventArgs args)
+    {
+        Debug.Log($"{args.errors.Length} Errors:");
+
+        foreach (var item in args.errors)
+        {
+            Debug.Log(item);
+        }
     }
 
     /// <summary>
