@@ -14,7 +14,8 @@ public static class DB
 
     // PHP File names (Can be found under Assets/PHP)
     private const string PhpTest = "testConnection.php";
-    private const string PhpSelect = "UserDataSELECT.php";
+    private const string PhpSelect = "SELECT.php";
+    private const string PhpSelectWhere = "SELECTWHERE.php";
     private const string PhpInsert = "UserDataINSERT.php";
     private const string PhpQuery = "QUERY.php";
 
@@ -49,7 +50,19 @@ public static class DB
     /// <returns>The raw result from the SQL query as a string</returns>
     public static async Task<string> Select(string select, string from, string where, string predicate)
     {
-        var requestURL = $"{Url}{PhpSelect}?select={select}&from={from}&where={where}&predicate={predicate}";
+        var requestURL = $"{Url}{PhpSelectWhere}?select={select}&from={from}&where={where}&predicate={predicate}";
+        return await WebRequest(HttpMethod.Post, requestURL);
+    }
+
+    /// <summary>
+    /// Retrieves value from DB. Syntax based of SQL SELECT
+    /// </summary>
+    /// <param name="select">DB Column that should be retrieved</param>
+    /// <param name="from">Table name</param>
+    /// <returns>The raw result from the SQL query as a string</returns>
+    public static async Task<string> Select(string select, string from)
+    {
+        var requestURL = $"{Url}{PhpSelect}?select={select}&from={from}";
         return await WebRequest(HttpMethod.Post, requestURL);
     }
 

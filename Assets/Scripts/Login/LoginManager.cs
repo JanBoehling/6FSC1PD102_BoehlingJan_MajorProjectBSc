@@ -2,10 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using System.Threading.Tasks;
 
 public class LoginManager : MonoBehaviour
 {
@@ -54,7 +51,7 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
-        var userData = GetUser(username);
+        var userData = await GetUser(username);
         CurrentUser.SetUser(userData);
     }
 
@@ -135,30 +132,23 @@ public class LoginManager : MonoBehaviour
         return;
     }
 
-    public UserData GetUser(string username)
+    public async Task<UserData> GetUser(string username)
     {
-        var userDataRaw = DB.Query($"SELECT * FROM UserData WHERE username = '{username}';");
-        return null;
-        //return new UserData(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
+        const int coulumCount = 5;
+
+        string userDataRaw = await DB.Select(select: "*", from: "UserData", where: "username", predicate: username);
+        var result = userDataRaw.Split('\n');
+
+        if (result.Length > coulumCount)
+        {
+            Debug.LogError("Multiple entires in DB found for {username}!");
+            return null;
+        }
+        else if (result.Length < coulumCount)
+        {
+            Debug.LogError("Could not fetch complete data!");
+            return null;
+        }
+        else return new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4]));
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(LoginManager))]
-public class LoginManagerEditor : Editor
-{
-    private LoginManager _loginManager;
-
-    private void OnEnable()
-    {
-        _loginManager = (LoginManager)target;
-    }
-
-    public override async void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        EditorGUILayout.Space();
-        if (GUILayout.Button("Test MySQL Connection")) Debug.Log(await DB.TestConnection());
-    }
-}
-#endif

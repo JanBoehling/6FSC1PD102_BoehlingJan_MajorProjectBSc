@@ -1395,6 +1395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 892778899}
   - component: {fileID: 892778900}
+  - component: {fileID: 892778901}
   m_Layer: 0
   m_Name: LoginManager
   m_TagString: Untagged
@@ -1434,6 +1435,18 @@ MonoBehaviour:
   _loginButton: {fileID: 1806281784}
   _registerButton: {fileID: 1482616140}
   _messageDisplay: {fileID: 1180942535}
+--- !u!114 &892778901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892778898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd731f536b886d4abf89969915e5d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1180942533
 GameObject:
   m_ObjectHideFlags: 0
