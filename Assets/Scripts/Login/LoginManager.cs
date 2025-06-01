@@ -15,7 +15,7 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Button _registerButton;
     [SerializeField] private TMP_Text _messageDisplay;
 
-    private DatabaseHandler _dbHandler;
+    private DB _dbHandler;
 
     private const int MinPasswordLength = 5;
 
@@ -195,7 +195,7 @@ public class LoginManagerEditor : Editor
     {
         base.OnInspectorGUI();
         EditorGUILayout.Space();
-        if (GUILayout.Button("Test MySQL Connection")) new DatabaseHandler().TestConnection();
+        if (GUILayout.Button("Test MySQL Connection")) new DB().TestConnection();
     }
 }
 #endif

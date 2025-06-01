@@ -1,6 +1,6 @@
 ﻿public interface IDatabaseConnection
 {
-    protected DatabaseHandler DBHandler { get; set; }
+    protected DB DBHandler { get; set; }
 
 
 }

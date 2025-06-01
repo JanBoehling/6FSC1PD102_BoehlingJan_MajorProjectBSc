@@ -9,7 +9,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     public bool[] AssignmentCompletionState { get; private set; }
     public bool[] UnitCompletionState { get; private set; }
 
-    private DatabaseHandler _dbHandler;
+    private DB _dbHandler;
 
     protected override void Awake()
     {
