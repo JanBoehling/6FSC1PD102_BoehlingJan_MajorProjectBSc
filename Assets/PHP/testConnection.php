@@ -1,17 +1,21 @@
 <?php
 echo "Testing connection...<br/>";
 
-$servername = 'localhost';
-$database = '';
+$servername = 'database-5017942646.webspace-host.com';
+$database = 'dbs14278174';
+$username = 'dbu3329914';
 $password = '';
-$username = '';
 
-$conn = new mysqli($servername, $username, $password, $database);
-
-if ($conn->connection_error){
-    die("Connection failed: " . $conn->connection_error);
+try {
+    $conn = new mysqli($servername, $username, $password, $database);
+  }
+  
+catch(Exception $e) {
+    echo "Connection failed!<br/>";
+    echo $e . "<br/>";
+    die();
 }
 
-echo "Connection successful";
+echo "Connection successful!";
 
 ?>
