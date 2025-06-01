@@ -4,6 +4,7 @@ $database = 'dbs14278174';
 $username = 'dbu3329914';
 $password = '';
 
+$tableIN = $_GET["table"];
 $usernameIN = $_GET["username"];
 $passwordIN = $_GET["password"];
 $streakIN = (int)$_GET["streak"];
@@ -19,7 +20,7 @@ catch(Exception $e) {
     die();
 }
 
-$sql = "INSERT INTO UserData (username, password, streak, XP) VALUES ($usernameIN, $passwordIN, $streakIN, $xpIN)";
+$sql = "INSERT INTO $tableIN (username, password, streak, XP) VALUES ($usernameIN, $passwordIN, $streakIN, $xpIN)";
 
 if ($conn->query($sql) === TRUE) {
     echo "Successfully created record of user " . $usernameIN . "!";

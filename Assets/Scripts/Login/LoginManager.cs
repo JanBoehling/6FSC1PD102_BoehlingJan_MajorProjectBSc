@@ -15,55 +15,39 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Button _registerButton;
     [SerializeField] private TMP_Text _messageDisplay;
 
-    private DB _dbHandler;
-
     private const int MinPasswordLength = 5;
 
     
 
-    private void Awake()
+    private async void Awake()
     {
-        try
-        {
-            _dbHandler = new();
-        }
-        catch (System.Exception ex)
+        if (!(await DB.TestConnection()).Equals("Connection successful!"))
         {
             _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
 
             _loginButton.interactable = false;
             _registerButton.interactable = false;
-#if UNITY_EDITOR
-            Debug.LogException(ex);
-#endif
         }
     }
 
-    public void TrySubmitLogin()
+    public async void TrySubmitLogin()
     {
         string username = _usernameInput.text;
         string password = _passwordInput.text;
 
         //var passwordResult = _dbHandler.SQL($"SELECT password FROM user WHERE username = '{username}';");
-        var passwordResult = _dbHandler.SQL(select: "password", from: "user", where: "username", predicate: username);
+        var passwordResult = await DB.Select(select: "password", from: "user", where: "username", predicate: username);
 
         // User could not be found
-        if (passwordResult?.Length == 0)
+        if (string.IsNullOrEmpty(passwordResult))
         {
             _messageDisplay.text = ErrorMessages.UserNotFoundError;
             _usernameInput.image.color = Color.red;
             return;
         }
 
-        // Edge-case error
-        if (passwordResult.Length > 1 || passwordResult[0] is not string)
-        {
-            _messageDisplay.text = ErrorMessages.GenericError;
-            return;
-        }
-
         // Wrong password
-        if (!passwordResult[0].Equals(password))
+        if (!passwordResult.Equals(password))
         {
             _messageDisplay.text = ErrorMessages.WrongPasswordError;
             _passwordInput.image.color = Color.red;
@@ -74,7 +58,7 @@ public class LoginManager : MonoBehaviour
         CurrentUser.SetUser(userData);
     }
 
-    public void TryRegisterNewUser()
+    public async void TryRegisterNewUser()
     {
         string username = _usernameInput.text;
         string password = _passwordInput.text;
@@ -91,46 +75,30 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
-        if (_dbHandler.SQL(select: "username", from: "user", where: username, predicate: username).Length == 0)
+        if (string.IsNullOrEmpty(await DB.Select(select: "username", from: "user", where: username, predicate: username)))
         {
             _messageDisplay.text = ErrorMessages.UserAlreadyExistsError;
             return;
         }
 
-        var newUserData = new Dictionary<string, object>()
-        {
-            {"username", username},
-            {"password", password},
-            {"streak", 0},
-            {"XP", 0}
-        };
-
         // Insert new user to db
-        if (!_dbHandler.SQLInsert(newUserData))
-        {
-            _messageDisplay.text = ErrorMessages.RegisterUserFailedError;
-            return;
-        }
+        await DB.Insert(username, password, 0, 0);
 
         // Add every progression data to user
-        if (!AddProgressionData(username))
-        {
-            _messageDisplay.text = ErrorMessages.AddProgressionDataFailedError;
-            return;
-        }
+        AddProgressionData(username);
 
         TrySubmitLogin();
     }
 
-    private bool AddProgressionData(string username)
+    private async void AddProgressionData(string username)
     {
-        var userID = _dbHandler.SQL(select: "userID", from: "UserData", where: "username", predicate: username);
+        string userID = await DB.Select(select: "userID", from: "UserData", where: "username", predicate: username);
 
         if (userID.Length == 0)
         {
             string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", userID.ToString());
             Debug.LogError(errorMessage);
-            return false;
+            return;
         }
 
         var unitData = new Dictionary<string, object>[CompletionTracker.Instance.Units.Length];
@@ -157,26 +125,21 @@ public class LoginManager : MonoBehaviour
 
         foreach (var item in unitData)
         {
-            if (_dbHandler.SQLInsert(item, "UnitProgress")) continue;
-
-            Debug.LogError($"Could not insert unit with link number {item["unitLink"]}");
-            return false;
+            await DB.Insert(Table.UnitProgress, (uint)item["unitLink"], (byte)item["isCompleted"], (uint)item["userID"]);
         }
         foreach (var item in assignmentData)
         {
-            if (_dbHandler.SQLInsert(item, "AssignmentProgress")) continue;
-
-            Debug.LogError($"Could not insert assignment with link number {item["assignmentLink"]}");
-            return false;
+            await DB.Insert(Table.AssignmentProgress, (uint)item["assignmentLink"], (byte)item["isCompleted"], (uint)item["userID"]);
         }
 
-        return true;
+        return;
     }
 
     public UserData GetUser(string username)
     {
-        var userDataRaw = _dbHandler.SQL($"SELECT * FROM UserData WHERE username = '{username}';");
-        return new UserData(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
+        var userDataRaw = DB.Query($"SELECT * FROM UserData WHERE username = '{username}';");
+        return null;
+        //return new UserData(userDataRaw[0], userDataRaw[1], userDataRaw[2], userDataRaw[3], userDataRaw[4]);
     }
 }
 
@@ -191,11 +154,11 @@ public class LoginManagerEditor : Editor
         _loginManager = (LoginManager)target;
     }
 
-    public override void OnInspectorGUI()
+    public override async void OnInspectorGUI()
     {
         base.OnInspectorGUI();
         EditorGUILayout.Space();
-        if (GUILayout.Button("Test MySQL Connection")) new DB().TestConnection();
+        if (GUILayout.Button("Test MySQL Connection")) Debug.Log(await DB.TestConnection());
     }
 }
 #endif

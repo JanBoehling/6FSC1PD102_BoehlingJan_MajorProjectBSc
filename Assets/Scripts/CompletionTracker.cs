@@ -9,31 +9,18 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     public bool[] AssignmentCompletionState { get; private set; }
     public bool[] UnitCompletionState { get; private set; }
 
-    private DB _dbHandler;
-
     protected override void Awake()
     {
         base.Awake();
 
         AssignmentCompletionState = new bool[Assignments.Length];
         UnitCompletionState = new bool[Units.Length];
-
-        try
-        {
-            _dbHandler = new();
-        }
-        catch (System.Exception ex)
-        {
-#if UNITY_EDITOR
-            Debug.LogException(ex);
-#endif
-        }
     }
 
     private void Start()
     {
         // Fetch completion data from DB
-        if (_dbHandler is not null) FetchCompletionData();
+        FetchCompletionData();
     }
 
     private void FetchCompletionData()
@@ -42,17 +29,17 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
 
 
-        var assignmentCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
+        var assignmentCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
+            //AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
         }
 
-        var unitCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
+        var unitCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
             string sql = "SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID";
-            UnitCompletionState[i] = (bool)unitCompletion[i];
+            //UnitCompletionState[i] = (bool)unitCompletion[i];
         }
     }
 
@@ -62,17 +49,17 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     public void SyncCompletionStates()
     {
         return;
-        var assignmentCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
+        var assignmentCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
+            //AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
         }
 
-        var unitCompletion = _dbHandler.SQL("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
+        var unitCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
             string sql = "SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID";
-            UnitCompletionState[i] = (bool)unitCompletion[i];
+            //UnitCompletionState[i] = (bool)unitCompletion[i];
         }
     }
 
@@ -84,7 +71,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
             return;
         }
         AssignmentCompletionState[id] = true;
-        //_dbHandler.SQL($"UPDATE AssignmentProgress SET isCompleted=1 WHERE userID={CurrentUser.UserID} AND assignmentLink={id};");
+        //DB.Query($"UPDATE AssignmentProgress SET isCompleted=1 WHERE userID={CurrentUser.UserID} AND assignmentLink={id};");
     }
 
     public void SetUnitCompletionState(uint id)

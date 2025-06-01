@@ -1,6 +1,4 @@
 <?php
-echo "Testing connection...<br/>";
-
 $servername = 'database-5017942646.webspace-host.com';
 $database = 'dbs14278174';
 $username = 'dbu3329914';
