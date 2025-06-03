@@ -4,6 +4,7 @@
 public class Milestone
 {
     public string Title;
+    public string Notes;
     public Sprite Icon;
     [Space]
     public int XP;

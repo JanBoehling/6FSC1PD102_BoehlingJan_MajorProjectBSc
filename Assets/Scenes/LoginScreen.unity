@@ -2635,7 +2635,7 @@ GameObject:
   - component: {fileID: 2057840953}
   - component: {fileID: 2057840954}
   m_Layer: 0
-  m_Name: ProgressTracker
+  m_Name: UnitAndAssignmentManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2676,6 +2676,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2eb545fbf46bf274fa33916717c18d77, type: 2}
   - {fileID: 11400000, guid: 9a6069caa27001e45a66202c9025192d, type: 2}
   - {fileID: 11400000, guid: 9e4f86ca318065b4c9819bb0ff0840f4, type: 2}
+  <AssignmentCompletionState>k__BackingField: 
+  <UnitCompletionState>k__BackingField: 
 --- !u!1 &2092408204
 GameObject:
   m_ObjectHideFlags: 0

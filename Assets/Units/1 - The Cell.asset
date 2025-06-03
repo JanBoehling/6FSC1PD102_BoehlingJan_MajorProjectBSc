@@ -12,15 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7963239a09b3f134e8900eb2137a9456, type: 3}
   m_Name: 1 - The Cell
   m_EditorClassIdentifier: 
-  <Title>k__BackingField: Die Zelle
+  <Title>k__BackingField: Zellen und deren Vielfalt
   <Milestones>k__BackingField:
-  - Title: Test Quiz
+  - Title: Die Zellmembran (Video)
+    Notes: 
     Icon: {fileID: 0}
     XP: 100
-    Assignments: 0000000001000000
+    Assignments: 
     CompletionPercentThreshold: 1
-  - Title: Test Video
+  - Title: Die Zellmembran
+    Notes: 
     Icon: {fileID: 0}
-    XP: 0
-    Assignments: 02000000
+    XP: 100
+    Assignments: 
+    CompletionPercentThreshold: 1
+  - Title: Diffusion und Osmose (Video)
+    Notes: 
+    Icon: {fileID: 0}
+    XP: 100
+    Assignments: 
+    CompletionPercentThreshold: 1
+  - Title: "Tonizit\xE4t"
+    Notes: 
+    Icon: {fileID: 0}
+    XP: 100
+    Assignments: 
     CompletionPercentThreshold: 1
