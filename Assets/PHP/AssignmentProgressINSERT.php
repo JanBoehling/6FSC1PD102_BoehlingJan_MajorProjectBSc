@@ -4,8 +4,9 @@ $database = 'dbs14278174';
 $username = 'dbu3329914';
 $password = '';
 
-$selectIN = $_GET["select"];
-$fromIN = $_GET["from"];
+$linkIN = $_GET["link"];
+$isCompletedIN = (int)$_GET["isCompleted"];
+$userIDIN = (int)$_GET["userID"];
 
 try {
     $conn = new mysqli($servername, $username, $password, $database);
@@ -17,19 +18,13 @@ catch(Exception $e) {
     die();
 }
 
-$sql = "SELECT $selectIN FROM $fromIN;";
+$sql = "INSERT INTO AssignmentProgress (assignmentLink, isCompleted, userID) VALUES ('$linkIN', '$isCompletedIN', '$userIDIN')";
 
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0){
-    while ($row = $result->fetch_assoc()){
-        foreach ($row as $item) {
-            echo $item . "\n";
-        }
-    }
+if ($conn->query($sql) === TRUE) {
+    echo "200"; // HTTP-Statuscode 'OK'
 }
 else{
-    echo "Could not fetch data";
+    echo $conn->connect_errno;
 }
 
 $conn->close();

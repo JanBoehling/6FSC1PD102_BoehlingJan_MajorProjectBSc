@@ -26,12 +26,9 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0){
     while ($row = $result->fetch_assoc()){
         foreach ($row as $item) {
-            echo $item . ";";
+            echo $item . "\n";
         }
     }
-}
-else{
-    echo "Could not fetch data";
 }
 
 $conn->close();

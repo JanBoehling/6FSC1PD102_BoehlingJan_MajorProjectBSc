@@ -4,7 +4,7 @@ $database = 'dbs14278174';
 $username = 'dbu3329914';
 $password = '';
 
-$sql = $_GET["sql"];
+$sqlIN = $_GET["sql"];
 
 try {
     $conn = new mysqli($servername, $username, $password, $database);
@@ -16,11 +16,14 @@ catch(Exception $e) {
     die();
 }
 
-if ($conn->query($sql) === TRUE) {
-    echo "Query successful!";
-}
-else{
-    echo $conn->error;
+$result = $conn->query($sqlIN);
+
+if ($result->num_rows > 0){
+    while ($row = $result->fetch_assoc()){
+        foreach ($row as $item) {
+            echo $item . "\n";
+        }
+    }
 }
 
 $conn->close();

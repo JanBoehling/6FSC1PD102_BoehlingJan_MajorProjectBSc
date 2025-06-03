@@ -8,14 +8,6 @@
 
     public static void SetUser(UserData user)
     {
-        if (Data is not null)
-        {
-#if UNITY_EDITOR
-            UnityEngine.Debug.LogError($"User with name {user.UserName} is already logged in.");
-#endif
-            return;
-        }
-
         Data = user;
     }
 

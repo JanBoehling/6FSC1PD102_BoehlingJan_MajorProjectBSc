@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class LoginManager : MonoBehaviour
 {
@@ -14,11 +15,9 @@ public class LoginManager : MonoBehaviour
 
     private const int MinPasswordLength = 5;
 
-    
-
     private async void Awake()
     {
-        if (!(await DB.TestConnection()).Equals("Connection successful!"))
+        if (!(await DB.TestConnection())[0].Equals("0"))
         {
             _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
 
@@ -32,11 +31,10 @@ public class LoginManager : MonoBehaviour
         string username = _usernameInput.text;
         string password = _passwordInput.text;
 
-        //var passwordResult = _dbHandler.SQL($"SELECT password FROM user WHERE username = '{username}';");
-        var passwordResult = await DB.Select(select: "password", from: "user", where: "username", predicate: username);
+        var passwordResult = await DB.Select(select: "password", from: "UserData", where: "username", predicate: username);
 
         // User could not be found
-        if (string.IsNullOrEmpty(passwordResult))
+        if (string.IsNullOrEmpty(passwordResult[0]))
         {
             _messageDisplay.text = ErrorMessages.UserNotFoundError;
             _usernameInput.image.color = Color.red;
@@ -44,7 +42,7 @@ public class LoginManager : MonoBehaviour
         }
 
         // Wrong password
-        if (!passwordResult.Equals(password))
+        if (!passwordResult[0].Equals(password))
         {
             _messageDisplay.text = ErrorMessages.WrongPasswordError;
             _passwordInput.image.color = Color.red;
@@ -53,6 +51,11 @@ public class LoginManager : MonoBehaviour
 
         var userData = await GetUser(username);
         CurrentUser.SetUser(userData);
+
+        CompletionTracker.Instance.FetchCompletionData();
+
+        Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
+        SceneManager.LoadScene(1);
     }
 
     public async void TryRegisterNewUser()
@@ -72,76 +75,83 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
-        if (string.IsNullOrEmpty(await DB.Select(select: "username", from: "user", where: username, predicate: username)))
+        var checkForDuplicateUsername = await DB.Select(select: "username", from: "UserData", where: "username", predicate: username);
+        if (checkForDuplicateUsername.Length > 0)
         {
             _messageDisplay.text = ErrorMessages.UserAlreadyExistsError;
             return;
         }
 
         // Insert new user to db
-        await DB.Insert(username, password, 0, 0);
+        var insert = await DB.Insert(username, password, 0, 0);
 
         // Add every progression data to user
-        AddProgressionData(username);
+        bool success = await AddProgressionData(username);
+        if (!success)
+        {
+            Debug.LogError("Could not add progression data!");
+            return;
+        }
 
         TrySubmitLogin();
     }
 
-    private async void AddProgressionData(string username)
+    private async Task<bool> AddProgressionData(string username)
     {
-        string userID = await DB.Select(select: "userID", from: "UserData", where: "username", predicate: username);
+        var userIDRaw = await DB.Select(select: "userID", from: "UserData", where: "username", predicate: username);
 
-        if (userID.Length == 0)
+        if (userIDRaw.Length == 0)
         {
-            string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", userID.ToString());
+            string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", username);
             Debug.LogError(errorMessage);
-            return;
+            return false;
         }
 
-        var unitData = new Dictionary<string, object>[CompletionTracker.Instance.Units.Length];
-        for (int i = 0; i < unitData.Length; i++)
+        uint userID = uint.Parse(userIDRaw[0]);
+
+        var unitData = new uint[CompletionTracker.Instance.Units.Length][];
+        for (uint i = 0; i < unitData.Length; i++)
         {
-            unitData[i] = new()
+            unitData[i] = new uint[]
             {
-                {"unitLink", i},
-                {"isCompleted", 0},
-                {"userID", userID[0]}
+                i, // unitLink
+                0, // isCompleted
+                userID
             };
         }
 
-        var assignmentData = new Dictionary<string, object>[CompletionTracker.Instance.Assignments.Length];
-        for (int i = 0; i < CompletionTracker.Instance.Assignments.Length; i++)
+        var assignmentData = new uint[CompletionTracker.Instance.Assignments.Length][];
+        for (uint i = 0; i < assignmentData.Length; i++)
         {
-            unitData[i] = new()
+            assignmentData[i] = new uint[]
             {
-                {"assignmentLink", i},
-                {"isCompleted", 0},
-                {"userID", userID[0]}
+                i, // assignmentLink
+                0, // isCompleted
+                userID
             };
         }
 
         foreach (var item in unitData)
         {
-            await DB.Insert(Table.UnitProgress, (uint)item["unitLink"], (byte)item["isCompleted"], (uint)item["userID"]);
+            await DB.Insert(Table.UnitProgress, item[0], item[1], item[2]);
         }
         foreach (var item in assignmentData)
         {
-            await DB.Insert(Table.AssignmentProgress, (uint)item["assignmentLink"], (byte)item["isCompleted"], (uint)item["userID"]);
+            await DB.Insert(Table.AssignmentProgress, item[0], item[1], item[2]);
         }
 
-        return;
+        return true;
     }
 
     public async Task<UserData> GetUser(string username)
     {
         const int coulumCount = 5;
 
-        string userDataRaw = await DB.Select(select: "*", from: "UserData", where: "username", predicate: username);
-        var result = userDataRaw.Split('\n');
+        var result = await DB.Select(select: "*", from: "UserData", where: "username", predicate: username);
 
         if (result.Length > coulumCount)
         {
-            Debug.LogError("Multiple entires in DB found for {username}!");
+            Debug.LogError($"Multiple entires in DB found for {username}!");
             return null;
         }
         else if (result.Length < coulumCount)

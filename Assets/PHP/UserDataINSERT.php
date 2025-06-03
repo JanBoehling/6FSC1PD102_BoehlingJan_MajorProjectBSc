@@ -22,10 +22,10 @@ catch(Exception $e) {
 $sql = "INSERT INTO UserData (username, password, streak, XP) VALUES ('$usernameIN', '$passwordIN', '$streakIN', '$xpIN')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Successfully created record of user " . $usernameIN . "!";
+    echo "200"; // HTTP-Statuscode 'OK'
 }
 else{
-    echo $conn->error;
+    echo $conn->connect_errno;
 }
 
 $conn->close();

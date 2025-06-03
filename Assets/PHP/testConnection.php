@@ -14,6 +14,6 @@ catch(Exception $e) {
     die();
 }
 
-echo "Connection successful!";
+echo $conn->connect_errno;
 
 ?>

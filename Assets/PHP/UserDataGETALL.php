@@ -24,7 +24,7 @@ if ($result->num_rows > 0){
     }
 }
 else{
-    echo "Could not fetch user data";
+    echo "404";  // HTTP-Statuscode 'Not Found'
 }
 
 $conn->close();

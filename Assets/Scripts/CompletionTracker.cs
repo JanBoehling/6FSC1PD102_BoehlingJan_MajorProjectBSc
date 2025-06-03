@@ -6,8 +6,8 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     [field:SerializeField] public UnitData[] Units { get; private set; }
     [field:SerializeField] public AssignmentData[] Assignments { get; private set; }
 
-    public bool[] AssignmentCompletionState { get; private set; }
-    public bool[] UnitCompletionState { get; private set; }
+    [field: SerializeField] public bool[] AssignmentCompletionState { get; private set; }
+    [field: SerializeField] public bool[] UnitCompletionState { get; private set; }
 
     protected override void Awake()
     {
@@ -17,29 +17,26 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
         UnitCompletionState = new bool[Units.Length];
     }
 
-    private void Start()
+    public async void FetchCompletionData()
     {
-        // Fetch completion data from DB
-        FetchCompletionData();
-    }
-
-    private void FetchCompletionData()
-    {
-        // TODO: Use 'assignmentLink' as index for AssignmentCompletionState[]
-
-
-
-        var assignmentCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
-        for (int i = 0; i < AssignmentCompletionState.Length; i++)
+        var assignmentCompletionState = await DB.Query($"SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
+        var assignmentLinks = await DB.Query($"SELECT assignmentLink FROM AssignmentProgress INNER JOIN UserData ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
+        for (int i = 0; i < assignmentCompletionState.Length; i++)
         {
-            //AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
+            int link = int.Parse(assignmentLinks[i]);
+            bool state = int.Parse(assignmentCompletionState[i]) != 0;
+
+            AssignmentCompletionState[link] = state;
         }
 
-        var unitCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
-        for (int i = 0; i < UnitCompletionState.Length; i++)
+        var unitCompletionState = await DB.Query($"SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");
+        var unitLinks = await DB.Query($"SELECT unitLink FROM UnitProgress INNER JOIN UserData ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");
+        for (int i = 0; i < unitCompletionState.Length; i++)
         {
-            string sql = "SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID";
-            //UnitCompletionState[i] = (bool)unitCompletion[i];
+            int link = int.Parse(unitLinks[i]);
+            bool state = int.Parse(unitCompletionState[i]) != 0;
+
+            UnitCompletionState[link] = state;
         }
     }
 
