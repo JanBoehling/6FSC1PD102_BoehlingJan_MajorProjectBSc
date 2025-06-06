@@ -7,7 +7,7 @@ public class Milestone
     public string Notes;
     public Sprite Icon;
     [Space]
-    public int XP;
+    public uint XP;
     [Space]
     public uint[] Assignments;
     [Space]
