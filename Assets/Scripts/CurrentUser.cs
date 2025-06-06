@@ -11,7 +11,34 @@
         Data = user;
     }
 
-    public static void RaiseXP(int value) => Data.XP += (uint)value;
-    public static void RaiseStreak() => Data.Streak++;
-    public static void ResetStreak() => Data.Streak = 0;
+    public static async void SyncUser()
+    {
+        var userDataRaw = new System.Collections.Generic.KeyValuePair<string, string>[]
+        {
+            new (nameof(Data.UserID), Data.UserID.ToString()),
+            new (nameof(Data.UserName), Data.UserName.ToString()),
+            new (nameof(Data.Password), Data.Password.ToString()),
+            new (nameof(Data.Streak), Data.Streak.ToString()),
+            new (nameof(Data.XP), Data.XP.ToString())
+        };
+
+        await DB.Update("UserData", userDataRaw);
+    }
+
+    public static async void RaiseXP(uint value)
+    {
+        Data.XP += value;
+        await DB.Update("UserData", "XP", XP.ToString());
+    }
+    
+    public static async void RaiseStreak()
+    {
+        Data.Streak++;
+        await DB.Update("UserData", "Streak", Streak.ToString());
+    }
+    public static async void ResetStreak()
+    {
+        Data.Streak = 0;
+        await DB.Update("UserData", "Streak", Streak.ToString());
+    }
 }

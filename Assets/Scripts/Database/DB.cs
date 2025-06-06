@@ -111,8 +111,18 @@ public static class DB
         return await WebRequest(HttpMethod.Post, requestURL);
     }
 
-    public static async Task<string[]> Update(string tableName, System.Collections.Generic.KeyValuePair<string, string>[] values, string where, string predicate)
+    public static async Task<string[]> Update(string tableName, string column, string value, string where = "UserID", string predicate = null)
     {
+        predicate ??= CurrentUser.UserID.ToString();
+
+        string requestURL = $"{Url}{PhpUpdate}?table={tableName}&set={column}={value}&where={where}&predicate={predicate}";
+        return await WebRequest(HttpMethod.Post, requestURL);
+    }
+
+    public static async Task<string[]> Update(string tableName, System.Collections.Generic.KeyValuePair<string, string>[] values, string where = "UserID", string predicate = null)
+    {
+        predicate ??= CurrentUser.UserID.ToString();
+
         var setStringBuilder = new System.Text.StringBuilder();
         foreach (var item in values)
         {

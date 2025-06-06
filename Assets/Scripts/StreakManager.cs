@@ -23,7 +23,7 @@ public class StreakManager : MonoSingleton<StreakManager>
 
     private const string StreakNumberPlaceholder = "%s";
 
-    private DateTime _lastStreakRefresh = new(2025, 05, 09);
+    private DateTime _lastStreakRefresh;
 
     private bool IsStreakRefreshed => _lastStreakRefresh == DateTime.Today;
 

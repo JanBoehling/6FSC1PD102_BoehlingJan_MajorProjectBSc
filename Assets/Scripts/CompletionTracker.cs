@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class CompletionTracker : MonoSingleton<CompletionTracker>
+public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
 {
     [field:SerializeField] public UnitData[] Units { get; private set; }
     [field:SerializeField] public AssignmentData[] Assignments { get; private set; }
@@ -156,5 +158,10 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
 
         Debug.LogError($"{callerFilePath}.{callerMemberName}: Could not find the completion state of assignment with ID {id}.");
         return false;
+    }
+
+    public void Dispose()
+    {
+        CurrentUser.SyncUser();
     }
 }

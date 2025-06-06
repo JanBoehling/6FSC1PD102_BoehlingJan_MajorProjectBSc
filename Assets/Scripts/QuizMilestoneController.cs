@@ -111,6 +111,9 @@ public class QuizMilestoneController : MonoBehaviour
     public void OnEndMilestone()
     {
         CompletionTracker.Instance.UploadCompletionStates();
+
+        if (RuntimeDataHolder.CurrentMilestone.IsCompleted) CurrentUser.RaiseXP(RuntimeDataHolder.CurrentMilestone.XP);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
