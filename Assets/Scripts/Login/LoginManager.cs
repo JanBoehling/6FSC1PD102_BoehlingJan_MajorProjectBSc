@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class LoginManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _usernameInput;
@@ -26,11 +30,8 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    public async void TrySubmitLogin()
+    public async void TrySubmitLogin(string username, string password)
     {
-        string username = _usernameInput.text;
-        string password = _passwordInput.text;
-
         var passwordResult = await DB.Select(select: "password", from: "UserData", where: "username", predicate: username);
 
         // User could not be found
@@ -57,6 +58,8 @@ public class LoginManager : MonoBehaviour
         Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
         SceneManager.LoadScene(1);
     }
+
+    public void TrySubmitLogin() => TrySubmitLogin(_usernameInput.text, _passwordInput.text);
 
     public async void TryRegisterNewUser()
     {
@@ -162,3 +165,30 @@ public class LoginManager : MonoBehaviour
         else return new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4]));
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(LoginManager))]
+public class LoginManagerEditor : Editor
+{
+    private LoginManager _loginManager;
+
+    private void OnEnable()
+    {
+        _loginManager = (LoginManager)target;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (!Application.isPlaying) return;
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("Login as admin"))
+        {
+            _loginManager.TrySubmitLogin("admin", "t8734qzp920ßtvhrtbui23op");
+        }
+    }
+}
+#endif
