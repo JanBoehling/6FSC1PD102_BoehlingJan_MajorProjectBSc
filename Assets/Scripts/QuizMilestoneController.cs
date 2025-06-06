@@ -40,13 +40,6 @@ public class QuizMilestoneController : MonoBehaviour
 
     private void InitQuizzes(uint[] assignments)
     {
-        /*foreach (var item in assignments.Cast<QuizAssignment>())
-        {
-            var quizUI = Instantiate(item.UIPrefab, transform.position + _pages.CurrentPage * ((RectTransform)transform).rect.width * Vector3.right, Quaternion.identity, transform).GetComponent<QuizAssignmentController>();
-            quizUI.Init(item);
-            _loadedAssignments.Add(quizUI);
-        }*/
-
         for (int i = 0; i < assignments.Length; i++)
         {
             var item = CompletionTracker.Instance.GetAssignmentByID(assignments[i]);
@@ -117,6 +110,7 @@ public class QuizMilestoneController : MonoBehaviour
 
     public void OnEndMilestone()
     {
+        CompletionTracker.Instance.UploadCompletionStates();
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }

@@ -53,7 +53,7 @@ public class LoginManager : MonoBehaviour
         var userData = await GetUser(username);
         CurrentUser.SetUser(userData);
 
-        CompletionTracker.Instance.FetchCompletionData();
+        CompletionTracker.Instance.DownloadCompletionData();
 
         Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
         SceneManager.LoadScene(1);

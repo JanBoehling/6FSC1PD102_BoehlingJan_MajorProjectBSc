@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CompletionTracker : MonoSingleton<CompletionTracker>
@@ -17,7 +18,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
         UnitCompletionState = new bool[Units.Length];
     }
 
-    public async void FetchCompletionData()
+    public async void DownloadCompletionData()
     {
         var assignmentCompletionState = await DB.Query($"SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
         var assignmentLinks = await DB.Query($"SELECT assignmentLink FROM AssignmentProgress INNER JOIN UserData ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
@@ -43,21 +44,21 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
     /// <summary>
     /// Loops through AssignmentCompletionState and UnitCompletionState arrays and sets the respective bool values in the DB
     /// </summary>
-    public void SyncCompletionStates()
+    public async void UploadCompletionStates()
     {
-        return;
-        var assignmentCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID ORDER BY assignmentLink");
-        for (int i = 0; i < AssignmentCompletionState.Length; i++)
-        {
-            //AssignmentCompletionState[i] = (bool)assignmentCompletion[i]; // does this work?
-        }
-
-        var unitCompletion = DB.Query("SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID ORDER BY unitLink");
+        var unitValues = new List<KeyValuePair<string, string>>();
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
-            string sql = "SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID";
-            //UnitCompletionState[i] = (bool)unitCompletion[i];
+            unitValues.Add(new(i.ToString(), UnitCompletionState[i] ? "1" : "0"));
         }
+        await DB.Update("UnitProgress", unitValues.ToArray(), "UserID", CurrentUser.UserID.ToString());
+
+        var assignmentValues = new List<KeyValuePair<string, string>>();
+        for (int i = 0; i < AssignmentCompletionState.Length; i++)
+        {
+            assignmentValues.Add(new(i.ToString(), AssignmentCompletionState[i] ? "1" : "0"));
+        }
+        await DB.Update("AssignmentProgress", unitValues.ToArray(), "UserID", CurrentUser.UserID.ToString());
     }
 
     public void SetAssignmentCompletionState(uint id)
@@ -68,7 +69,6 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>
             return;
         }
         AssignmentCompletionState[id] = true;
-        //DB.Query($"UPDATE AssignmentProgress SET isCompleted=1 WHERE userID={CurrentUser.UserID} AND assignmentLink={id};");
     }
 
     public void SetUnitCompletionState(uint id)

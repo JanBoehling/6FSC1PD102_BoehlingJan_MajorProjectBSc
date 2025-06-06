@@ -20,6 +20,7 @@ public static class DB
     private const string PhpInsertUnitProgress = "UnitProgressINSERT.php";
     private const string PhpInsertAssignmentProgress = "AssignmentProgressINSERT.php";
     private const string PhpQuery = "QUERY.php";
+    private const string PhpUpdate = "UPDATE.php";
 
     /// <summary>
     /// Tests connection
@@ -107,6 +108,19 @@ public static class DB
         };
 
         string requestURL = $"{Url}{insertPHP}?link={link}&isCompleted={isCompleted}&userID={userID}";
+        return await WebRequest(HttpMethod.Post, requestURL);
+    }
+
+    public static async Task<string[]> Update(string tableName, System.Collections.Generic.KeyValuePair<string, string>[] values, string where, string predicate)
+    {
+        var setStringBuilder = new System.Text.StringBuilder();
+        foreach (var item in values)
+        {
+            setStringBuilder.Append($"{item.Key} = {item.Value},");
+        }
+        setStringBuilder.Remove(setStringBuilder.Length - 1, 1);
+
+        string requestURL = $"{Url}{PhpUpdate}?table={tableName}&set={setStringBuilder}&where={where}&predicate={predicate}";
         return await WebRequest(HttpMethod.Post, requestURL);
     }
 
