@@ -15,6 +15,14 @@ public abstract class AssignmentData : ScriptableObject
 }
 
 [System.Serializable]
+public struct Question
+{
+    public string QuestionText;
+    public Sprite QuestionSprite;
+    public Answer[] Answers;
+}
+
+[System.Serializable]
 public struct Answer
 {
     public string AnswerText;

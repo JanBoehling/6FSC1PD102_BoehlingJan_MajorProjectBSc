@@ -4,49 +4,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuizMilestoneController : MonoBehaviour
+public class QAAssignmentController : AssignmentController<QAAssignment>
 {
-    [SerializeField] private bool _debugOverrideMilestone;
-    [SerializeField] private uint[] _debugAssignments;
-    [Space]
-    [SerializeField] private QuizAssignmentController _quizPrefab;
+    [SerializeField] private QuizCard _quizPrefab;
     [Space]
     [SerializeField] private Button _sendAnswerButton;
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _endMilestoneButton;
 
     private PageMoveController _pages;
-    private List<QuizAssignmentController> _loadedAssignments = new();
+    private readonly List<QuizCard> _loadedAssignments = new();
 
-    private ParticleSystem _confettiCanon;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _pages = GetComponent<PageMoveController>();
-        _confettiCanon = FindFirstObjectByType<ParticleSystem>();
     }
 
-    private void Start()
+    public override void Init(uint assignmentID)
     {
-#if UNITY_EDITOR
-        if (_debugOverrideMilestone && _debugAssignments is not null && _debugAssignments.Length > 0)
+        for (int i = 0; i < _assignmentData.Questions.Length; i++)
         {
-            InitQuizzes(_debugAssignments);
-        }
-        else
-#endif
-            InitQuizzes(RuntimeDataHolder.CurrentMilestone.Assignments);
-    }
+            var item = _assignmentData.Questions[i];
 
-    private void InitQuizzes(uint[] assignments)
-    {
-        for (int i = 0; i < assignments.Length; i++)
-        {
-            var item = CompletionTracker.Instance.GetAssignmentByID(assignments[i]);
-
-            var quizUI = Instantiate(item.UIPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0)).GetComponent<QuizAssignmentController>();
+            var quizUI = Instantiate(_quizPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0));
             quizUI.transform.SetParent(transform, false);
-            quizUI.Init(assignments[i]);
+            quizUI.Init(item, _assignmentID);
             _loadedAssignments.Add(quizUI);
         }
     }
@@ -71,7 +54,7 @@ public class QuizMilestoneController : MonoBehaviour
         if (isSelectionCorrect)
         {
             CompletionTracker.Instance.SetAssignmentCompletionState(currentAssignment.AssignmentID);
-            
+
             OnCorrectAnswer();
         }
         else
@@ -114,6 +97,6 @@ public class QuizMilestoneController : MonoBehaviour
 
         if (RuntimeDataHolder.CurrentMilestone.IsCompleted) CurrentUser.RaiseXP(RuntimeDataHolder.CurrentMilestone.XP);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 }

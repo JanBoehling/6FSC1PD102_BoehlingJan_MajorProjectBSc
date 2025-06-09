@@ -15,12 +15,20 @@ MonoBehaviour:
   <Title>k__BackingField: Test Unit
   <Milestones>k__BackingField:
   - Title: Test Quiz
+    Notes: 
     Icon: {fileID: 0}
     XP: 100
     Assignments: 0000000001000000
     CompletionPercentThreshold: 1
   - Title: Test Video
+    Notes: 
     Icon: {fileID: 0}
     XP: 10
     Assignments: 02000000
+    CompletionPercentThreshold: 1
+  - Title: Test QA
+    Notes: 
+    Icon: {fileID: 0}
+    XP: 10
+    Assignments: 04000000
     CompletionPercentThreshold: 1

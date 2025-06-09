@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VideoAssignmentScene.unity
     guid: 0a6b0af6995db8444b6e069f3abbda5b
+  - enabled: 1
+    path: Assets/Scenes/ProteintinderAssignmentScene.unity
+    guid: 96f5d240f5fc2b5449a916aa50ce5c70
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

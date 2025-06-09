@@ -281,8 +281,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 442865861}
-        m_TargetAssemblyTypeName: QuizMilestoneController, Assembly-CSharp
+      - m_Target: {fileID: 442865863}
+        m_TargetAssemblyTypeName: QAAssignmentController, Assembly-CSharp
         m_MethodName: CheckAnswer
         m_Mode: 1
         m_Arguments:
@@ -641,6 +641,7 @@ GameObject:
   - component: {fileID: 442865860}
   - component: {fileID: 442865861}
   - component: {fileID: 442865862}
+  - component: {fileID: 442865863}
   m_Layer: 5
   m_Name: AssignmentUIContainer
   m_TagString: Untagged
@@ -674,7 +675,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442865859}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38ffc5c32cdce5341abd011b627d1425, type: 3}
   m_Name: 
@@ -684,7 +685,7 @@ MonoBehaviour:
   _quizPrefab: {fileID: 2249927129898066941, guid: c6436fd3509b0e5479bd395fc7bdb283, type: 3}
   _sendAnswerButton: {fileID: 118119167}
   _continueButton: {fileID: 434801211}
-  _endMilestoneButton: {fileID: 0}
+  _endMilestoneButton: {fileID: 1851270085}
 --- !u!114 &442865862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,6 +723,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &442865863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442865859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4a3516e19b4944aadc7b28c08df4cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _assignmentID: 0
+  _useDebugAssignment: 0
+  _quizPrefab: {fileID: 2249927129898066941, guid: c6436fd3509b0e5479bd395fc7bdb283, type: 3}
+  _sendAnswerButton: {fileID: 118119167}
+  _continueButton: {fileID: 434801211}
+  _endMilestoneButton: {fileID: 1851270085}
 --- !u!1 &703790573
 GameObject:
   m_ObjectHideFlags: 0

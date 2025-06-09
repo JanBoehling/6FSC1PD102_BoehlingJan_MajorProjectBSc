@@ -11,7 +11,7 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
 
     private TMP_Text _answerText;
     private SpriteToTextureConverter _answerImage;
-    private QuizAssignmentController _quizAssignmentController;
+    private QuizCard _quizAssignmentController;
     private Image _backgroundImage;
     private Color _backgroundBaseColor;
 
@@ -21,7 +21,7 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
         _answerImage = GetComponentInChildren<SpriteToTextureConverter>();
         _backgroundImage = GetComponent<Image>();
         _backgroundBaseColor = _backgroundImage.color;
-        _quizAssignmentController = transform.parent.GetComponentInParent<QuizAssignmentController>();
+        _quizAssignmentController = transform.parent.GetComponentInParent<QuizCard>();
         if (!_quizAssignmentController) Debug.LogError($"{name}: Error: Could not fetch Quiz Assignment Controller.");
     }
 

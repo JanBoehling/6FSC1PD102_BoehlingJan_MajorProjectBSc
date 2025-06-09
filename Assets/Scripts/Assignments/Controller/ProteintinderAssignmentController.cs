@@ -5,15 +5,39 @@ using UnityEngine.UI;
 
 public class ProteintinderAssignmentController : MonoBehaviour
 {
+    [Header("Assignment ID")]
+    [SerializeField] private uint _assignmentID;
+    [SerializeField] private bool _useDebugAssignment;
+
+    [Header("Settings")]
     [Tooltip("The speed of the swipe animation")]
     [SerializeField] private float _animationSpeed = 1f;
 
+    [Header("References")]
     [SerializeField] private Transform _imgStackContainer;
     [SerializeField] private TMP_Text _questionText;
-    private Image[] _imgStack;
-    private int currentImg;
+
+    [Header("Debug")]
+    [SerializeField] private Image[] _imgStack;
+    private int _currentImg;
 
     private Coroutine _currentAnimation;
+
+    private void Start()
+    {
+#if UNITY_EDITOR
+        if (_useDebugAssignment)
+        {
+            RuntimeDataHolder.CurrentMilestone = new()
+            {
+                Assignments = new[] { _assignmentID }
+            };
+        }
+#endif
+        _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
+
+        Init(_assignmentID);
+    }
 
     public void Init(uint assignmentID)
     {
@@ -21,12 +45,17 @@ public class ProteintinderAssignmentController : MonoBehaviour
 
         var images = assignment.ImageStack;
 
+        var imgStackList = new System.Collections.Generic.List<Image>();
+
         foreach (var item in images)
         {
             var img = new GameObject(nameof(item), typeof(Image)).GetComponent<Image>();
             img.transform.SetParent(_imgStackContainer, false);
             img.sprite = item.Image;
+            imgStackList.Add(img);
         }
+
+        _imgStack = imgStackList.ToArray();
 
         _questionText.text = assignment.QuestionText;
     }
@@ -40,7 +69,7 @@ public class ProteintinderAssignmentController : MonoBehaviour
 
     private IEnumerator OnSwipeCO(float direction)
     {
-        float position = _imgStack[currentImg].transform.position.x;
+        float position = _imgStack[_currentImg].transform.position.x;
 
         // Gets target index
         float targetPos = position + direction;
@@ -63,7 +92,8 @@ public class ProteintinderAssignmentController : MonoBehaviour
         // Resets position to target position
         position = targetPos;
 
-        _imgStack[currentImg].transform.position.Set(position, _imgStack[currentImg].transform.position.y, _imgStack[currentImg].transform.position.z);
+        _imgStack[_currentImg].transform.position.Set(position, _imgStack[_currentImg].transform.position.y, _imgStack[_currentImg].transform.position.z);
+        _currentImg++;
         _currentAnimation = null;
     }
 }
