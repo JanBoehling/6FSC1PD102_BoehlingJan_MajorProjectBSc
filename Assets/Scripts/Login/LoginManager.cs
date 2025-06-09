@@ -113,7 +113,7 @@ public class LoginManager : MonoBehaviour
         uint userID = uint.Parse(userIDRaw[0]);
 
         var unitData = new uint[CompletionTracker.Instance.Units.Length][];
-        for (uint i = 0; i < unitData.Length; i++)
+        for (uint i = 0; i < CompletionTracker.Instance.Units.Length; i++)
         {
             unitData[i] = new uint[]
             {
@@ -124,7 +124,7 @@ public class LoginManager : MonoBehaviour
         }
 
         var assignmentData = new uint[CompletionTracker.Instance.Assignments.Length][];
-        for (uint i = 0; i < assignmentData.Length; i++)
+        for (uint i = 0; i < CompletionTracker.Instance.Assignments.Length; i++)
         {
             assignmentData[i] = new uint[]
             {

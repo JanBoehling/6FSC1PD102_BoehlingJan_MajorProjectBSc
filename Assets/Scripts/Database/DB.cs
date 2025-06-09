@@ -134,6 +134,16 @@ public static class DB
         return await WebRequest(HttpMethod.Post, requestURL);
     }
 
+    public static async Task<string[]> Update(string tableName, string predicate)
+    {
+        // TODO: Update query for one table one set but 2 wheres
+        //string updateQuery = $"UPDATE {tableName} SET isCompleted=1 WHERE userID={CurrentUser.UserID}, AND {predicate}";
+        string updateQuery = $"UPDATE config  JOIN config t2\r\n    ON t1.config_name = 'name1' AND t2.config_name = 'name2'\r\n   SET t1.config_value = 'value',\r\n       t2.config_value = 'value2';";
+
+        string requestURL = $"{Url}{PhpQuery}?sql={updateQuery}";
+        return await WebRequest(HttpMethod.Post, requestURL);
+    }
+
     /// <summary>
     /// Creates a web request using the systems' HttpClient
     /// </summary>
