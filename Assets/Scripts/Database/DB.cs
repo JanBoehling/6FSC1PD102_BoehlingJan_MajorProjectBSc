@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Debug = UnityEngine.Debug;
 
@@ -134,11 +135,11 @@ public static class DB
         return await WebRequest(HttpMethod.Post, requestURL);
     }
 
-    public static async Task<string[]> Update(string tableName, string predicate)
+    public static async Task<string[]> Update(string tableName, string set, string predicate)
     {
         // TODO: Update query for one table one set but 2 wheres
-        //string updateQuery = $"UPDATE {tableName} SET isCompleted=1 WHERE userID={CurrentUser.UserID}, AND {predicate}";
-        string updateQuery = $"UPDATE config  JOIN config t2\r\n    ON t1.config_name = 'name1' AND t2.config_name = 'name2'\r\n   SET t1.config_value = 'value',\r\n       t2.config_value = 'value2';";
+        string updateQuery = $"UPDATE {tableName} SET {set} WHERE userID={CurrentUser.UserID} AND {predicate}";
+        //string updateQuery = $"UPDATE config  JOIN config t2\r\n    ON t1.config_name = 'name1' AND t2.config_name = 'name2'\r\n   SET t1.config_value = 'value',\r\n       t2.config_value = 'value2';";
 
         string requestURL = $"{Url}{PhpQuery}?sql={updateQuery}";
         return await WebRequest(HttpMethod.Post, requestURL);
@@ -150,7 +151,7 @@ public static class DB
     /// <param name="method">The method of request</param>
     /// <param name="requestURL">The request url. Combination of base url plus php file plus various parameters</param>
     /// <returns>The raw result from the SQL query as a string or null if not successful</returns>
-    private static async Task<string[]> WebRequest(HttpMethod method, string requestURL)
+    private static async Task<string[]> WebRequest(HttpMethod method, string requestURL, [CallerFilePath] string? callerFilePath = default, [CallerMemberName] string? callerMemberName = default)
     {
         var client = new HttpClient();
         var request = new HttpRequestMessage(method, requestURL);
@@ -162,10 +163,9 @@ public static class DB
         {
             response.EnsureSuccessStatusCode();
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
-            Debug.LogException(ex);
-            Debug.LogError(body);
+            Debug.LogError($"{callerFilePath}.{callerMemberName}: {ex}");
             return null;
         }
 

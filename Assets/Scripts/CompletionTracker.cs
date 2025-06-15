@@ -48,31 +48,19 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
     /// </summary>
     public async void UploadCompletionStates()
     {
-        var unitValues = new List<KeyValuePair<string, string>>();
-        var unitPredicates = new List<KeyValuePair<string, string>>
-        {
-            new("userID", CurrentUser.UserID.ToString())
-        };
+        var updateTasks = new List<Task<string[]>>();
+
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
-            unitValues.Add(new("isCompleted", UnitCompletionState[i] ? "1" : "0"));
-            unitPredicates.Add(new("unitLink", i.ToString()));
+            updateTasks.Add(DB.Update(tableName: "UnitProgress", set: $"isCompleted={(UnitCompletionState[i] ? "1" : "0")}", predicate: $"unitLink={i}"));
         }
-        await DB.Update("UnitProgress", unitValues.ToArray(), unitPredicates.ToArray());
-        //await DB.Update("UnitProgress", unitValues.ToArray(), "UserID", CurrentUser.UserID.ToString());
 
-        var assignmentValues = new List<KeyValuePair<string, string>>();
-        var assignmentPredicates = new List<KeyValuePair<string, string>>
-        {
-            new("userID", CurrentUser.UserID.ToString())
-        };
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            assignmentValues.Add(new("isCompleted", AssignmentCompletionState[i] ? "1" : "0"));
-            assignmentPredicates.Add(new("assignmentLink", i.ToString()));
+            updateTasks.Add(DB.Update(tableName: "AssignmentProgress", set: $"isCompleted={(AssignmentCompletionState[i] ? "1" : "0")}", predicate: $"assignmentLink={i}"));
         }
-        await DB.Update("AssignmentProgress", assignmentValues.ToArray(), assignmentPredicates.ToArray());
-        //await DB.Update("AssignmentProgress", assignmentValues.ToArray(), "UserID", CurrentUser.UserID.ToString());
+
+        await Task.WhenAll(updateTasks);
     }
 
     public void SetAssignmentCompletionState(uint id)
