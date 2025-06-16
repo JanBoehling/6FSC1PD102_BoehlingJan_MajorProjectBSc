@@ -143,6 +143,14 @@ public static class DB
         return await WebRequest(HttpMethod.Post, requestURL);
     }
 
+    public static async Task<string[]> Update(string tableName, string set, object value)
+    {
+        string updateQuery = $"UPDATE {tableName} SET {set}={value} WHERE userID={CurrentUser.UserID}";
+
+        string requestURL = $"{Url}{PhpQuery}?sql={updateQuery}";
+        return await WebRequest(HttpMethod.Post, requestURL);
+    }
+
     /// <summary>
     /// Creates a web request using the systems' HttpClient
     /// </summary>
@@ -164,6 +172,7 @@ public static class DB
         catch (Exception ex)
         {
             Debug.LogError($"{callerFilePath}.{callerMemberName}: {ex}");
+            Debug.LogError($"Request: {requestURL}");
             return null;
         }
 

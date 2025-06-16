@@ -28,17 +28,17 @@
     public static async void RaiseXP(uint value)
     {
         Data.XP += value;
-        await DB.Update("UserData", "XP", XP.ToString());
+        await DB.Update("UserData", "XP", XP);
     }
     
     public static async void RaiseStreak()
     {
         Data.Streak++;
-        await DB.Update("UserData", "Streak", Streak.ToString());
+        await DB.Update("UserData", "Streak", Streak);
     }
     public static async void ResetStreak()
     {
         Data.Streak = 0;
-        await DB.Update("UserData", "Streak", Streak.ToString());
+        await DB.Update("UserData", "Streak", Streak);
     }
 }
