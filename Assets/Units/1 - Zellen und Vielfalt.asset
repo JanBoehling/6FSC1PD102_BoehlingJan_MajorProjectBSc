@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7963239a09b3f134e8900eb2137a9456, type: 3}
-  m_Name: 1 - The Cell
+  m_Name: 1 - Zellen und Vielfalt
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Zellen und deren Vielfalt
   <Milestones>k__BackingField:

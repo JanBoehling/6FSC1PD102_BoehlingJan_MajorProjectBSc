@@ -9,8 +9,8 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
     [field:SerializeField] public UnitData[] Units { get; private set; }
     [field:SerializeField] public AssignmentData[] Assignments { get; private set; }
 
-    [field: SerializeField] public bool[] AssignmentCompletionState { get; private set; }
-    [field: SerializeField] public bool[] UnitCompletionState { get; private set; }
+    public bool[] AssignmentCompletionState { get; private set; }
+    public bool[] UnitCompletionState { get; private set; }
 
     protected override void Awake()
     {
