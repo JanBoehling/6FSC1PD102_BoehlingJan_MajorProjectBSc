@@ -12,7 +12,7 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
     {
         transform.GetChild(0).gameObject.SetActive(true);
 
-        var unitData = UnitCarousel.Instance.GetCurrentUnitData();
+        var unitData = UnitCarousel.GetUnitCarousel().GetCurrentUnitData();
 
         TopIslandController.Instance.DisplayTitle(unitData.Title);
 

@@ -26,6 +26,7 @@ public class VideoAssignmentController : MonoBehaviour
     [SerializeField] private float _timer;
     
     private VideoPlayer _videoPlayer;
+    private AudioSource _audioPlayer;
     private ParticleSystem _confettiCanon;
 
     private bool _isFullscreen;
@@ -35,28 +36,35 @@ public class VideoAssignmentController : MonoBehaviour
     private void Awake()
     {
         _videoPlayer = FindAnyObjectByType<VideoPlayer>();
+        _audioPlayer = _videoPlayer.GetComponent<AudioSource>();
+
         _confettiCanon = FindFirstObjectByType<ParticleSystem>();
     }
 
     private void Start()
     {
         _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
-        var _assignmentData = CompletionTracker.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
+        var assignmentData = CompletionTracker.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
 
-        if (_assignmentData == null)
+        if (assignmentData == null)
         {
-            _assignmentData = _debugVideoAssignment;
+            assignmentData = _debugVideoAssignment;
             Debug.LogWarning("Could not fetch video assignment data. Using debug video assignment instead.");
         }
 
-        _videoPlayer.clip = _assignmentData.Video;
+        StartVideo(assignmentData.Video);
 
         _videoPlayer.prepareCompleted += PlayVideo;
     }
 
-    public void StartVideo()
+    public void StartVideo(VideoClip clip)
     {
+        _videoPlayer.EnableAudioTrack(0, true);
+        _videoPlayer.SetTargetAudioSource(0, _audioPlayer);
+
+        _videoPlayer.clip = clip;
         _videoPlayerImage.texture = _loadingVideoTexture;
+
         _videoPlayer.Prepare();
     }
 
@@ -105,7 +113,7 @@ public class VideoAssignmentController : MonoBehaviour
         }
     }
 
-    public void ReturnToMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    public void ReturnToMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 
     public void CloseQuitMessage()
     {
@@ -118,7 +126,10 @@ public class VideoAssignmentController : MonoBehaviour
     private void PlayVideo(VideoPlayer src)
     {
         _videoPlayerImage.texture = _videoRenderTexture;
+
         src.Play();
+        _audioPlayer.Play();
+
         StartCoroutine(VideoWatchtimeWatcherCO());
     }
 

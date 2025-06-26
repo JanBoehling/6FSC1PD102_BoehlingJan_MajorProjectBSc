@@ -18,9 +18,16 @@ public class ProgressController : MonoBehaviour
     public float MilestoneProgress { get; private set; }
     public float TotalProgress { get; private set; }
 
+    private UnitCarousel _unitCarousel;
+
+    private void Awake()
+    {
+        _unitCarousel = UnitCarousel.GetUnitCarousel();
+    }
+
     private void Start()
     {
-        UpdateProgressDisplay(UnitCarousel.Instance.GetCurrentUnitData());
+        UpdateProgressDisplay(_unitCarousel.GetCurrentUnitData());
     }
 
     public void UpdateProgressDisplay(UnitData currentUnitData)

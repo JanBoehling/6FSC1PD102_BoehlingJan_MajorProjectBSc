@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 using UnityEditor;
 #endif
 
-public class StreakManager : MonoSingleton<StreakManager>
+public class StreakManager : MonoBehaviour
 {
     public uint DayStreak => CurrentUser.Streak;
 

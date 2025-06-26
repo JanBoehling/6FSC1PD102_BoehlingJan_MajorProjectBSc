@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class AchievementManager : MonoSingleton<AchievementManager>
+public class AchievementManager : MonoBehaviour
 {
     [SerializeField] private List<Achievement> _achievements;
     [SerializeField] private Image[] _achievementImageSlots;

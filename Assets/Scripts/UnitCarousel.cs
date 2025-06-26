@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class UnitCarousel : MonoSingleton<UnitCarousel>
+public class UnitCarousel : MonoBehaviour
 {
     [Tooltip("Debug: Directly move the carousel")]
     [SerializeField] private float _unitPosition = 0f;
@@ -15,6 +15,25 @@ public class UnitCarousel : MonoSingleton<UnitCarousel>
     private Coroutine _currentAnimation;
 
     public int UnitIndex => Mathf.RoundToInt(_unitPosition);
+
+    private static UnitCarousel _instance;
+
+    public static UnitCarousel GetUnitCarousel()
+    {
+        if (_instance != null) return _instance;
+
+        var carousel = FindObjectsByType<UnitCarousel>(FindObjectsSortMode.None);
+
+        if (carousel.Length < 1) Debug.LogError("Error: Could not find UnitCarousel in scene!");
+        else if (carousel.Length > 1) Debug.LogError("Error: Multiple UnitCarousels in scene!");
+        else
+        {
+            _instance = carousel[0];
+            return _instance;
+        }
+
+        return null;
+    }
 
     private void OnValidate()
     {
