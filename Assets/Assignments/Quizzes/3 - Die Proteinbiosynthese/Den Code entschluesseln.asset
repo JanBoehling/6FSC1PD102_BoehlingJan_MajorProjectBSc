@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d773ed70fda53d4aa29b6ff3e0c0298, type: 3}
+  m_Name: Den Code entschluesseln
+  m_EditorClassIdentifier: 
+  _assignmentSceneIndex: 2
+  _uiPrefab: {fileID: 0}
+  _questions:
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-GGC-UAA"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Gly-Met
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Gly-Asp-Met
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Glu
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Gly
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-GGU-CAA-UAA"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Met-Ala-Leu-Asn
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Gly-Gln
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Met-Gly-His
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Ile-Asn
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-AAA-GGC-UGA"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Met-Tyr-Cys
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Phe-Thr
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Lys-Gly
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Met-Lys-Cys
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-CGU-AAU-CAA-CAU-UAG"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Met-Asp-Glu-Val-Pro
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Asn-Ser-Ala-Gln
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Tyr-Cys-Lys-Ile
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Arg-Asn-Gln-His
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-GAG-UUU-CUU-GAA-AGA-ACG-UAU-CUU-GUG-UAA"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Met-Glu-Phe-Leu-Glu-Arg-Thr-Tyr-Leu-Val
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Met-Ala-Glu-Leu-His-Tyr-Phe-Arg-Leu-Ser
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Gln-Ser-Asn-Gly-Val-Thr-Pro-Asn-Phe
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Ser-Val-Gly-Phe-Tyr-His-Cys-Thr-Asp
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-CCU-ACG-GAA-GGU-UAA"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Met-Pro-Thr-Glu-Gly
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Met-Gly-Glu-Leu-Gln
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Leu-Asp-Arg-Ser
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Val-His-Cys-Thr
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-AAA-CCC-GGG-UUU-UGA"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Met-Asn-Lys-Asp-Leu
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Gly-Ala-Ser-Pro
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Asp-Cys-Glu-Ser
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Met-Lys-Pro-Gly-Phe
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1

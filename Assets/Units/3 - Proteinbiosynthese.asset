@@ -18,47 +18,53 @@ MonoBehaviour:
     Notes: Video
     Icon: {fileID: 0}
     XP: 10
-    Assignments: 
+    Assignments: 05000000
     CompletionPercentThreshold: 0.9
   - Title: Ablauf der PBS
     Notes: Quiz
     Icon: {fileID: 0}
     XP: 100
-    Assignments: 
+    Assignments: 09000000
     CompletionPercentThreshold: 1
   - Title: Transkription
     Notes: Video
     Icon: {fileID: 0}
     XP: 10
-    Assignments: 
+    Assignments: 06000000
     CompletionPercentThreshold: 0.9
   - Title: Ablauf der Transkription
     Notes: Quiz
     Icon: {fileID: 0}
     XP: 100
-    Assignments: 
+    Assignments: 0a000000
     CompletionPercentThreshold: 1
-  - Title: "Wie die mRNA den Kern verl\xE4sst"
-    Notes: Video
-    Icon: {fileID: 0}
-    XP: 10
-    Assignments: 
-    CompletionPercentThreshold: 0.9
   - Title: Translation
     Notes: Video
     Icon: {fileID: 0}
     XP: 10
-    Assignments: 
+    Assignments: 07000000
     CompletionPercentThreshold: 0.9
   - Title: Ablauf der Translation
     Notes: Quiz
     Icon: {fileID: 0}
     XP: 100
-    Assignments: 
+    Assignments: 0b000000
     CompletionPercentThreshold: 1
-  - Title: mRNA-Sequenzen
+  - Title: Die Codesonne
+    Notes: Video
+    Icon: {fileID: 0}
+    XP: 100
+    Assignments: 08000000
+    CompletionPercentThreshold: 1
+  - Title: Genetische Codierung
+    Notes: Quiz
+    Icon: {fileID: 0}
+    XP: 100
+    Assignments: 0c000000
+    CompletionPercentThreshold: 1
+  - Title: "Den Code entschl\xFCsseln"
     Notes: "Quiz, sp\xE4ter Drag'n'Drop"
     Icon: {fileID: 0}
     XP: 100
-    Assignments: 
+    Assignments: 0d000000
     CompletionPercentThreshold: 1

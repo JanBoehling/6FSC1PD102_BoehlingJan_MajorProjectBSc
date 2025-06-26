@@ -2677,8 +2677,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a6069caa27001e45a66202c9025192d, type: 2}
   - {fileID: 11400000, guid: 9e4f86ca318065b4c9819bb0ff0840f4, type: 2}
   - {fileID: 11400000, guid: 47d241e6a531f3249ac4c81ba2290404, type: 2}
-  <AssignmentCompletionState>k__BackingField: 
-  <UnitCompletionState>k__BackingField: 
+  - {fileID: 11400000, guid: a2e92a4e939b9544f8a001a5e5d17834, type: 2}
+  - {fileID: 11400000, guid: 935937da8dbaf0a4c92b803d7cb94aa0, type: 2}
+  - {fileID: 11400000, guid: 7d72f95b9dc6c424dba37c040d66498a, type: 2}
+  - {fileID: 11400000, guid: 2e063d40d9f8fef40aad48099300f60e, type: 2}
+  - {fileID: 11400000, guid: 4a1cb23c207f94341970e9f96fed48d3, type: 2}
+  - {fileID: 11400000, guid: 431b0342a72974c4c8f7cc40c016a401, type: 2}
+  - {fileID: 11400000, guid: 87268f45033ce09488fdcd40802f3153, type: 2}
+  - {fileID: 11400000, guid: 8745d85b67912c447956b479a2b0b3e8, type: 2}
+  - {fileID: 11400000, guid: 2a1eb73ec62893f479525f69d349ae98, type: 2}
 --- !u!1 &2092408204
 GameObject:
   m_ObjectHideFlags: 0

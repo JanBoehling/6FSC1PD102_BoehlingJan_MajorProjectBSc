@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d773ed70fda53d4aa29b6ff3e0c0298, type: 3}
+  m_Name: Genetische Codierung
+  m_EditorClassIdentifier: 
+  _assignmentSceneIndex: 2
+  _uiPrefab: {fileID: 0}
+  _questions:
+  - QuestionText: Wie liest man die Codesonne richtig?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: "Von innen nach au\xDFen"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "Von au\xDFen nach innen"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Von links nach rechts
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Von rechts nach links
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Was ist ein Codon?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Eine einzelne Base
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Ein Basentriplett auf der mRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "Eine Aminos\xE4ure"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Ein Protein
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Wie viele verschiedene Aminos\xE4uren werden durch den genetischen
+      Code codiert?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: 4
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: 20
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: 64
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: 69
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Was bedeutet, der genetische Code ist "redundant"?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: "Mehrere verschiedene Codons k\xF6nnen f\xFCr die gleiche Aminos\xE4ure
+        stehen."
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "Jedes Codon steht f\xFCr mehrere Aminos\xE4uren."
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Der Code ist bei allen Lebewesen unterschiedlich.
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "Durch Mutationen wurde die RNA immer weniger wichtig f\xFCr den
+        K\xF6rper."
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Was bedeutet, der genetische Code ist "universell"?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Er wird nur von Menschen genutzt.
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Jedes Lebewesen hat einen eigenen Code.
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "Mithilfe des Genetischen Codes k\xF6nnen nicht nur Peptide hergestellt
+        werden."
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "Er gilt f\xFCr fast alle Lebewesen."
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1

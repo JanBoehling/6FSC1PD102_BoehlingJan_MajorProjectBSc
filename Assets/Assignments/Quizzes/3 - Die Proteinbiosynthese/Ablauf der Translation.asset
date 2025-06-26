@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d773ed70fda53d4aa29b6ff3e0c0298, type: 3}
+  m_Name: Ablauf der Translation
+  m_EditorClassIdentifier: 
+  _assignmentSceneIndex: 2
+  _uiPrefab: {fileID: 0}
+  _questions:
+  - QuestionText: Wo findet die Translation statt?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Im Zellkern
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: An den Ribosomen
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Im Golgi-Apparat
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: In den Mitochondrien
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Welche Bindungsstellen besitzt das Ribosom?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Aminoacyl-Stelle
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Peptid-Stelle
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Exit-Stelle
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Terminator-Stelle
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: In welche Richtung wandert das Ribosom auf der mRNA?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Von 3' nach 5'
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Von 5' nach 3'
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: Was ist das Start-Codon der Translation?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: UAA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: AUG
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: UGA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: GAG
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "In welcher Reihenfolge durchl\xE4uft die tRNA die Bindungsstellen
+      des Ribosoms?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: "P-Stelle \u2192 A-Stelle \u2192 E-Stelle"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "A-Stelle \u2192 P-Stelle \u2192 E-Stelle"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "E-Stelle \u2192 T-Stelle \u2192 P-Stelle"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "A-Stelle \u2192 E-Stelle \u2192 T-Stelle"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Wie nennt man eine Kette aus zehn Aminos\xE4uren?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Makropeptide
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Polypeptid
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Oligopeptid
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Octapeptide
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Wie nennt man das Prinzip, nach dem das Anticodon der tRNA zum
+      Codon der mRNA passt?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: "Schl\xFCssel-Schloss-Prinzip"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Doppelhelix-Prinzip
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Transkriptions-Prinzip
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Codesonne
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0

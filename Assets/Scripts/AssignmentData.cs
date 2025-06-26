@@ -11,12 +11,12 @@ public abstract class AssignmentData : ScriptableObject
     {
         SceneManager.LoadScene(_assignmentSceneIndex);
     }
-
 }
 
 [System.Serializable]
 public struct Question
 {
+    [TextArea]
     public string QuestionText;
     public Sprite QuestionSprite;
     public Answer[] Answers;
@@ -25,6 +25,7 @@ public struct Question
 [System.Serializable]
 public struct Answer
 {
+    [TextArea]
     public string AnswerText;
     public Sprite AnswerSprite;
     public bool IsCorrect;

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d773ed70fda53d4aa29b6ff3e0c0298, type: 3}
+  m_Name: Ablauf der Transkription
+  m_EditorClassIdentifier: 
+  _assignmentSceneIndex: 2
+  _uiPrefab: {fileID: 0}
+  _questions:
+  - QuestionText: Was ist das Produkt der Transkription?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: tRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: DNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: mRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Proteine
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Wo findet die Transkription bei Eukaryoten statt?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Im Zellplasma
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Im Zellkern
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: An den Ribosomen
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Im Mitochondrium
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Welches Enzym ist f\xFCr die Transkription verantwortlich?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: DNA-Polymerase
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: RNA-Polymerase
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Ligase
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Helicase
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Wie hei\xDFt die Basensequenz, an dem die Transkription beginnt?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Operator
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Terminator
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Enhancer
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Promotor
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: "Was passiert w\xE4hrend der Elongation?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: "Die mRNA verl\xE4sst den Zellkern"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Die RNA-Polymerase liest den codogenen Strang von 3' nach 5' ab
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Die RNA-Polymerase liest den codogenen Strang von 5' nach 3' ab
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "Die RNA-Polymerase f\xFCgt komplement\xE4re RNA-Nukleotide an"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: Welche Base wird in der mRNA anstelle von Thymin eingebaut?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Adenin
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Cytosin
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Guanin
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Uracil
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+  - QuestionText: Was passiert bei der Termination?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Die RNA-Polymerase beginnt mit dem Ablesen der DNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "Die RNA wird abgel\xF6st und die DNA windet sich wieder zusammen"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "Die mRNA verl\xE4sst den Zellkern"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Die Introns werden entfernt
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0

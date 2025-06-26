@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d773ed70fda53d4aa29b6ff3e0c0298, type: 3}
+  m_Name: Ablauf der PBS
+  m_EditorClassIdentifier: 
+  _assignmentSceneIndex: 2
+  _uiPrefab: {fileID: 0}
+  _questions:
+  - QuestionText: Wie nennt man die beiden Hauptschritte der Proteinbiosynthese?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Replikation und Mutation
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Transkription und Translation
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Polymerisation und Spaltung
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Glykolyse und Fermentation
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Wo findet die Transkription bei Eukaryoten statt?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Im Zellplasma
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Im Zellkern
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: An den Ribosomen
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Im Mitochondrium
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Was ist das Produkt der Transkription?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: tRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: DNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: mRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: Proteine
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Wie hei\xDFt die transportf\xE4hige Kopie der genetischen Informationen?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: rRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: tRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: mRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: sRNA
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: "Was passiert mit der mRNA bei Eukaryoten nach der Transkription,
+      bevor sie den Zellkern verl\xE4sst?"
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: "Sie wird in ein Protein \xFCbersetzt"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Sie wird durch einen Prozess namens RNA-Replikation repliziert
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Sie wird durch einen Prozess namens RNA-Splicing weiter bearbeitet
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "Sie wird durch einen Prozess namens Termination zerst\xF6rt"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Wohin gelangt die mRNA nach dem Velassen des Zellkerns?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: In das Mitochondrium
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Zu den Ribosomen ins Zellplasma
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: In den Golgi-Apparat
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: "In den Zellkern zur\xFCck"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+  - QuestionText: Wie wird die Information der mRNA bei der Translation genutzt?
+    QuestionSprite: {fileID: 0}
+    Answers:
+    - AnswerText: Sie wird als Bauplan gelesen
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 1
+    - AnswerText: "Sie wird zerst\xF6rt"
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Sie wird gespeichert
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
+    - AnswerText: Sie wird in DNA umgeschrieben
+      AnswerSprite: {fileID: 0}
+      IsCorrect: 0
