@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ProgressController : MonoBehaviour
 {
-    [SerializeField] private Slider _videoProgressDisplay;
+    [SerializeField] private Image _videoProgressDisplay;
     [SerializeField] private TMP_Text _videoProgressDisplayText;
 
-    [SerializeField] private Slider _assignmentProgressDisplay;
+    [SerializeField] private Image _assignmentProgressDisplay;
     [SerializeField] private TMP_Text _assignmentProgressDisplayText;
 
     [SerializeField] private Image _totalProgressDisplay;
@@ -36,10 +36,10 @@ public class ProgressController : MonoBehaviour
 
         (VideoProgress, MilestoneProgress, TotalProgress) = CalculateProgress(currentUnitData);
 
-        if (_videoProgressDisplay) _videoProgressDisplay.value = VideoProgress;
+        if (_videoProgressDisplay) _videoProgressDisplay.fillAmount = VideoProgress;
         if (_videoProgressDisplayText) _videoProgressDisplayText.text = (VideoProgress * 100f).ToString("0");
 
-        if (_assignmentProgressDisplay) _assignmentProgressDisplay.value = MilestoneProgress;
+        if (_assignmentProgressDisplay) _assignmentProgressDisplay.fillAmount = MilestoneProgress;
         if (_assignmentProgressDisplayText) _assignmentProgressDisplayText.text = (MilestoneProgress * 100f).ToString("0");
 
         if (_totalProgressDisplay) _totalProgressDisplay.fillAmount = TotalProgress;
