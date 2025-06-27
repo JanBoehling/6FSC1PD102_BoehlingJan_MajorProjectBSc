@@ -27,11 +27,13 @@ public class ProgressController : MonoBehaviour
 
     private void Start()
     {
-        UpdateProgressDisplay(_unitCarousel.GetCurrentUnitData());
+        UpdateProgressDisplay();
     }
 
-    public void UpdateProgressDisplay(UnitData currentUnitData)
+    public void UpdateProgressDisplay()
     {
+        var currentUnitData = _unitCarousel.GetCurrentUnitData();
+
         (VideoProgress, MilestoneProgress, TotalProgress) = CalculateProgress(currentUnitData);
 
         if (_videoProgressDisplay) _videoProgressDisplay.value = VideoProgress;
@@ -48,6 +50,8 @@ public class ProgressController : MonoBehaviour
     {
         var milestones = currentUnitData.Milestones;
         int milestoneCount = milestones.Count;
+
+        if (milestoneCount == 0) return (1f, 1f, 1f);
 
         int completedVideos = 0;
         int completedMilestones = 0;
