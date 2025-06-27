@@ -5,7 +5,7 @@ using TMPro;
 using UnityEditor;
 #endif
 
-public class TopIslandController : MonoSingleton<TopIslandController>
+public class TopIslandController : MonoBehaviour
 {
     [SerializeField] private GameObject _titleTextContainer;
     [SerializeField] private GameObject _progressDisplayContainer;

@@ -5,6 +5,13 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
     [SerializeField] private UnitListItem _unitListItemPrefab;
     [SerializeField] private Transform _unitListContainer;
 
+    private TopIslandController _topIsland;
+
+    private void Awake()
+    {
+        _topIsland = FindFirstObjectByType<TopIslandController>();
+    }
+
     /// <summary>
     /// Is called when the unit overview is opened
     /// </summary>
@@ -14,7 +21,7 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
 
         var unitData = UnitCarousel.GetUnitCarousel().GetCurrentUnitData();
 
-        TopIslandController.Instance.DisplayTitle(unitData.Title);
+        _topIsland.DisplayTitle(unitData.Title);
 
         foreach (var milestone in unitData.Milestones)
         {

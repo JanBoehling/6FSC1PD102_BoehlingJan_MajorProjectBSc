@@ -2,18 +2,15 @@ using UnityEngine;
 
 public class ProfileController : MonoBehaviour, IToggleVisibility
 {
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    private TopIslandController _topIsland;
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    private void Awake() => _topIsland = FindFirstObjectByType<TopIslandController>();
 
-    public void ToggleVisibility()
-    {
-        gameObject.SetActive(!gameObject.activeInHierarchy);
-    }
+    public void Hide() => gameObject.SetActive(false);
+
+    public void Show() => gameObject.SetActive(true);
+
+    public void ToggleVisibility() => gameObject.SetActive(!gameObject.activeInHierarchy);
+
+    public void DisplayUserName() => _topIsland.DisplayTitle(CurrentUser.Data.UserName);
 }
