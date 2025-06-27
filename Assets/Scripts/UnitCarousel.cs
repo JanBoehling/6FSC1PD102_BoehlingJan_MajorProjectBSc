@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UnitCarousel : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class UnitCarousel : MonoBehaviour
 
     [Tooltip("The speed of the swipe animation")]
     [SerializeField] private float _animationSpeed = 1f;
+
+    [SerializeField] private UnityEvent _onChangeCurrentUnit;
 
     private Coroutine _currentAnimation;
 
@@ -87,6 +90,8 @@ public class UnitCarousel : MonoBehaviour
         _unitPosition = targetPos;
 
         _currentAnimation = null;
+
+        _onChangeCurrentUnit?.Invoke();
     }
 
     public UnitData GetCurrentUnitData()

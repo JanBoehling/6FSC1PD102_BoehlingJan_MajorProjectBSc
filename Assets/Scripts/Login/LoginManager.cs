@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -171,6 +170,8 @@ public class LoginManager : MonoBehaviour
 public class LoginManagerEditor : Editor
 {
     private LoginManager _loginManager;
+
+    private bool _doAutoLogin;
 
     private void OnEnable()
     {
