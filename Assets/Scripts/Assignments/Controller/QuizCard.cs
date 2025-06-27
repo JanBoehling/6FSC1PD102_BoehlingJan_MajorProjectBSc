@@ -18,9 +18,11 @@ public class QuizCard : MonoBehaviour
         _questionText.text = question.QuestionText;
         _questionImageLoader.LoadImage(question.QuestionSprite);
 
-        for (int i = 0; i < question.Answers.Length; i++)
+        var answers = AssignmentData.ShuffleArray(question.Answers);
+
+        for (int i = 0; i < answers.Length; i++)
         {
-            var answer = question.Answers[i];
+            var answer = answers[i];
 
             var answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/Answer");
             var answerUI = Instantiate(answerUIPrefab, _answerContainer);
@@ -39,9 +41,11 @@ public class QuizCard : MonoBehaviour
         _questionText.text = quiz.Question;
         _questionImageLoader.LoadImage(quiz.QuestionSprite);
 
+        var answers = QAAssignment.ShuffleArray(quiz.Answers);
+
         for (int i = 0; i < quiz.Answers.Length; i++)
         {
-            var answer = quiz.Answers[i];
+            var answer = answers[i];
 
             var answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/Answer");
             var answerUI = Instantiate(answerUIPrefab, _answerContainer);

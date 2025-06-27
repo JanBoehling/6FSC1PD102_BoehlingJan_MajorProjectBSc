@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -23,9 +24,11 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
 
     public override void Init(uint assignmentID)
     {
-        for (int i = 0; i < _assignmentData.Questions.Length; i++)
+        var questions = AssignmentData.ShuffleArray(_assignmentData.Questions);
+
+        for (int i = 0; i < questions.Length; i++)
         {
-            var item = _assignmentData.Questions[i];
+            var item = questions[i];
 
             var quizUI = Instantiate(_quizPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0));
             quizUI.transform.SetParent(transform, false);
