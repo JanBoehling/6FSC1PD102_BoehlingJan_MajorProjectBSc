@@ -162,11 +162,13 @@ public static class DB
         var client = new HttpClient();
         var request = new HttpRequestMessage(method, requestURL);
 
-        var response = await client.SendAsync(request);
-        var body = await response.Content.ReadAsStringAsync();
+        string body;
 
         try
         {
+            var response = await client.SendAsync(request);
+            body = await response.Content.ReadAsStringAsync();
+
             response.EnsureSuccessStatusCode();
         }
         catch (Exception ex)

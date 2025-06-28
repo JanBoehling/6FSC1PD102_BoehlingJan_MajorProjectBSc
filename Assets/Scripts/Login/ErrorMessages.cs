@@ -1,7 +1,7 @@
 ﻿public static class ErrorMessages
 {
     public const string GenericError = "Critical error. I have no idea what went wrong";
-    public const string ConnectionToDBFailedError = "Connection to database could not be established. Try again later.";
+    public const string ConnectionToDBFailedError = "Connection to server could not be established. Check connection and try again later.";
     public const string UserNotFoundError = "User could not be found";
     public const string WrongPasswordError = "Wrong password!";
     public const string UsernamePromptEmptyError = "Enter a username!";

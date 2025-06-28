@@ -15,17 +15,44 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Button _loginButton;
     [SerializeField] private Button _registerButton;
     [SerializeField] private TMP_Text _messageDisplay;
+    [Space]
+    [SerializeField] private float CheckConnectionDelay = 2f;
+    [SerializeField] private uint MinPasswordLength = 5;
 
-    private const int MinPasswordLength = 5;
+    private float _checkConnectionTimer;
 
-    private async void Awake()
+    private void Start()
     {
-        if (!(await DB.TestConnection())[0].Equals("0"))
+        _checkConnectionTimer = CheckConnectionDelay;
+    }
+
+    private void Update()
+    {
+        _checkConnectionTimer += Time.deltaTime;
+
+        if (_checkConnectionTimer < CheckConnectionDelay) return;
+
+        TestConnection();
+
+        _checkConnectionTimer = 0f;
+    }
+
+    private async void TestConnection()
+    {
+        var testConnection = await DB.TestConnection();
+
+        if (Application.internetReachability == NetworkReachability.NotReachable || testConnection is null || !testConnection[0].Equals("0"))
         {
             _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
 
             _loginButton.interactable = false;
             _registerButton.interactable = false;
+        }
+        else
+        {
+            _messageDisplay.text = "";
+            _loginButton.interactable = true;
+            _registerButton.interactable = true;
         }
     }
 
