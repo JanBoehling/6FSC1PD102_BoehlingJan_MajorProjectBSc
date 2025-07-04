@@ -11,7 +11,7 @@
         Data = user;
     }
 
-    public static async void SyncUser()
+    public static void SyncUser()
     {
         var userDataRaw = new System.Collections.Generic.KeyValuePair<string, string>[]
         {
@@ -22,23 +22,23 @@
             new (nameof(Data.XP), Data.XP.ToString())
         };
 
-        await DB.Update("UserData", userDataRaw);
+        DB.Instance.Update(null, "UserData", userDataRaw);
     }
 
-    public static async void RaiseXP(uint value)
+    public static void RaiseXP(uint value)
     {
         Data.XP += value;
-        await DB.Update("UserData", "XP", XP);
+        DB.Instance.Update(null, "UserData", "XP", XP);
     }
     
-    public static async void RaiseStreak()
+    public static void RaiseStreak()
     {
         Data.Streak++;
-        await DB.Update("UserData", "Streak", Streak);
+        DB.Instance.Update(null, "UserData", "Streak", Streak);
     }
-    public static async void ResetStreak()
+    public static void ResetStreak()
     {
         Data.Streak = 0;
-        await DB.Update("UserData", "Streak", Streak);
+        DB.Instance.Update(null, "UserData", "Streak", Streak);
     }
 }

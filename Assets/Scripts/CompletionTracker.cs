@@ -21,48 +21,57 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
 
     public async void DownloadCompletionData()
     {
-        var assignmentCompletionState = await DB.Query($"SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
-        var assignmentLinks = await DB.Query($"SELECT assignmentLink FROM AssignmentProgress INNER JOIN UserData ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
-        for (int i = 0; i < assignmentCompletionState.Length; i++)
+        var getAssignmentCompletionStateCallback = new System.Action<string[]>((assignmentCompletionState) =>
         {
-            int link = int.Parse(assignmentLinks[i]);
-            bool state = int.Parse(assignmentCompletionState[i]) != 0;
+            var getAssignmentLinkCallback = new System.Action<string[]>((assignmentLinks) =>
+            {
+                for (int i = 0; i < assignmentCompletionState.Length; i++)
+                {
+                    int link = int.Parse(assignmentLinks[i]);
+                    bool state = int.Parse(assignmentCompletionState[i]) != 0;
 
-            AssignmentCompletionState[link] = state;
-        }
+                    AssignmentCompletionState[link] = state;
+                }
 
-        var unitCompletionState = await DB.Query($"SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");
-        var unitLinks = await DB.Query($"SELECT unitLink FROM UnitProgress INNER JOIN UserData ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");
-        for (int i = 0; i < unitCompletionState.Length; i++)
-        {
-            int link = int.Parse(unitLinks[i]);
-            bool state = int.Parse(unitCompletionState[i]) != 0;
+                var getUnitCompletionStateCallback = new Action<string[]>((unitCompletionState) =>
+                {
+                    var getUnitLinkCallback = new System.Action<string[]>((unitLinks) =>
+                    {
+                        for (int i = 0; i < unitCompletionState.Length; i++)
+                        {
+                            int link = int.Parse(unitLinks[i]);
+                            bool state = int.Parse(unitCompletionState[i]) != 0;
 
-            UnitCompletionState[link] = state;
-        }
+                            UnitCompletionState[link] = state;
+                        }
+                    });
+
+                    DB.Instance.Query(getUnitLinkCallback, $"SELECT unitLink FROM UnitProgress INNER JOIN UserData ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");
+                });
+
+                DB.Instance.Query(getUnitCompletionStateCallback, $"SELECT isCompleted FROM UserData INNER JOIN UnitProgress ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");
+                
+            });
+
+            DB.Instance.Query(getAssignmentLinkCallback, $"SELECT assignmentLink FROM AssignmentProgress INNER JOIN UserData ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
+        });
+
+        DB.Instance.Query(getAssignmentCompletionStateCallback, $"SELECT isCompleted FROM UserData INNER JOIN AssignmentProgress ON UserData.userID = AssignmentProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY assignmentLink");
     }
 
     /// <summary>
     /// Loops through AssignmentCompletionState and UnitCompletionState arrays and sets the respective bool values in the DB
     /// </summary>
-    public async void UploadCompletionStates()
+    public void UploadCompletionStates()
     {
-        var updateTasks = new List<Awaitable<string[]>>();
-
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
-            updateTasks.Add(DB.Update(tableName: "UnitProgress", set: $"isCompleted={(UnitCompletionState[i] ? "1" : "0")}", predicate: $"unitLink={i}"));
+            DB.Instance.Update(null, tableName: "UnitProgress", set: $"isCompleted={(UnitCompletionState[i] ? "1" : "0")}", predicate: $"unitLink={i}");
         }
 
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            updateTasks.Add(DB.Update(tableName: "AssignmentProgress", set: $"isCompleted={(AssignmentCompletionState[i] ? "1" : "0")}", predicate: $"assignmentLink={i}"));
-        }
-
-        // Replacement for Task.WhenAll()
-        foreach (var task in updateTasks)
-        {
-            await task;
+            DB.Instance.Update(null, tableName: "AssignmentProgress", set: $"isCompleted={(AssignmentCompletionState[i] ? "1" : "0")}", predicate: $"assignmentLink={i}");
         }
     }
 

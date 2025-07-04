@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,54 +38,67 @@ public class LoginManager : MonoBehaviour
         _checkConnectionTimer = 0f;
     }
 
-    private async void TestConnection()
+    private void TestConnection()
     {
-        var testConnection = await DB.TestConnection();
-
-        if (Application.internetReachability == NetworkReachability.NotReachable || testConnection is null || !testConnection[0].Equals("0"))
+        var callback = new System.Action<string[]>((testConnection) =>
         {
-            _messageDisplay.text = testConnection[0];
+            if (Application.internetReachability == NetworkReachability.NotReachable || testConnection is null || !testConnection[0].Equals("0"))
+            {
+                _messageDisplay.text = testConnection[0];
 
-            _loginButton.interactable = false;
-            _registerButton.interactable = false;
-        }
-        else
-        {
-            _messageDisplay.text = "";
-            _loginButton.interactable = true;
-            _registerButton.interactable = true;
-        }
+                _loginButton.interactable = false;
+                _registerButton.interactable = false;
+            }
+            else
+            {
+                _messageDisplay.text = "";
+                _loginButton.interactable = true;
+                _registerButton.interactable = true;
+            }
+        });
+
+        DB.Instance.TestConnection(callback);
     }
 
-    public async void TrySubmitLogin(string username, string password)
+    public void TrySubmitLogin(string username, string password)
     {
         _messageDisplay.text = "Logging in...";
-        var passwordResult = await DB.Select(select: "password", from: "UserData", where: "username", predicate: username);
-        _messageDisplay.text = "Log in successful!";
 
-        // User could not be found
-        if (string.IsNullOrEmpty(passwordResult[0]))
+        var passwordCorrectCallback = new Action<string[]>((passwordResult) =>
         {
-            _messageDisplay.text = ErrorMessages.UserNotFoundError;
-            _usernameInput.image.color = Color.red;
-            return;
-        }
+            _messageDisplay.text = "Log in successful!";
 
-        // Wrong password
-        if (!passwordResult[0].Equals(password))
-        {
-            _messageDisplay.text = ErrorMessages.WrongPasswordError;
-            _passwordInput.image.color = Color.red;
-            return;
-        }
+            // User could not be found
+            if (string.IsNullOrEmpty(passwordResult[0]))
+            {
+                _messageDisplay.text = ErrorMessages.UserNotFoundError;
+                _usernameInput.image.color = Color.red;
+                return;
+            }
 
-        var userData = await GetUser(username);
-        CurrentUser.SetUser(userData);
+            // Wrong password
+            if (!passwordResult[0].Equals(password))
+            {
+                _messageDisplay.text = ErrorMessages.WrongPasswordError;
+                _passwordInput.image.color = Color.red;
+                return;
+            }
 
-        CompletionTracker.Instance.DownloadCompletionData();
+            var getUserCallback = new Action<UserData>((userData) =>
+            {
+                CurrentUser.SetUser(userData);
 
-        Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
-        SceneManager.LoadScene(1);
+                CompletionTracker.Instance.DownloadCompletionData();
+
+                Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
+                SceneManager.LoadScene(1);
+            });
+
+            GetUser(getUserCallback, username);
+            
+        });
+
+        DB.Instance.Select(passwordCorrectCallback, select: "password", from: "UserData", where: "username", predicate: username);
     }
 
     public void TrySubmitLogin() => TrySubmitLogin(_usernameInput.text, _passwordInput.text);
@@ -106,91 +120,115 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
-        var checkForDuplicateUsername = await DB.Select(select: "username", from: "UserData", where: "username", predicate: username);
-        if (checkForDuplicateUsername.Length > 0)
+        var checkForDuplicateUsernameCallback = new Action<string[]>((checkForDuplicateUsername) =>
         {
-            _messageDisplay.text = ErrorMessages.UserAlreadyExistsError;
-            return;
-        }
+            if (checkForDuplicateUsername.Length > 0)
+            {
+                _messageDisplay.text = ErrorMessages.UserAlreadyExistsError;
+                return;
+            }
 
-        // Insert new user to db
-        var insert = await DB.Insert(username, password, 0, 0);
+            // Add every progression data to user
+            var addProgressionDataCallback = new Action<string[]>((insert) =>
+            {
+                var addProgressionDataSuccessCallback = new Action<bool>((success) =>
+                {
+                    if (!success)
+                    {
+                        Debug.LogError("Could not add progression data!");
+                        return;
+                    }
 
-        // Add every progression data to user
-        bool success = await AddProgressionData(username);
-        if (!success)
-        {
-            Debug.LogError("Could not add progression data!");
-            return;
-        }
+                    TrySubmitLogin();
+                });
 
-        TrySubmitLogin();
+                AddProgressionData(addProgressionDataSuccessCallback, username);
+            });
+
+            // Insert new user to db
+            DB.Instance.Insert(addProgressionDataCallback, username, password, 0, 0);
+        });
+
+        DB.Instance.Select(checkForDuplicateUsernameCallback, select: "username", from: "UserData", where: "username", predicate: username);
+        
     }
 
-    private async Task<bool> AddProgressionData(string username)
+    private void AddProgressionData(Action<bool> callback, string username)
     {
-        var userIDRaw = await DB.Select(select: "userID", from: "UserData", where: "username", predicate: username);
-
-        if (userIDRaw.Length == 0)
+        var getUserIDCallback = new Action<string[]>((userIDRaw) =>
         {
-            string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", username);
-            Debug.LogError(errorMessage);
-            return false;
-        }
-
-        uint userID = uint.Parse(userIDRaw[0]);
-
-        var unitData = new uint[CompletionTracker.Instance.Units.Length][];
-        for (uint i = 0; i < CompletionTracker.Instance.Units.Length; i++)
-        {
-            unitData[i] = new uint[]
+            if (userIDRaw.Length == 0)
             {
+                string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", username);
+                Debug.LogError(errorMessage);
+                callback?.Invoke(false);
+                return;
+            }
+
+            uint userID = uint.Parse(userIDRaw[0]);
+
+            var unitData = new uint[CompletionTracker.Instance.Units.Length][];
+            for (uint i = 0; i < CompletionTracker.Instance.Units.Length; i++)
+            {
+                unitData[i] = new uint[]
+                {
                 i, // unitLink
                 0, // isCompleted
                 userID
-            };
-        }
+                };
+            }
 
-        var assignmentData = new uint[CompletionTracker.Instance.Assignments.Length][];
-        for (uint i = 0; i < CompletionTracker.Instance.Assignments.Length; i++)
-        {
-            assignmentData[i] = new uint[]
+            var assignmentData = new uint[CompletionTracker.Instance.Assignments.Length][];
+            for (uint i = 0; i < CompletionTracker.Instance.Assignments.Length; i++)
             {
+                assignmentData[i] = new uint[]
+                {
                 i, // assignmentLink
                 0, // isCompleted
                 userID
-            };
-        }
+                };
+            }
 
-        foreach (var item in unitData)
-        {
-            await DB.Insert(Table.UnitProgress, item[0], item[1], item[2]);
-        }
-        foreach (var item in assignmentData)
-        {
-            await DB.Insert(Table.AssignmentProgress, item[0], item[1], item[2]);
-        }
-
-        return true;
+            foreach (var item in unitData)
+            {
+                DB.Instance.Insert(null, Table.UnitProgress, item[0], item[1], item[2]);
+            }
+            foreach (var item in assignmentData)
+            {
+                DB.Instance.Insert(null, Table.AssignmentProgress, item[0], item[1], item[2]);
+            }
+        });
+        
+        DB.Instance.Select(getUserIDCallback, select: "userID", from: "UserData", where: "username", predicate: username);
+        callback?.Invoke(true);
     }
 
-    public async Task<UserData> GetUser(string username)
+    public void GetUser(Action<UserData> callback, string username)
     {
         const int coulumCount = 5;
 
-        var result = await DB.Select(select: "*", from: "UserData", where: "username", predicate: username);
+        var getUserCallback = new Action<string[]>((result) =>
+        {
+            if (result.Length > coulumCount)
+            {
+                Debug.LogError($"Multiple entires in DB found for {username}!");
+                callback?.Invoke(null);
+                return;
+            }
+            else if (result.Length < coulumCount)
+            {
+                Debug.LogError("Could not fetch complete data!");
+                callback?.Invoke(null);
+                return;
+            }
+            else
+            {
+                callback?.Invoke(new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4])));
+                return;
+            }
+        });
 
-        if (result.Length > coulumCount)
-        {
-            Debug.LogError($"Multiple entires in DB found for {username}!");
-            return null;
-        }
-        else if (result.Length < coulumCount)
-        {
-            Debug.LogError("Could not fetch complete data!");
-            return null;
-        }
-        else return new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4]));
+        DB.Instance.Select(getUserCallback, select: "*", from: "UserData", where: "username", predicate: username);
     }
 }
 

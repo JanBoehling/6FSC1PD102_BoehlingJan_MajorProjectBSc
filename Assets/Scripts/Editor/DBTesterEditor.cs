@@ -17,6 +17,14 @@ public class DBTesterEditor : Editor
 
     private string query;
 
+    private System.Action<string[]> _testCallback = new((response) =>
+    {
+        foreach (var item in response)
+        {
+            Debug.Log(item);
+        }
+    });
+
     public override void OnInspectorGUI()
     {
         if (GUILayout.Button("Test MySQL Connection")) TestConnection();
@@ -46,56 +54,37 @@ public class DBTesterEditor : Editor
         if (GUILayout.Button("QUERY")) TestQuery();
     }
 
-    private async void TestConnection()
+    private void TestConnection()
     {
         Cls();
 
-        var response = await DB.TestConnection();
-
-        foreach (var item in response)
-        {
-            Debug.Log(item);
-        }
+        DB.Instance.TestConnection(_testCallback);
     }
 
-    private async void TestGetUserData()
+    private void TestGetUserData()
     {
         Cls();
 
-        var response = (string.IsNullOrEmpty(where) || string.IsNullOrEmpty(predicate)) ? await DB.Select(select: select, from: from) : await DB.Select(select: select, from: from, where: where, predicate: predicate);
-
-        foreach (var item in response)
-        {
-            Debug.Log(item);
-        }
+        if (string.IsNullOrEmpty(where) || string.IsNullOrEmpty(predicate)) DB.Instance.Select(_testCallback, select: select, from: from);
+        else DB.Instance.Select(_testCallback, select: select, from: from, where: where, predicate: predicate);
     }
 
-    private async void TestInsertUserData()
+    private void TestInsertUserData()
     {
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || streak < 0 || xp < 0) return;
 
         Cls();
 
-        var response = await DB.Insert(username, password, (uint)streak, (uint)xp);
-
-        foreach (var item in response)
-        {
-            Debug.Log(item);
-        }
+        DB.Instance.Insert(_testCallback, username, password, (uint)streak, (uint)xp);
     }
 
-    private async void TestQuery()
+    private void TestQuery()
     {
         if (string.IsNullOrEmpty(query)) return;
 
         Cls();
-
-        var response = await DB.Query(query);
-
-        foreach (var item in response)
-        {
-            Debug.Log(item);
-        }
+        
+        DB.Instance.Query(_testCallback, query);
     }
 
     /// <summary>
