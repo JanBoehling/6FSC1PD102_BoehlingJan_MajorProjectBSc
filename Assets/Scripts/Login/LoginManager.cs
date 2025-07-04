@@ -43,7 +43,7 @@ public class LoginManager : MonoBehaviour
 
         if (Application.internetReachability == NetworkReachability.NotReachable || testConnection is null || !testConnection[0].Equals("0"))
         {
-            _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
+            _messageDisplay.text = testConnection[0];
 
             _loginButton.interactable = false;
             _registerButton.interactable = false;

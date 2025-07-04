@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
@@ -48,7 +47,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
     /// </summary>
     public async void UploadCompletionStates()
     {
-        var updateTasks = new List<Task<string[]>>();
+        var updateTasks = new List<Awaitable<string[]>>();
 
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
@@ -60,7 +59,11 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
             updateTasks.Add(DB.Update(tableName: "AssignmentProgress", set: $"isCompleted={(AssignmentCompletionState[i] ? "1" : "0")}", predicate: $"assignmentLink={i}"));
         }
 
-        await Task.WhenAll(updateTasks);
+        // Replacement for Task.WhenAll()
+        foreach (var task in updateTasks)
+        {
+            await task;
+        }
     }
 
     public void SetAssignmentCompletionState(uint id)
