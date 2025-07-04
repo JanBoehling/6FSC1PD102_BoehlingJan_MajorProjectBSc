@@ -103,7 +103,7 @@ public class LoginManager : MonoBehaviour
 
     public void TrySubmitLogin() => TrySubmitLogin(_usernameInput.text, _passwordInput.text);
 
-    public async void TryRegisterNewUser()
+    public void TryRegisterNewUser()
     {
         string username = _usernameInput.text;
         string password = _passwordInput.text;
@@ -209,13 +209,13 @@ public class LoginManager : MonoBehaviour
 
         var getUserCallback = new Action<string[]>((result) =>
         {
-            if (result.Length > coulumCount)
+            if (result.Length -1 > coulumCount)//-1 because of error code being passed as last element in array
             {
                 Debug.LogError($"Multiple entires in DB found for {username}!");
                 callback?.Invoke(null);
                 return;
             }
-            else if (result.Length < coulumCount)
+            else if (result.Length +1 < coulumCount)//+1 because of error code being passed as last element in array
             {
                 Debug.LogError("Could not fetch complete data!");
                 callback?.Invoke(null);

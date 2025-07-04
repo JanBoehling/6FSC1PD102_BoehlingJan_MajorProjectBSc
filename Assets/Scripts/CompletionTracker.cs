@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -19,11 +18,11 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
         UnitCompletionState = new bool[Units.Length];
     }
 
-    public async void DownloadCompletionData()
+    public void DownloadCompletionData()
     {
-        var getAssignmentCompletionStateCallback = new System.Action<string[]>((assignmentCompletionState) =>
+        var getAssignmentCompletionStateCallback = new Action<string[]>((assignmentCompletionState) =>
         {
-            var getAssignmentLinkCallback = new System.Action<string[]>((assignmentLinks) =>
+            var getAssignmentLinkCallback = new Action<string[]>((assignmentLinks) =>
             {
                 for (int i = 0; i < assignmentCompletionState.Length; i++)
                 {
@@ -35,7 +34,7 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
 
                 var getUnitCompletionStateCallback = new Action<string[]>((unitCompletionState) =>
                 {
-                    var getUnitLinkCallback = new System.Action<string[]>((unitLinks) =>
+                    var getUnitLinkCallback = new Action<string[]>((unitLinks) =>
                     {
                         for (int i = 0; i < unitCompletionState.Length; i++)
                         {
@@ -66,12 +65,12 @@ public class CompletionTracker : MonoSingleton<CompletionTracker>, IDisposable
     {
         for (int i = 0; i < UnitCompletionState.Length; i++)
         {
-            DB.Instance.Update(null, tableName: "UnitProgress", set: $"isCompleted={(UnitCompletionState[i] ? "1" : "0")}", predicate: $"unitLink={i}");
+            DB.Instance.UpdateQuery(null, tableName: "UnitProgress", set: $"isCompleted={(UnitCompletionState[i] ? "1" : "0")}", predicate: $"unitLink={i}");
         }
 
         for (int i = 0; i < AssignmentCompletionState.Length; i++)
         {
-            DB.Instance.Update(null, tableName: "AssignmentProgress", set: $"isCompleted={(AssignmentCompletionState[i] ? "1" : "0")}", predicate: $"assignmentLink={i}");
+            DB.Instance.UpdateQuery(null, tableName: "AssignmentProgress", set: $"isCompleted={(AssignmentCompletionState[i] ? "1" : "0")}", predicate: $"assignmentLink={i}");
         }
     }
 

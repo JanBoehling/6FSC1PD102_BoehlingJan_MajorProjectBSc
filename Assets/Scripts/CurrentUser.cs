@@ -22,23 +22,23 @@
             new (nameof(Data.XP), Data.XP.ToString())
         };
 
-        DB.Instance.Update(null, "UserData", userDataRaw);
+        DB.Instance.UpdateQuery(null, "UserData", userDataRaw);
     }
 
     public static void RaiseXP(uint value)
     {
         Data.XP += value;
-        DB.Instance.Update(null, "UserData", "XP", XP);
+        DB.Instance.UpdateQuery(null, "UserData", "XP", XP);
     }
     
     public static void RaiseStreak()
     {
         Data.Streak++;
-        DB.Instance.Update(null, "UserData", "Streak", Streak);
+        DB.Instance.UpdateQuery(null, "UserData", "Streak", Streak);
     }
     public static void ResetStreak()
     {
         Data.Streak = 0;
-        DB.Instance.Update(null, "UserData", "Streak", Streak);
+        DB.Instance.UpdateQuery(null, "UserData", "Streak", Streak);
     }
 }

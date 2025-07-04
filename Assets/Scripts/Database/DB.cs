@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 using UnityEngine.Networking;
 using Debug = UnityEngine.Debug;
 
@@ -13,6 +13,7 @@ public class DB : MonoSingleton<DB>
 {
     // Base request url
     private const string Url = "https://6fsc1pd102-boehlingjan-majorprojectbsc.de/";
+    //private const string Url = "https://localhost:3000/";
 
     // PHP File names (Can be found under Assets/PHP)
     private const string PhpTest = "testConnection.php";
@@ -114,7 +115,7 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
-    public void Update(Action<string[]> callback, string tableName, string column, string value, string where = "UserID", string predicate = null)
+    public void UpdateQuery(Action<string[]> callback, string tableName, string column, string value, string where = "UserID", string predicate = null)
     {
         predicate ??= CurrentUser.UserID.ToString();
 
@@ -122,7 +123,7 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
-    public void Update(Action<string[]> callback, string tableName, System.Collections.Generic.KeyValuePair<string, string>[] values, string where = "UserID", string predicate = null)
+    public void UpdateQuery(Action<string[]> callback, string tableName, System.Collections.Generic.KeyValuePair<string, string>[] values, string where = "UserID", string predicate = null)
     {
         predicate ??= CurrentUser.UserID.ToString();
 
@@ -137,7 +138,7 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
-    public void Update(Action<string[]> callback, string tableName, string set, string predicate)
+    public void UpdateQuery(Action<string[]> callback, string tableName, string set, string predicate)
     {
         string updateQuery = $"UPDATE {tableName} SET {set} WHERE userID={CurrentUser.UserID} AND {predicate}";
 
@@ -145,7 +146,7 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
-    public void Update(Action<string[]> callback, string tableName, string set, object value)
+    public void UpdateQuery(Action<string[]> callback, string tableName, string set, object value)
     {
         string updateQuery = $"UPDATE {tableName} SET {set}={value} WHERE userID={CurrentUser.UserID}";
 
@@ -172,7 +173,7 @@ public class DB : MonoSingleton<DB>
         yield return request?.SendWebRequest();
 
         var result = request.downloadHandler.text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
+        
         callback?.Invoke(result);
     }
 }
