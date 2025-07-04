@@ -58,7 +58,9 @@ public class LoginManager : MonoBehaviour
 
     public async void TrySubmitLogin(string username, string password)
     {
+        _messageDisplay.text = "Logging in...";
         var passwordResult = await DB.Select(select: "password", from: "UserData", where: "username", predicate: username);
+        _messageDisplay.text = "Log in successful!";
 
         // User could not be found
         if (string.IsNullOrEmpty(passwordResult[0]))
