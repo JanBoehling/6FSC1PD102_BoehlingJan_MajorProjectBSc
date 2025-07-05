@@ -52,17 +52,17 @@ public class VideoAssignmentController : MonoBehaviour
             Debug.LogWarning("Could not fetch video assignment data. Using debug video assignment instead.");
         }
 
-        StartVideo(assignmentData.Video);
+        StartVideo(assignmentData.VideoURL);
 
         _videoPlayer.prepareCompleted += PlayVideo;
     }
 
-    public void StartVideo(VideoClip clip)
+    public void StartVideo(string videoURL)
     {
         _videoPlayer.EnableAudioTrack(0, true);
         _videoPlayer.SetTargetAudioSource(0, _audioPlayer);
 
-        _videoPlayer.clip = clip;
+        _videoPlayer.url = videoURL;
         _videoPlayerImage.texture = _loadingVideoTexture;
 
         _videoPlayer.Prepare();

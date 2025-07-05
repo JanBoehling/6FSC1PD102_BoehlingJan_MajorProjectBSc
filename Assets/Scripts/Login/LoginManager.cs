@@ -40,11 +40,11 @@ public class LoginManager : MonoBehaviour
 
     private void TestConnection()
     {
-        var callback = new System.Action<string[]>((testConnection) =>
+        var callback = new Action<string[]>((testConnection) =>
         {
             if (Application.internetReachability == NetworkReachability.NotReachable || testConnection is null || !testConnection[0].Equals("0"))
             {
-                _messageDisplay.text = testConnection[0];
+                _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
 
                 _loginButton.interactable = false;
                 _registerButton.interactable = false;

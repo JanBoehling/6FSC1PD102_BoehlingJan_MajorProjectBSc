@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _assignmentSceneIndex: 3
   _uiPrefab: {fileID: 0}
-  <Video>k__BackingField: {fileID: 32900000, guid: 7e9c1bc2ce0e5fc4fb62f130a09f663d, type: 3}
+  <VideoURL>k__BackingField: https://6fsc1pd102-boehlingjan-majorprojectbsc.de/videos/Genetische
+    Codierung.mp4
+  <Duration>k__BackingField: 119
   <WatchtimePercentThreshold>k__BackingField: 0.9

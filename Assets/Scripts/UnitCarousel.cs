@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,11 +16,17 @@ public class UnitCarousel : MonoBehaviour
 
     [SerializeField] private UnityEvent _onChangeCurrentUnit;
 
+    [SerializeField] private UnityEngine.UI.Button _leftSwipeButton;
+    [SerializeField] private UnityEngine.UI.Button _rightSwipeButton;
+
     private Coroutine _currentAnimation;
 
     public int UnitIndex => Mathf.RoundToInt(_unitPosition);
 
     private static UnitCarousel _instance;
+
+    private Func<bool> pageLeftMovePredicate;
+    private Func<bool> pageRightMovePredicate;
 
     public static UnitCarousel GetUnitCarousel()
     {
@@ -38,6 +45,17 @@ public class UnitCarousel : MonoBehaviour
         return null;
     }
 
+    private void Awake()
+    {
+        pageLeftMovePredicate = () => UnitIndex > 0;
+        pageRightMovePredicate = () => UnitIndex < transform.childCount - 1;
+    }
+
+    private void Start()
+    {
+        UpdateInteractivity();
+    }
+
     private void OnValidate()
     {
         _unitPosition = Mathf.Clamp(_unitPosition, 0f, transform.childCount - 1f);
@@ -48,6 +66,12 @@ public class UnitCarousel : MonoBehaviour
     private void Update()
     {
         MoveCarousel();
+    }
+
+    private void UpdateInteractivity()
+    {
+        _leftSwipeButton.interactable = pageLeftMovePredicate.Invoke();
+        _rightSwipeButton.interactable = pageRightMovePredicate.Invoke();
     }
 
     private void MoveCarousel()
@@ -90,6 +114,8 @@ public class UnitCarousel : MonoBehaviour
         _unitPosition = targetPos;
 
         _currentAnimation = null;
+
+        UpdateInteractivity();
 
         _onChangeCurrentUnit?.Invoke();
     }

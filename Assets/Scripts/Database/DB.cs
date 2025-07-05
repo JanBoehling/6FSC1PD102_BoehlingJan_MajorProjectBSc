@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine.Networking;
 using Debug = UnityEngine.Debug;
@@ -12,8 +11,7 @@ using Debug = UnityEngine.Debug;
 public class DB : MonoSingleton<DB>
 {
     // Base request url
-    private const string Url = "https://6fsc1pd102-boehlingjan-majorprojectbsc.de/";
-    //private const string Url = "https://localhost:3000/";
+    private const string Url = "https://6fsc1pd102-boehlingjan-majorprojectbsc.de/php/";
 
     // PHP File names (Can be found under Assets/PHP)
     private const string PhpTest = "testConnection.php";
