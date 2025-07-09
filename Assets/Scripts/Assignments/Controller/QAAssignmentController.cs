@@ -33,7 +33,7 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
         {
             var item = questions[i];
 
-            var quizUI = Instantiate(_quizPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0));
+            var quizUI = Instantiate(_quizPrefab, transform.position + i * ((RectTransform)transform.parent).rect.width * Vector3.right, Quaternion.Euler(0, 0, 0));
             quizUI.transform.SetParent(transform, false);
             quizUI.Init(item, _assignmentID);
             _loadedQuestions.Add(quizUI, false);
@@ -76,13 +76,11 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
             _continueButton.onClick = new();
 
             _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = "Alles gelernt!";
-            //_endMilestoneButton.onClick = new();
-            //_endMilestoneButton.onClick.AddListener(OnEndMilestone);
         }
     }
 
     /// <summary>
-    /// Marks the milestone as completed, if the video has been watched to a given watch time threshold.
+    /// Marks the milestone as completed, if the assignment has been completed.
     /// </summary>
     public void FinishAssignment()
     {
