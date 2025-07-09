@@ -19,10 +19,10 @@ MonoBehaviour:
     QuestionSprite: {fileID: 0}
     Answers:
     - AnswerText: This is not correct
-      AnswerSprite: {fileID: 0}
+      AnswerSprite: {fileID: 21300000, guid: f2c2125dc8dcb30418df53da6eb710c3, type: 3}
       IsCorrect: 0
     - AnswerText: But this is correct!
-      AnswerSprite: {fileID: 0}
+      AnswerSprite: {fileID: 21300000, guid: 47653973c609fab44a9e9cb59d85b39e, type: 3}
       IsCorrect: 1
     - AnswerText: This is also not correct
       AnswerSprite: {fileID: 0}

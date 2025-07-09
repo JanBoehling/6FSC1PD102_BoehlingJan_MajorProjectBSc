@@ -5,7 +5,7 @@ using UnityEngine;
 public class QuizCard : MonoBehaviour
 {
     [SerializeField] private TMP_Text _questionText;
-    [SerializeField] private SpriteToTextureConverter _questionImageLoader;
+    [SerializeField] private ImageLoader _questionImageLoader;
     [SerializeField] private Transform _answerContainer;
 
     private readonly List<AnswerUI> _answerButtons = new();

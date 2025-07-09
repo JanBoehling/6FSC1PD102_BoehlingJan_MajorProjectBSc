@@ -10,7 +10,7 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
     public int Index { get; private set; }
 
     private TMP_Text _answerText;
-    private SpriteToTextureConverter _answerImage;
+    private ImageLoader _answerImage;
     private QuizCard _quizAssignmentController;
     private Image _backgroundImage;
     private Color _backgroundBaseColor;
@@ -18,7 +18,7 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         _answerText = GetComponentInChildren<TMP_Text>();
-        _answerImage = GetComponentInChildren<SpriteToTextureConverter>();
+        _answerImage = GetComponentInChildren<ImageLoader>();
         _backgroundImage = GetComponent<Image>();
         _backgroundBaseColor = _backgroundImage.color;
         _quizAssignmentController = transform.parent.GetComponentInParent<QuizCard>();

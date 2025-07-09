@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class QAAssignmentController : AssignmentController<QAAssignment>
 {
@@ -12,9 +13,11 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
     [SerializeField] private Button _sendAnswerButton;
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _endMilestoneButton;
+    [Space]
+    [SerializeField] private RectTransform _quitMessageContainer;
 
     private PageMoveController _pages;
-    private readonly List<QuizCard> _loadedAssignments = new();
+    private Dictionary<QuizCard, bool> _loadedQuestions = new();
 
     protected override void Awake()
     {
@@ -33,14 +36,13 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
             var quizUI = Instantiate(_quizPrefab, transform.position + i * Screen.width * Vector3.right, Quaternion.Euler(0, 0, 0));
             quizUI.transform.SetParent(transform, false);
             quizUI.Init(item, _assignmentID);
-            _loadedAssignments.Add(quizUI);
+            _loadedQuestions.Add(quizUI, false);
         }
     }
 
     public void CheckAnswer()
     {
-        var currentAssignment = _loadedAssignments[_pages.CurrentPage];
-        var answerButtons = currentAssignment.AnswerButtons;
+        var answerButtons = _loadedQuestions.ElementAt(_pages.CurrentPage).Key.AnswerButtons;
 
         var correctAnswers = new List<int>();
         var selectedAnswers = new List<int>();
@@ -56,7 +58,7 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
         bool isSelectionCorrect = correctAnswers.SequenceEqual(selectedAnswers);
         if (isSelectionCorrect)
         {
-            CompletionTracker.Instance.SetAssignmentCompletionState(currentAssignment.AssignmentID);
+            _loadedQuestions[_loadedQuestions.ElementAt(_pages.CurrentPage).Key] = true;
 
             OnCorrectAnswer();
         }
@@ -69,12 +71,37 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
         _continueButton.gameObject.SetActive(true);
 
         // If last page, override continue button action with back to menu
-        if (_pages.CurrentPage >= _loadedAssignments.Count - 1)
+        if (_pages.CurrentPage >= _loadedQuestions.Count - 1)
         {
-            _continueButton.GetComponentInChildren<TMP_Text>().text = "Und wieder zurück!";
             _continueButton.onClick = new();
-            _continueButton.onClick.AddListener(OnEndMilestone);
-            _continueButton.gameObject.SetActive(true);
+
+            _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = "Alles gelernt!";
+            //_endMilestoneButton.onClick = new();
+            //_endMilestoneButton.onClick.AddListener(OnEndMilestone);
+        }
+    }
+
+    /// <summary>
+    /// Marks the milestone as completed, if the video has been watched to a given watch time threshold.
+    /// </summary>
+    public void FinishAssignment()
+    {
+        foreach (var item in _loadedQuestions)
+        {
+            Debug.Log($"{item.Key.name}: {item.Value}");
+        }
+        
+        if (!_loadedQuestions.ContainsValue(false))
+        {
+            _confettiCanon.Play();
+            CompletionTracker.Instance.SetAssignmentCompletionState(_assignmentID);
+            _endMilestoneButton.image.color = Color.green;
+            _endMilestoneButton.onClick = new();
+            _endMilestoneButton.onClick.AddListener(OnEndMilestone);
+        }
+        else
+        {
+            _quitMessageContainer.gameObject.SetActive(true);
         }
     }
 
@@ -102,4 +129,6 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
+
+    public void ReturnToMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 }

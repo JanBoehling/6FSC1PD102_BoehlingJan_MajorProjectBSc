@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,8 +26,9 @@ public class ProgressController : MonoBehaviour
         _unitCarousel = UnitCarousel.GetUnitCarousel();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null; // When start is called instantly, the progress bars will not update
         UpdateProgressDisplay();
     }
 
@@ -82,9 +84,9 @@ public class ProgressController : MonoBehaviour
         float total = MathF.Round(x, 2);
 
         return (
-            videoCount == 0 ? 1 : MathF.Round(completedVideos / videoCount, 2),
-            assignmentCount == 0 ? 1 : MathF.Round(completedMilestones / assignmentCount, 2),
+            videoCount == 0 ? 1 : MathF.Round((float)completedVideos / videoCount, 2),
+            assignmentCount == 0 ? 1 : MathF.Round((float)completedMilestones / assignmentCount, 2),
             total
-            );
+        );
     }
 }
