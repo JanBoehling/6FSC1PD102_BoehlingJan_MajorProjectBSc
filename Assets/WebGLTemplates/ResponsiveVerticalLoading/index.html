@@ -13,7 +13,7 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop" width={{{ WIDTH }}} height={{{ HEIGHT }}} style="width: auto; height: window.innerHeight; background: {{{ BACKGROUND_FILENAME ? 'url(\'Build/' + BACKGROUND_FILENAME.replace(/'/g, '%27') + '\') center / cover' : BACKGROUND_COLOR }}}; aspect-ratio: 9/19.5;">
-      <canvas id="unity-canvas" width=100% height=100%></canvas>
+      <canvas id="unity-canvas" style="width: 100%; height: 100%;"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
