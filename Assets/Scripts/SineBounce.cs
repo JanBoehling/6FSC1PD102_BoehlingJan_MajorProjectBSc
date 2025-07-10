@@ -10,15 +10,9 @@ public class SineBounce : MonoBehaviour
 
     private Vector3 _basePosition;
 
-    private void Start()
-    {
-        _basePosition = transform.localPosition;
-    }
+    private void Update() => LerpPosition(_basePosition - _offset, _basePosition + _offset);
 
-    private void Update()
-    {
-        LerpPosition(_basePosition - _offset, _basePosition + _offset);
-    }
+    public void Init() => _basePosition = transform.localPosition;
 
     /// <summary>
     /// Lerps the position of the game object between min and max in a sine movement

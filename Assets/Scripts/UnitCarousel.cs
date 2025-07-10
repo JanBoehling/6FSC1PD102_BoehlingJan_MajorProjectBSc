@@ -10,6 +10,7 @@ public class UnitCarousel : MonoBehaviour
 
     [Tooltip("This value should correspond to the spacing of the unit objects in the world")]
     [SerializeField] private float _spacing = 2f;
+    private float _screenWidth;
 
     [Tooltip("The speed of the swipe animation")]
     [SerializeField] private float _animationSpeed = 1f;
@@ -49,10 +50,26 @@ public class UnitCarousel : MonoBehaviour
     {
         pageLeftMovePredicate = () => UnitIndex > 0;
         pageRightMovePredicate = () => UnitIndex < transform.childCount - 1;
+
+        _screenWidth = Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x;
+        Debug.Log(_screenWidth);
     }
 
     private void Start()
     {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var offset = i * transform.localScale.x * -_screenWidth;
+            transform.GetChild(i).position = new(offset, transform.position.y, -offset);
+
+            // Activate animation
+            if (transform.GetChild(i).TryGetComponent<SineBounce>(out var sineBounce))
+            {
+                sineBounce.Init();
+            }
+        }
+
+
         UpdateInteractivity();
     }
 
@@ -77,8 +94,8 @@ public class UnitCarousel : MonoBehaviour
     private void MoveCarousel()
     {
         var pos = transform.position;
-        pos.x = -_unitPosition * transform.localScale.x * _spacing;
-        pos.z = _unitPosition * transform.localScale.x * _spacing;
+        pos.x = -_unitPosition * transform.localScale.x * -_screenWidth;
+        pos.z = _unitPosition * transform.localScale.x * -_screenWidth;
         transform.position = pos;
     }
 

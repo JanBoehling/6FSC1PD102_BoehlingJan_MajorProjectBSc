@@ -504,7 +504,6 @@ GameObject:
   - component: {fileID: 118933925}
   - component: {fileID: 118933924}
   - component: {fileID: 118933928}
-  - component: {fileID: 118933929}
   - component: {fileID: 118933930}
   m_Layer: 0
   m_Name: Unit 1 - The Cell
@@ -616,21 +615,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bounceSpeed: 2
   _offset: {x: 0, y: 0.05, z: 0}
---- !u!114 &118933929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118933923}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90e69ac0982291643aa1e79d9a5c4466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _zoomAnimationSpeed: 0.5
-  _zoomedPosition: {x: 0, y: -2, z: 0}
-  _zoomedScale: {x: 4, y: 4, z: 4}
 --- !u!114 &118933930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2793,7 +2777,7 @@ Transform:
   m_GameObject: {fileID: 713352735}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: -0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
