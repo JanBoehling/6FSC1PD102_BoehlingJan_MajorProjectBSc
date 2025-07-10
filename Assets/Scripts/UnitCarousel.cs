@@ -51,7 +51,7 @@ public class UnitCarousel : MonoBehaviour
         pageLeftMovePredicate = () => UnitIndex > 0;
         pageRightMovePredicate = () => UnitIndex < transform.childCount - 1;
 
-        _screenWidth = Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x;
+        _screenWidth = Mathf.Abs(Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x);
         Debug.Log(_screenWidth);
     }
 
@@ -59,7 +59,7 @@ public class UnitCarousel : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            var offset = i * transform.localScale.x * -_screenWidth;
+            var offset = i * transform.localScale.x * _screenWidth;
             transform.GetChild(i).position = new(offset, transform.position.y, -offset);
 
             // Activate animation
@@ -94,8 +94,8 @@ public class UnitCarousel : MonoBehaviour
     private void MoveCarousel()
     {
         var pos = transform.position;
-        pos.x = -_unitPosition * transform.localScale.x * -_screenWidth;
-        pos.z = _unitPosition * transform.localScale.x * -_screenWidth;
+        pos.x = -_unitPosition * transform.localScale.x * _screenWidth;
+        pos.z = _unitPosition * transform.localScale.x * _screenWidth;
         transform.position = pos;
     }
 
