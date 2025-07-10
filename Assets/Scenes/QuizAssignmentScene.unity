@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Video beenden
+  m_text: Aufgabe beenden
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86f513f066107974a851d5660c06f554, type: 2}
   m_sharedMaterial: {fileID: 9219767483038771804, guid: 86f513f066107974a851d5660c06f554, type: 2}
