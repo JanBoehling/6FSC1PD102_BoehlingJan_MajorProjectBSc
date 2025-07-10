@@ -13,10 +13,4 @@ MonoBehaviour:
   m_Name: 0 - Coming Soon
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Coming Soon!
-  <Milestones>k__BackingField:
-  - Title: 
-    Notes: 
-    Icon: {fileID: 0}
-    XP: 0
-    Assignments: 04000000
-    CompletionPercentThreshold: 0
+  <Milestones>k__BackingField: []
