@@ -52,7 +52,6 @@ public class UnitCarousel : MonoBehaviour
         pageRightMovePredicate = () => UnitIndex < transform.childCount - 1;
 
         _screenWidth = Mathf.Abs(Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x);
-        Debug.Log(_screenWidth);
     }
 
     private void Start()

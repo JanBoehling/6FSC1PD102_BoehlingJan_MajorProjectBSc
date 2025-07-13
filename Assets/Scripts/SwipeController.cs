@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class SwipeController : MonoBehaviour, IDragHandler, IEndDragHandler, IInitializePotentialDragHandler
+public class SwipeController : MonoBehaviour, IDragHandler, IEndDragHandler, IInitializePotentialDragHandler, IPointerClickHandler
 {
-    [Tooltip("This event is called when the user lifts his finger after a swipe")]
+    [Tooltip("This event is invoked when the user lifts his finger after a swipe")]
     [SerializeField] private UnityEvent<float> _onDragEndEventHandler;
+
+    [Tooltip("This event is invoked when the user clicks or taps")]
+    [SerializeField] private UnityEvent _onClickEventHandler;
 
     public UnityEvent<float> OnDragEndEventHandler => _onDragEndEventHandler;
 
@@ -21,5 +24,11 @@ public class SwipeController : MonoBehaviour, IDragHandler, IEndDragHandler, IIn
     public void OnEndDrag(PointerEventData eventData)
     {
         _onDragEndEventHandler?.Invoke(-Mathf.Sign(eventData.delta.x));
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("a");
+        _onClickEventHandler?.Invoke();
     }
 }
