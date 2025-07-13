@@ -13,6 +13,7 @@ public class StreakManager : MonoBehaviour
     public uint DayStreak => CurrentUser.Streak;
 
     [SerializeField] private TMP_Text _streakText;
+    [SerializeField] private TMP_Text _streakDayText;
 
     [SerializeField, Tooltip("Use %s as a placeholder for the streak.")] private string[] _streakMessages;
     [SerializeField, Tooltip("Use %s as a placeholder for the streak.")] private CustomStreakMessage[] _customStreakMessages;
@@ -66,6 +67,8 @@ public class StreakManager : MonoBehaviour
         message = message.Replace(StreakNumberPlaceholder, DayStreak.ToString());
 
         _streakText.text = message;
+
+        _streakDayText.text = DayStreak.ToString();
     }
 
     public void OverrideLastRefreshDate(DateTime date) => _lastStreakRefresh = date;
