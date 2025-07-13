@@ -104,6 +104,8 @@ public class MyCustomEditor<T> : Editor where T : Object
     {
         foreach (var editorToDraw in editorsToDraw)
         {
+            if (editorToDraw == null) continue;
+
             int index;
 
             if (foldouts.Contains(editorToDraw))
