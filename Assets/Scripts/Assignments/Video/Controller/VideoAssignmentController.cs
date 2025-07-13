@@ -69,29 +69,6 @@ public class VideoAssignmentController : MonoBehaviour
     }
 
     /// <summary>
-    /// Toggles fullscreen mode for video on tap on the video
-    /// </summary>
-    [Obsolete("This method is obsolete because in the future there will only be portrat videos")]
-    public void ToggleFullscreen()
-    {
-        _isFullscreen = !_isFullscreen;
-
-        // Rotates the orientation of the device
-        Screen.orientation = _isFullscreen ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
-
-        // Switches from render texture to camera screen
-        _videoPlayer.renderMode = _isFullscreen ? VideoRenderMode.CameraNearPlane : VideoRenderMode.RenderTexture;
-
-        // Disables or enables the render texture view
-        _videoPlayerImage.gameObject.SetActive(!_isFullscreen);
-
-        // Moves the video control bar
-        _videoControlsContainer.offsetMin = new Vector2(_isFullscreen ? 0f : 50f, _videoControlsContainer.offsetMin.y);
-        _videoControlsContainer.offsetMax = new Vector2(_isFullscreen ? 0f : 50f, _videoControlsContainer.offsetMax.y);
-        _videoControlsContainer.anchoredPosition = new Vector2(_videoControlsContainer.anchoredPosition.x, _isFullscreen ? 0f : 280f);
-    }
-
-    /// <summary>
     /// Marks the milestone as completed, if the video has been watched to a given watch time threshold.
     /// </summary>
     public void FinishAssignment()
@@ -172,10 +149,6 @@ public class VideoAssignmentControllerEditor : Editor
         base.OnInspectorGUI();
 
         if (!Application.isPlaying) return;
-
-        // Toggle fullscreen
-        EditorGUILayout.Space();
-        if (GUILayout.Button("Toggle Fullscreen")) _assignmentController.ToggleFullscreen();
 
         // Displays the current watchtime and the duration of the video
         EditorGUILayout.Space();
