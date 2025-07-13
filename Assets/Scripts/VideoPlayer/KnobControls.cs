@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class KnobControls : VideoControls, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class KnobControls : VideoControlsBase, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     private RectTransform _knob;
     private RectTransform _barParent;

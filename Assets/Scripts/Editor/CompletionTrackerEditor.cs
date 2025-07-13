@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 
-[CustomEditor(typeof(CompletionTracker))]
-public class CompletionTrackerEditor : MyCustomEditor<CompletionTracker>
+[CustomEditor(typeof(UnitAndAssignmentManager))]
+public class CompletionTrackerEditor : MyCustomEditor<UnitAndAssignmentManager>
 {
     public override void OnInspectorGUI()
     {

@@ -21,7 +21,7 @@ public class Milestone
 
             foreach (var assignmentID in Assignments)
             {
-                if (CompletionTracker.Instance.GetAssignmentCompletionState(assignmentID)) completedAssignments++;
+                if (UnitAndAssignmentManager.Instance.GetAssignmentCompletionState(assignmentID)) completedAssignments++;
             }
 
             return completedAssignments;

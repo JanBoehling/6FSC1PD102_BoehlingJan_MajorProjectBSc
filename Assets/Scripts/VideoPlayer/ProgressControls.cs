@@ -1,7 +1,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ProgressControls : VideoControls, IPointerDownHandler
+public class ProgressControls : VideoControlsBase, IPointerDownHandler
 {
     protected override void Awake()
     {
