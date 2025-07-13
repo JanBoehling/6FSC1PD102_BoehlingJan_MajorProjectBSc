@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Multiplayer.Center.Common;
 using UnityEngine;
 
 public class QuizCard : MonoBehaviour
@@ -13,7 +14,7 @@ public class QuizCard : MonoBehaviour
 
     public uint AssignmentID { get; private set; }
 
-    public void Init(Question question, uint assignmentID)
+    public void Init(AnswerUI answerUIPrefab, Question question, uint assignmentID)
     {
         _questionText.text = question.QuestionText;
         _questionImageLoader.LoadImage(question.QuestionSprite);
@@ -24,7 +25,6 @@ public class QuizCard : MonoBehaviour
         {
             var answer = answers[i];
 
-            var answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/Answer");
             var answerUI = Instantiate(answerUIPrefab, _answerContainer);
             answerUI.Init(answer.AnswerText, answer.AnswerSprite, answer.IsCorrect, i);
             _answerButtons.Add(answerUI);

@@ -29,13 +29,15 @@ public class QAAssignmentController : AssignmentController<QAAssignment>
     {
         var questions = AssignmentData.ShuffleArray(_assignmentData.Questions);
 
+        var answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/QAAssignment/Answer");
+
         for (int i = 0; i < questions.Length; i++)
         {
             var item = questions[i];
 
             var quizUI = Instantiate(_quizPrefab, transform.position + i * ((RectTransform)transform.parent).rect.width * Vector3.right, Quaternion.Euler(0, 0, 0));
             quizUI.transform.SetParent(transform, false);
-            quizUI.Init(item, _assignmentID);
+            quizUI.Init(answerUIPrefab, item, _assignmentID);
             _loadedQuestions.Add(quizUI, false);
         }
     }
