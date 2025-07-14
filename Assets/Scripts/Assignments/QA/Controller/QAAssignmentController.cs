@@ -13,7 +13,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _endMilestoneButton;
     [Space]
-    [SerializeField] private RectTransform _quitMessageContainer;
+    [SerializeField] private QAQuitMessageController _quitMessageContainer;
 
     private PageMoveController _pages;
 
@@ -21,6 +21,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     private readonly List<AnswerUI> _answerInteractables = new();
     private List<Selectable> _uiInteractables;
+
+    private bool _isDone;
 
     protected override void Awake()
     {
@@ -104,6 +106,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
             _continueButton.onClick = new();
 
             _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = "Alles gelernt!";
+
+            _isDone = true;
         }
     }
 
@@ -112,11 +116,6 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     /// </summary>
     public void FinishAssignment()
     {
-        foreach (var item in _loadedQuestions)
-        {
-            Debug.Log($"{item.Key.name}: {item.Value}");
-        }
-        
         if (!_loadedQuestions.ContainsValue(false))
         {
             _confettiCanon.Play();
@@ -127,6 +126,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         }
         else
         {
+            _quitMessageContainer.SelectMessageOnEnable(_isDone ? QAAbortMessage.OnAssignmentFailiure : QAAbortMessage.Abort);
             _quitMessageContainer.gameObject.SetActive(true);
         }
     }
