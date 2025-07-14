@@ -44,6 +44,4 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
     {
         gameObject.SetActive(!gameObject.activeInHierarchy);
     }
-
-    
 }
