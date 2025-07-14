@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,6 +12,9 @@ public class PageMoveController : MonoSingleton<PageMoveController>
 {
     [SerializeField] private float _animationDuration = 1f;
     [SerializeField] private AnimationCurve _pageMoveAnimationCurve;
+
+    public Action OnMoveAnimationBeginAction { get; set; }
+    public Action OnMoveAnimationFinishedAction { get; set; }
 
     private int _pageAmount = 0;
 
@@ -40,6 +45,8 @@ public class PageMoveController : MonoSingleton<PageMoveController>
 
     private IEnumerator MovePageCO()
     {
+        OnMoveAnimationBeginAction?.Invoke();
+
         var priorPos = transform.localPosition;
         var targetPos = priorPos + ((RectTransform)transform.parent).rect.width * Vector3.left;
 
@@ -58,6 +65,8 @@ public class PageMoveController : MonoSingleton<PageMoveController>
         }
 
         transform.localPosition = targetPos;
+
+        OnMoveAnimationFinishedAction?.Invoke();
 
         _pageMoveAnimation = null;
     }

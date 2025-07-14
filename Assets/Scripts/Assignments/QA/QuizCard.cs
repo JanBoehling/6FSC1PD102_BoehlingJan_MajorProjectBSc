@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class QuizCard : MonoBehaviour
 
     public uint AssignmentID { get; private set; }
 
-    public void Init(AnswerUI answerUIPrefab, Question question, uint assignmentID)
+    public void Init(AnswerUI answerUIPrefab, Question question, uint assignmentID, out List<AnswerUI> selectables)
     {
         _questionText.text = question.QuestionText;
         _questionImageLoader.LoadImage(question.QuestionSprite);
@@ -28,6 +29,8 @@ public class QuizCard : MonoBehaviour
             answerUI.Init(answer.AnswerText, answer.AnswerSprite, answer.IsCorrect, i);
             _answerButtons.Add(answerUI);
         }
+
+        selectables = _answerButtons;
 
         AssignmentID = assignmentID;
     }

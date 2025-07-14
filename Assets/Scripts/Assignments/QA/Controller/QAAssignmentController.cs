@@ -4,7 +4,6 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 {
@@ -17,7 +16,11 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private RectTransform _quitMessageContainer;
 
     private PageMoveController _pages;
-    private Dictionary<QuizCard, bool> _loadedQuestions = new();
+
+    private readonly Dictionary<QuizCard, bool> _loadedQuestions = new();
+
+    private readonly List<AnswerUI> _answerInteractables = new();
+    private List<Selectable> _uiInteractables;
 
     protected override void Awake()
     {
@@ -37,13 +40,36 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
             var quizUI = Instantiate(_quizPrefab, transform.position + i * ((RectTransform)transform.parent).rect.width * Vector3.right, Quaternion.Euler(0, 0, 0));
             quizUI.transform.SetParent(transform, false);
-            quizUI.Init(answerUIPrefab, item, _assignmentID);
+            quizUI.Init(answerUIPrefab, item, _assignmentID, out var selectables);
+
+            _answerInteractables.AddRange(selectables);
             _loadedQuestions.Add(quizUI, false);
         }
+
+        _uiInteractables = FindObjectsByType<Selectable>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
+
+        _pages.OnMoveAnimationBeginAction = DeactivateInteractables;
+        _pages.OnMoveAnimationFinishedAction = ActivateInteractables;
     }
+
+    private void ActivateInteractables()
+    {
+        ToggleAnswerButtons(true);
+        _uiInteractables.ForEach(interactable => interactable.interactable = true);
+    }
+
+    private void DeactivateInteractables()
+    {
+        ToggleAnswerButtons(false);
+        _uiInteractables.ForEach(interactable => interactable.interactable = false);
+    }
+
+    private void ToggleAnswerButtons(bool isInteractable) => _answerInteractables.ForEach(interactable => interactable.IsInteractable = isInteractable);
 
     public void CheckAnswer()
     {
+        ToggleAnswerButtons(false);
+
         var answerButtons = _loadedQuestions.ElementAt(_pages.CurrentPage).Key.AnswerButtons;
 
         var correctAnswers = new List<int>();

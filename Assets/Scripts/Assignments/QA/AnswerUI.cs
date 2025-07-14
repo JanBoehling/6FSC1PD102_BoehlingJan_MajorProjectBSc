@@ -7,6 +7,7 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
 {
     public bool IsCorrect { get; private set; }
     public bool IsSelected { get; private set; }
+    public bool IsInteractable { get; set; } = true;
     public int Index { get; private set; }
 
     private TMP_Text _answerText;
@@ -54,6 +55,8 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!IsInteractable) return;
+
         ToggleSelection();
     }
 }
