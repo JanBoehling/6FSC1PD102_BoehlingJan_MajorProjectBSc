@@ -5,6 +5,8 @@ using UnityEngine;
 public class UnitData : ScriptableObject
 {
     [field: SerializeField] public string Title { get; private set; }
+    
+    [field: SerializeField] public RectTransform DetailsPrefab { get; private set; }
 
     [field: SerializeField] public List<Milestone> Milestones { get; private set; }
 }
