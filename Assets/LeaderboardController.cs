@@ -22,7 +22,7 @@ public class LeaderboardController : MonoBehaviour
 
         // Structure raw data into entries
         int i = 0;
-        for (int j = 0; i < entriesRaw.Length; j += 2)
+        for (int j = 0; j < entriesRaw.Length; j += 2)
         {
             // No more entries
             if (string.IsNullOrWhiteSpace(entriesRaw[j])) break;
