@@ -1,6 +1,5 @@
-using System.Linq;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class LeaderboardController : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class LeaderboardController : MonoBehaviour
     // Start
     private void OnEnable()
     {
-        DB.Instance.Query(ShowEntries, "SELECT username, XP FROM UserData ORDER BY XP DESC");
+        DB.Instance.Query(ShowEntries, "SELECT username, XP FROM UserData WHERE XP > 0 ORDER BY XP DESC");
     }
 
     private void ShowEntries(string[] entriesRaw)
