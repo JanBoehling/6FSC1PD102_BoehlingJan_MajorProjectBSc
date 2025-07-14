@@ -21,6 +21,9 @@ public class ProgressController : MonoBehaviour
 
     private UnitCarousel _unitCarousel;
 
+    // This is a number between 0f and 1f and represents the default percentage, when a unit has no milestones (i.e. Coming Soon Unit)
+    private const float DefaultPercentageWhenEmpty = 0f;
+
     private void Awake()
     {
         _unitCarousel = UnitCarousel.GetUnitCarousel();
@@ -53,7 +56,7 @@ public class ProgressController : MonoBehaviour
         var milestones = currentUnitData.Milestones;
         int milestoneCount = milestones.Count;
 
-        if (milestoneCount == 0) return (1f, 1f, 1f);
+        if (milestoneCount == 0) return (DefaultPercentageWhenEmpty, DefaultPercentageWhenEmpty, DefaultPercentageWhenEmpty);
 
         int completedVideos = 0;
         int completedMilestones = 0;
