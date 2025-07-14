@@ -69,7 +69,7 @@ public class LoginManager : MonoBehaviour
             _messageDisplay.text = "Log in successful!";
 
             // User could not be found
-            if (string.IsNullOrEmpty(passwordResult[0]))
+            if (string.IsNullOrWhiteSpace(passwordResult[0]))
             {
                 _messageDisplay.text = ErrorMessages.UserNotFoundError;
                 _usernameInput.image.color = Color.red;
