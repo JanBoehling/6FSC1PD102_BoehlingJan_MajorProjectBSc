@@ -28,7 +28,6 @@ public class SwipeController : MonoBehaviour, IDragHandler, IEndDragHandler, IIn
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("a");
         _onClickEventHandler?.Invoke();
     }
 }
