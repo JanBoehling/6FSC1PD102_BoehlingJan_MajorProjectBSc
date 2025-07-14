@@ -12,7 +12,11 @@ public class ImageLoader : MonoBehaviour
 
     public void LoadImage(Sprite sprite)
     {
-        if (!sprite) return;
+        if (!sprite)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
         if (imgComponent is Image image)
         {
