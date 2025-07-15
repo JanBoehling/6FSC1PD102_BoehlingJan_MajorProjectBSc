@@ -70,6 +70,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     public void CheckAnswer()
     {
+        if (_pages.CurrentPage < 0) return;
+
         ToggleAnswerButtons(false);
 
         var answerButtons = _loadedQuestions.ElementAt(_pages.CurrentPage).Key.AnswerButtons;

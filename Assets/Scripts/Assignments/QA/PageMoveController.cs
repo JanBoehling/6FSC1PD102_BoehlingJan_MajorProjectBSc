@@ -10,7 +10,7 @@ using UnityEditor;
 
 public class PageMoveController : MonoSingleton<PageMoveController>
 {
-    [SerializeField] private float _animationDuration = 1f;
+    [SerializeField, Tooltip("The duration of the animation in seconds")] private float _animationDuration = 1f;
     [SerializeField] private AnimationCurve _pageMoveAnimationCurve;
 
     public Action OnMoveAnimationBeginAction { get; set; }
@@ -38,17 +38,25 @@ public class PageMoveController : MonoSingleton<PageMoveController>
         _pageMoveAnimation = StartCoroutine(MovePageCO());
     }
 
+    public void MovePage(int direction)
+    {
+        if (_pageMoveAnimation != null) return;
+
+        CurrentPage += (int)Mathf.Sign(direction);
+        _pageMoveAnimation = StartCoroutine(MovePageCO(direction));
+    }
+
     public void SetPageAmount(int amount)
     {
         _pageAmount = amount;
     }
 
-    private IEnumerator MovePageCO()
+    private IEnumerator MovePageCO(int direction = 1)
     {
         OnMoveAnimationBeginAction?.Invoke();
 
         var priorPos = transform.localPosition;
-        var targetPos = priorPos + ((RectTransform)transform.parent).rect.width * Vector3.left;
+        var targetPos = priorPos + ((RectTransform)transform.parent).rect.width * direction * Vector3.left;
 
         float elapsedTime = 0f;
 
@@ -80,6 +88,22 @@ public class PageMoverEditor : Editor
     {
         base.OnInspectorGUI();
         EditorGUILayout.LabelField($"Current Page: {PageMoveController.Instance.CurrentPage}");
+
+        if (!Application.isPlaying) return;
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("<"))
+        {
+            PageMoveController.Instance.MovePage(-1);
+        }
+
+        else if (GUILayout.Button(">"))
+        {
+            PageMoveController.Instance.MovePage(1);
+        }
+
+        EditorGUILayout.EndHorizontal();
     }
     public override bool RequiresConstantRepaint() => true;
 }

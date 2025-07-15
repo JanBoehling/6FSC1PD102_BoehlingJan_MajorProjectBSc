@@ -908,7 +908,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 442865860}
-  - component: {fileID: 442865861}
   - component: {fileID: 442865862}
   - component: {fileID: 442865863}
   m_Layer: 5
@@ -937,24 +936,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 75}
   m_SizeDelta: {x: -200, y: -350}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &442865861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 442865859}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ffc5c32cdce5341abd011b627d1425, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _debugOverrideMilestone: 0
-  _debugAssignments: 0000000001000000
-  _quizPrefab: {fileID: 2249927129898066941, guid: c6436fd3509b0e5479bd395fc7bdb283, type: 3}
-  _sendAnswerButton: {fileID: 118119167}
-  _continueButton: {fileID: 434801211}
-  _endMilestoneButton: {fileID: 1851270085}
 --- !u!114 &442865862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,7 +948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4582ff1a9d23dfb43bc07568b6c64039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationDuration: 1
+  _animationDuration: 0.25
   _pageMoveAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1303,7 +1284,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46.3
+  m_fontSize: 46.25
   m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 1
