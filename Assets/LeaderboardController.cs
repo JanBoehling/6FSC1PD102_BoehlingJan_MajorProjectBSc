@@ -3,8 +3,11 @@ using TMPro;
 
 public class LeaderboardController : MonoBehaviour
 {
-    [SerializeField] private TMP_Text[] _nameTexts;
-    [SerializeField] private TMP_Text[] _levelTexts;
+    [SerializeField] private RectTransform[] _nameContainer;
+    [SerializeField] private RectTransform[] _levelContainer;
+
+    private TMP_Text[] _nameTexts;
+    private TMP_Text[] _levelTexts;
 
     // The size of each entry in the database data
     private const int EntrySize = 2;
@@ -14,6 +17,12 @@ public class LeaderboardController : MonoBehaviour
 
     private void Start()
     {
+        _nameTexts = new TMP_Text[_nameContainer.Length];
+        _levelTexts = new TMP_Text[_levelContainer.Length];
+
+        for (int i = 0; i < _nameContainer.Length; i++) _nameTexts[i] = _nameContainer[i].GetComponentInChildren<TMP_Text>(true);
+        for (int i = 0; i < _levelContainer.Length; i++) _levelTexts[i] = _levelContainer[i].GetComponentInChildren<TMP_Text>(true);
+
         // Resets every text element
         foreach (var item in _nameTexts) item.text = "";
         foreach (var item in _levelTexts) item.text = "";
@@ -34,8 +43,8 @@ public class LeaderboardController : MonoBehaviour
         // This is a wild way to use a for loop xD
         for (int i = 0, j = 0; (entries.Length <= MaxEntryCount && j < entries.Length) || (entries.Length > MaxEntryCount && j < MaxEntryCount); i++, j += EntrySize)
         {
-            // Break if there are no more entries
-            if (string.IsNullOrWhiteSpace(entries[j])) break;
+            _nameContainer[i].gameObject.SetActive(true);
+            _levelContainer[i].gameObject.SetActive(true);
 
             _nameTexts[i].text = entries[j];
             _levelTexts[i].text = entries[j + 1];
