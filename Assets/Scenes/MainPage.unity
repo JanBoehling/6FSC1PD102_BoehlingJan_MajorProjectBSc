@@ -16575,28 +16575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351f08008ccb0a34a88f225daa2428be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameContainer:
-  - {fileID: 443910677}
-  - {fileID: 1566020881}
-  - {fileID: 1449408014}
-  - {fileID: 1231672599}
-  - {fileID: 1443891341}
-  - {fileID: 687612851}
-  - {fileID: 954208660}
-  - {fileID: 1353763299}
-  - {fileID: 845544580}
-  - {fileID: 1657044976}
-  _levelContainer:
-  - {fileID: 1931524046}
-  - {fileID: 639906426}
-  - {fileID: 836530751}
-  - {fileID: 1699940117}
-  - {fileID: 1582605126}
-  - {fileID: 169726182}
-  - {fileID: 1191603907}
-  - {fileID: 1249854928}
-  - {fileID: 1243395982}
-  - {fileID: 1740166796}
+  _nameColumn: {fileID: 1239837658}
+  _levelColumn: {fileID: 1064514433}
 --- !u!1 &1689031038
 GameObject:
   m_ObjectHideFlags: 0

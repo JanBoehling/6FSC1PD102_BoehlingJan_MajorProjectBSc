@@ -3,8 +3,8 @@ using TMPro;
 
 public class LeaderboardController : MonoBehaviour
 {
-    [SerializeField] private RectTransform[] _nameContainer;
-    [SerializeField] private RectTransform[] _levelContainer;
+    [SerializeField] private RectTransform _nameColumn;
+    [SerializeField] private RectTransform _levelColumn;
 
     private TMP_Text[] _nameTexts;
     private TMP_Text[] _levelTexts;
@@ -15,14 +15,14 @@ public class LeaderboardController : MonoBehaviour
     // The max amount of entries times the size of an entry. The range needs to be multiplied because one entry takes up multiple slots in the array
     private const int MaxEntryCount = 10 * EntrySize;
 
+    private void Awake()
+    {
+        _nameTexts = _nameColumn.GetComponentsInChildren<TMP_Text>(true);
+        _levelTexts = _levelColumn.GetComponentsInChildren<TMP_Text>(true);
+    }
+
     private void Start()
     {
-        _nameTexts = new TMP_Text[_nameContainer.Length];
-        _levelTexts = new TMP_Text[_levelContainer.Length];
-
-        for (int i = 0; i < _nameContainer.Length; i++) _nameTexts[i] = _nameContainer[i].GetComponentInChildren<TMP_Text>(true);
-        for (int i = 0; i < _levelContainer.Length; i++) _levelTexts[i] = _levelContainer[i].GetComponentInChildren<TMP_Text>(true);
-
         // Resets every text element
         foreach (var item in _nameTexts) item.text = "";
         foreach (var item in _levelTexts) item.text = "";
@@ -43,8 +43,8 @@ public class LeaderboardController : MonoBehaviour
         // This is a wild way to use a for loop xD
         for (int i = 0, j = 0; (entries.Length <= MaxEntryCount && j < entries.Length) || (entries.Length > MaxEntryCount && j < MaxEntryCount); i++, j += EntrySize)
         {
-            _nameContainer[i].gameObject.SetActive(true);
-            _levelContainer[i].gameObject.SetActive(true);
+            _nameColumn.GetChild(i).gameObject.SetActive(true);
+            _levelColumn.GetChild(i).gameObject.SetActive(true);
 
             _nameTexts[i].text = entries[j];
             _levelTexts[i].text = entries[j + 1];
