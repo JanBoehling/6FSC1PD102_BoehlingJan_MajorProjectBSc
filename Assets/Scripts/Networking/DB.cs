@@ -152,6 +152,7 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
+#nullable enable
     /// <summary>
     /// Creates a web request using the systems' HttpClient
     /// </summary>
@@ -170,10 +171,11 @@ public class DB : MonoSingleton<DB>
 
         yield return request?.SendWebRequest();
 
-        var result = request.downloadHandler.text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var result = request?.downloadHandler.text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         
-        callback?.Invoke(result);
+        callback?.Invoke(result is null ? Array.Empty<string>() : result);
     }
+#nullable disable
 }
 
 public enum Table

@@ -1,16 +1,13 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class UnitCarousel : MonoBehaviour
 {
-    [Tooltip("Debug: Directly move the carousel")]
-    [SerializeField] private float _unitPosition = 0f;
-
-    [Tooltip("This value should correspond to the spacing of the unit objects in the world")]
-    [SerializeField] private float _spacing = 2f;
-    private float _screenWidth;
+    public float UnitPosition { get; private set; } = 0f;
+    public int UnitIndex => Mathf.RoundToInt(UnitPosition);
 
     [Tooltip("The speed of the swipe animation")]
     [SerializeField] private float _animationSpeed = 1f;
@@ -20,9 +17,10 @@ public class UnitCarousel : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button _leftSwipeButton;
     [SerializeField] private UnityEngine.UI.Button _rightSwipeButton;
 
-    private Coroutine _currentAnimation;
 
-    public int UnitIndex => Mathf.RoundToInt(_unitPosition);
+    private float _screenWidth;
+
+    private Coroutine _currentAnimation;
 
     private static UnitCarousel _instance;
 
@@ -74,7 +72,7 @@ public class UnitCarousel : MonoBehaviour
 
     private void OnValidate()
     {
-        _unitPosition = Mathf.Clamp(_unitPosition, 0f, transform.childCount - 1f);
+        UnitPosition = Mathf.Clamp(UnitPosition, 0f, transform.childCount - 1f);
 
         MoveCarousel();
     }
@@ -93,15 +91,15 @@ public class UnitCarousel : MonoBehaviour
     private void MoveCarousel()
     {
         var pos = transform.position;
-        pos.x = -_unitPosition * transform.localScale.x * _screenWidth;
-        pos.z = _unitPosition * transform.localScale.x * _screenWidth;
+        pos.x = -UnitPosition * transform.localScale.x * _screenWidth;
+        pos.z = UnitPosition * transform.localScale.x * _screenWidth;
         transform.position = pos;
     }
 
     public void SwipeCarousel(float direction)
     {
         if (_currentAnimation != null) return;
-        else if ((_unitPosition == 0f && direction < 0f) || (_unitPosition == transform.childCount - 1f && direction > 0f)) return;
+        else if ((UnitPosition == 0f && direction < 0f) || (UnitPosition == transform.childCount - 1f && direction > 0f)) return;
 
         _currentAnimation = StartCoroutine(SwipeCarouselCO(Mathf.Sign(direction)));
     }
@@ -109,25 +107,25 @@ public class UnitCarousel : MonoBehaviour
     private IEnumerator SwipeCarouselCO(float direction)
     {
         // Gets target index
-        float targetPos = _unitPosition + direction;
+        float targetPos = UnitPosition + direction;
 
         while (true)
         {
             // Increment position
-            _unitPosition += Time.deltaTime * _animationSpeed * direction;
+            UnitPosition += Time.deltaTime * _animationSpeed * direction;
 
             // Clamps position to target position
-            _unitPosition = direction > 0f ? Mathf.Clamp(_unitPosition, _unitPosition, targetPos) : Mathf.Clamp(_unitPosition, targetPos, _unitPosition);
+            UnitPosition = direction > 0f ? Mathf.Clamp(UnitPosition, UnitPosition, targetPos) : Mathf.Clamp(UnitPosition, targetPos, UnitPosition);
 
             // Breaks out of loop if animation is near end
-            if (direction < 0f && (_unitPosition - Mathf.Floor(_unitPosition)) <= .01f) break;
-            if (direction > 0f && (Mathf.Ceil(_unitPosition) - _unitPosition) <= .01f) break;
+            if (direction < 0f && (UnitPosition - Mathf.Floor(UnitPosition)) <= .01f) break;
+            if (direction > 0f && (Mathf.Ceil(UnitPosition) - UnitPosition) <= .01f) break;
 
             yield return null;
         }
 
         // Resets position to target position
-        _unitPosition = targetPos;
+        UnitPosition = targetPos;
 
         _currentAnimation = null;
 
@@ -162,3 +160,39 @@ public class UnitCarousel : MonoBehaviour
         return unitData;
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(UnitCarousel))]
+public class UnitCarouselEditor : Editor
+{
+    private UnitCarousel _unitCarousel;
+
+    private void OnEnable()
+    {
+        _unitCarousel = (UnitCarousel)target;
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        EditorGUILayout.LabelField($"Current Unit: {_unitCarousel.UnitPosition}");
+
+        if (!Application.isPlaying) return;
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("<"))
+        {
+            _unitCarousel.SwipeCarousel(-1);
+        }
+
+        else if (GUILayout.Button(">"))
+        {
+            _unitCarousel.SwipeCarousel(1);
+        }
+
+        EditorGUILayout.EndHorizontal();
+    }
+    public override bool RequiresConstantRepaint() => true;
+}
+#endif
