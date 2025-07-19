@@ -18,7 +18,7 @@ public class UnitAndAssignmentManager : MonoSingleton<UnitAndAssignmentManager>,
         UnitCompletionState = new bool[Units.Length];
     }
 
-    public void DownloadCompletionData()
+    public void DownloadCompletionData(Action onDownloadCompletedCallback)
     {
         var getAssignmentCompletionStateCallback = new Action<string[]>((assignmentCompletionState) =>
         {
@@ -43,6 +43,9 @@ public class UnitAndAssignmentManager : MonoSingleton<UnitAndAssignmentManager>,
 
                             UnitCompletionState[link] = state;
                         }
+
+                        // Download finished
+                        onDownloadCompletedCallback?.Invoke();
                     });
 
                     DB.Instance.Query(getUnitLinkCallback, $"SELECT unitLink FROM UnitProgress INNER JOIN UserData ON UserData.userID = UnitProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY unitLink");

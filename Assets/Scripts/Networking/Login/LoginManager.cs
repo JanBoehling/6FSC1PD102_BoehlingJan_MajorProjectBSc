@@ -88,10 +88,11 @@ public class LoginManager : MonoBehaviour
             {
                 CurrentUser.SetUser(userData);
 
-                UnitAndAssignmentManager.Instance.DownloadCompletionData();
-
-                Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
-                SceneManager.LoadScene(1);
+                UnitAndAssignmentManager.Instance.DownloadCompletionData(() =>
+                {
+                    Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
+                    SceneManager.LoadScene(1);
+                });
             });
 
             GetUser(getUserCallback, username);
