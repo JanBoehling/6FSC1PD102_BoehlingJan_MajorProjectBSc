@@ -13,7 +13,9 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _endMilestoneButton;
     [Space]
+    [SerializeField] private string _quitButtonTextOnEnd = "Das war's!";
     [SerializeField] private QAQuitMessageController _quitMessageContainer;
+    [SerializeField] private GameObject _closeQuitMessageButton;
 
     private PageMoveController _pages;
 
@@ -106,8 +108,9 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         if (_pages.CurrentPage >= _loadedQuestions.Count - 1)
         {
             _continueButton.onClick = new();
+            _continueButton.transform.parent.gameObject.SetActive(false);
 
-            _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = "Alles gelernt!";
+            _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = _quitButtonTextOnEnd;
 
             _isDone = true;
         }
@@ -129,13 +132,16 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         else
         {
             _quitMessageContainer.SelectMessageOnEnable(_isDone ? QAAbortMessage.OnAssignmentFailiure : QAAbortMessage.Abort);
+            _closeQuitMessageButton.SetActive(!_isDone);
             _quitMessageContainer.gameObject.SetActive(true);
         }
     }
 
     private void OnCorrectAnswer(bool useDebug = false)
     {
+#if UNITY_EDITOR
         if (useDebug) Debug.Log("<color=green>Answer correct!");
+#endif
 
         _continueButton.image.color = Color.green;
 
@@ -144,7 +150,9 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     private void OnWrongAnswer(bool useDebug = false)
     {
+#if UNITY_EDITOR
         if (useDebug) Debug.Log("<color=red>Answer wrong!");
+#endif
 
         _continueButton.image.color = Color.red;
     }

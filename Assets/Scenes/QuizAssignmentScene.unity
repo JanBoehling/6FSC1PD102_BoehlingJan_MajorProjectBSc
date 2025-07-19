@@ -991,7 +991,9 @@ MonoBehaviour:
   _sendAnswerButton: {fileID: 118119167}
   _continueButton: {fileID: 434801211}
   _endMilestoneButton: {fileID: 1851270085}
+  _quitButtonTextOnEnd: Das war's!
   _quitMessageContainer: {fileID: 742786163}
+  _closeQuitMessageButton: {fileID: 585071872}
 --- !u!1 &585071872
 GameObject:
   m_ObjectHideFlags: 0
