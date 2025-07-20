@@ -63,15 +63,12 @@ public class UnitCarousel : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            var child = transform.GetChild(i);
-
             // Set offset position
-            var offset = i * child.localScale.x * _screenWidth;
-            Debug.Log(offset);
-            child.localPosition = new(offset, 0f, -offset);
+            var offset = i * transform.localScale.x * _screenWidth;
+            transform.GetChild(i).position = new(offset, transform.position.y, -offset);
 
             // Activate animation
-            if (child.TryGetComponent<SineBounce>(out var sineBounce))
+            if (transform.GetChild(i).TryGetComponent<SineBounce>(out var sineBounce))
             {
                 sineBounce.Init();
             }
@@ -90,7 +87,7 @@ public class UnitCarousel : MonoBehaviour
         MoveCarousel();
     }
 
-    public void CalculateScreenWidth() => _screenWidth = DeviceOrientationDetector.Width; /*Mathf.Abs(Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x);*/
+    public void CalculateScreenWidth() => _screenWidth = Mathf.Abs(Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x);
 
     private void UpdateInteractivity()
     {
@@ -100,7 +97,6 @@ public class UnitCarousel : MonoBehaviour
 
     private void MoveCarousel()
     {
-        Debug.Log(_screenWidth);
         var pos = transform.position;
         pos.x = -UnitPosition * transform.localScale.x * _screenWidth;
         pos.z = UnitPosition * transform.localScale.x * _screenWidth;

@@ -9,36 +9,25 @@ public class DeviceOrientationDetector : MonoBehaviour
     [Space]
     [SerializeField] private UnityEvent _onDeviceOrientationChangedEvent;
 
-    //private static readonly Func<float> _widthComparator = () => Screen.width;
-    //private static readonly Func<float> _heightComparator = () => Screen.height;
+    private static readonly Func<int> _widthComparator = () => Screen.width;
+    private static readonly Func<int> _heightComparator = () => Screen.height;
 
-    public static float Width { get; private set; }
-    public static float Height { get; private set; }
+    private int _width;
+    private int _height;
 
     private void Start()
     {
-        var screenSize = GetScreenSize();
-
-        Width = screenSize.x;
-        Height = screenSize.y;
+        _width = Screen.width;
+        _height = Screen.height;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        var screenSize = GetScreenSize();
+        if ((!_checkWidth || _width == _widthComparator.Invoke()) && (!_checkHeight || _height != _heightComparator.Invoke())) return;
 
-        if ((!_checkWidth || Width == screenSize.x) && (!_checkHeight || Height != screenSize.y)) return;
-
-        if (_checkWidth) Width = screenSize.x;
-        if (_checkHeight) Height = screenSize.y;
+        if (_checkWidth) _width = _widthComparator.Invoke();
+        if (_checkHeight) _height = _heightComparator.Invoke();
 
         _onDeviceOrientationChangedEvent?.Invoke();
-    }
-
-    public Vector2 GetScreenSize()
-    {
-        var screenSize = new Vector2(Screen.width, Screen.height);
-        var screenSizeWorld = Camera.main.ScreenToWorldPoint(screenSize);
-        return screenSizeWorld;
     }
 }
