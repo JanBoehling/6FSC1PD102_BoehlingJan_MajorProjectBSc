@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 1 - Zellen und Vielfalt
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Zellen und deren Vielfalt
+  <DetailsPrefab>k__BackingField: {fileID: 5907989282002388955, guid: 69c85bc02d635f64db941cbd6eeddbee, type: 3}
   <Milestones>k__BackingField:
   - Title: Die Zellmembran (Video)
     Notes: 

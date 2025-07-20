@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: 2 - Stoffwechsel in der Zelle
   m_EditorClassIdentifier: 
   <Title>k__BackingField: 
+  <DetailsPrefab>k__BackingField: {fileID: 5907989282002388955, guid: 69c85bc02d635f64db941cbd6eeddbee, type: 3}
   <Milestones>k__BackingField: []

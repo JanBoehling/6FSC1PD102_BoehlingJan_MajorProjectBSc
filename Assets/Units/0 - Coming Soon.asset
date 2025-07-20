@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 0 - Coming Soon
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Coming Soon!
-  <DetailsPrefab>k__BackingField: {fileID: 5907989282002388955, guid: 69c85bc02d635f64db941cbd6eeddbee, type: 3}
+  <DetailsPrefab>k__BackingField: {fileID: 5907989282002388955, guid: 5c7e428ce5c0e51489362116a0a5a91c, type: 3}
   <Milestones>k__BackingField: []
