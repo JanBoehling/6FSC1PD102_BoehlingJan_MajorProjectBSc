@@ -910,6 +910,7 @@ GameObject:
   - component: {fileID: 442865860}
   - component: {fileID: 442865862}
   - component: {fileID: 442865863}
+  - component: {fileID: 442865864}
   m_Layer: 5
   m_Name: AssignmentUIContainer
   m_TagString: Untagged
@@ -994,6 +995,35 @@ MonoBehaviour:
   _quitButtonTextOnEnd: Das war's!
   _quitMessageContainer: {fileID: 742786163}
   _closeQuitMessageButton: {fileID: 585071872}
+--- !u!114 &442865864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442865859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7df70aade5acc64d8405d1c208e1181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _checkWidth: 1
+  _checkHeight: 0
+  _onDeviceOrientationChangedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 442865863}
+        m_TargetAssemblyTypeName: QAAssignmentController, Assembly-CSharp
+        m_MethodName: SetCardPositions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &585071872
 GameObject:
   m_ObjectHideFlags: 0

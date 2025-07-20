@@ -56,6 +56,14 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         _pages.OnMoveAnimationFinishedAction = ActivateInteractables;
     }
 
+    public void SetCardPositions()
+    {
+        for (int i = 0; i < _loadedQuestions.Keys.Count; i++)
+        {
+            _loadedQuestions.ElementAt(i).Key.transform.position = transform.position + i * ((RectTransform)transform.parent).rect.width * Vector3.right;
+        }
+    }
+
     private void ActivateInteractables()
     {
         ToggleAnswerButtons(true);

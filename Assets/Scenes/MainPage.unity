@@ -7137,6 +7137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 713352736}
   - component: {fileID: 713352738}
+  - component: {fileID: 713352739}
   m_Layer: 0
   m_Name: UnitCarousel
   m_TagString: Untagged
@@ -7173,8 +7174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124be5ea60cbb684788a0574761afba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitPosition: 0
-  _spacing: 2
   _animationSpeed: 6
   _onChangeCurrentUnit:
     m_PersistentCalls:
@@ -7205,6 +7204,47 @@ MonoBehaviour:
         m_CallState: 2
   _leftSwipeButton: {fileID: 903448618}
   _rightSwipeButton: {fileID: 1983535908}
+--- !u!114 &713352739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713352735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7df70aade5acc64d8405d1c208e1181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _checkWidth: 1
+  _checkHeight: 0
+  _onDeviceOrientationChangedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 713352738}
+        m_TargetAssemblyTypeName: UnitCarousel, Assembly-CSharp
+        m_MethodName: CalculateScreenWidth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 713352738}
+        m_TargetAssemblyTypeName: UnitCarousel, Assembly-CSharp
+        m_MethodName: SetUnitPositions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &718321827
 GameObject:
   m_ObjectHideFlags: 0

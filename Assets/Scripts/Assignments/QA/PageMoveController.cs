@@ -16,19 +16,9 @@ public class PageMoveController : MonoSingleton<PageMoveController>
     public Action OnMoveAnimationBeginAction { get; set; }
     public Action OnMoveAnimationFinishedAction { get; set; }
 
-    private int _pageAmount = 0;
-
-    private Button[] _buttons;
-
     public int CurrentPage { get; private set; }
 
     private Coroutine _pageMoveAnimation;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        _buttons = GetComponentsInChildren<Button>();
-    }
 
     public void MovePage()
     {
@@ -44,11 +34,6 @@ public class PageMoveController : MonoSingleton<PageMoveController>
 
         CurrentPage += (int)Mathf.Sign(direction);
         _pageMoveAnimation = StartCoroutine(MovePageCO(direction));
-    }
-
-    public void SetPageAmount(int amount)
-    {
-        _pageAmount = amount;
     }
 
     private IEnumerator MovePageCO(int direction = 1)
