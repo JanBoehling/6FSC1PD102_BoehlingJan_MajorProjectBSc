@@ -30,7 +30,8 @@ MonoBehaviour:
     - AnswerText: In den Mitochondrien
       AnswerSprite: {fileID: 0}
       IsCorrect: 0
-  - QuestionText: Welche Bindungsstellen besitzt das Ribosom?
+  - QuestionText: 'Welche Bindungsstellen besitzt das Ribosom? (Achtung: Mehrere
+      Antworten sind richtig!)'
     QuestionSprite: {fileID: 0}
     Answers:
     - AnswerText: Aminoacyl-Stelle

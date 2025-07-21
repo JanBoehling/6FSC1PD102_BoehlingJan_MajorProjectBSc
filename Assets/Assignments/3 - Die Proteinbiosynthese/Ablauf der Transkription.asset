@@ -75,7 +75,8 @@ MonoBehaviour:
     - AnswerText: Promotor
       AnswerSprite: {fileID: 0}
       IsCorrect: 1
-  - QuestionText: "Was passiert w\xE4hrend der Elongation?"
+  - QuestionText: "Was passiert w\xE4hrend der Elongation? (Achtung: Mehrere Antworten
+      sind richtig!)"
     QuestionSprite: {fileID: 0}
     Answers:
     - AnswerText: "Die mRNA verl\xE4sst den Zellkern"
