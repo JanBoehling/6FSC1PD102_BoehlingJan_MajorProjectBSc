@@ -38,7 +38,7 @@
     }
     public static void ResetStreak()
     {
-        Data.Streak = 0;
+        Data.Streak = 1;
         DB.Instance.UpdateQuery(null, "UserData", "Streak", Streak);
     }
 }

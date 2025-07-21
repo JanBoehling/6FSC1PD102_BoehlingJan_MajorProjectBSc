@@ -147,7 +147,7 @@ public class LoginManager : MonoBehaviour
             });
 
             // Insert new user to db
-            DB.Instance.Insert(addProgressionDataCallback, username, password, 0, 0);
+            DB.Instance.Insert(addProgressionDataCallback, username, password, 1, 0);
         });
 
         DB.Instance.Select(checkForDuplicateUsernameCallback, select: "username", from: "UserData", where: "username", predicate: username);
