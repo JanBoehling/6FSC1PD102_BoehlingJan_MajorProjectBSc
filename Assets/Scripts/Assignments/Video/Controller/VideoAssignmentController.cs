@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,13 +12,10 @@ public class VideoAssignmentController : MonoBehaviour
     public double CurrentWatchtime => _videoPlayer.time;
     public double VideoDuration => _videoPlayer.length;
 
-    [SerializeField] private RawImage _videoPlayerImage;
+    [SerializeField] private GameObject _videoLoadingScreen;
     [SerializeField] private RectTransform _quitMessageContainer;
     [SerializeField] private RectTransform _videoControlsContainer;
     [SerializeField] private Button _continueButton;
-    [Space]
-    [SerializeField] private Texture _loadingVideoTexture;
-    [SerializeField] private Texture _videoRenderTexture;
     [Space]
     [SerializeField] private VideoAssignment _debugVideoAssignment;
     [Space]
@@ -28,8 +24,6 @@ public class VideoAssignmentController : MonoBehaviour
     private VideoPlayer _videoPlayer;
     private AudioSource _audioPlayer;
     private ParticleSystem _confettiCanon;
-
-    private bool _isFullscreen;
 
     private uint _assignmentID;
 
@@ -63,7 +57,6 @@ public class VideoAssignmentController : MonoBehaviour
         _videoPlayer.SetTargetAudioSource(0, _audioPlayer);
 
         _videoPlayer.url = videoURL;
-        _videoPlayerImage.texture = _loadingVideoTexture;
 
         _videoPlayer.Prepare();
     }
@@ -102,7 +95,7 @@ public class VideoAssignmentController : MonoBehaviour
 
     private void PlayVideo(VideoPlayer src)
     {
-        _videoPlayerImage.texture = _videoRenderTexture;
+        _videoLoadingScreen.SetActive(false);
 
         src.Play();
         _audioPlayer.Play();
