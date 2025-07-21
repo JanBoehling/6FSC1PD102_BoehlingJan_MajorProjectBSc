@@ -16,7 +16,7 @@ MonoBehaviour:
   _uiPrefab: {fileID: 0}
   _questions:
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-GGC-UAA"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Gly-Met
       AnswerSprite: {fileID: 0}
@@ -31,7 +31,7 @@ MonoBehaviour:
       AnswerSprite: {fileID: 0}
       IsCorrect: 1
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-GGU-CAA-UAA"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Met-Ala-Leu-Asn
       AnswerSprite: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
       AnswerSprite: {fileID: 0}
       IsCorrect: 0
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-AAA-GGC-UGA"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Met-Tyr-Cys
       AnswerSprite: {fileID: 0}
@@ -61,7 +61,7 @@ MonoBehaviour:
       AnswerSprite: {fileID: 0}
       IsCorrect: 0
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-CGU-AAU-CAA-CAU-UAG"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Met-Asp-Glu-Val-Pro
       AnswerSprite: {fileID: 0}
@@ -76,7 +76,7 @@ MonoBehaviour:
       AnswerSprite: {fileID: 0}
       IsCorrect: 1
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-GAG-UUU-CUU-GAA-AGA-ACG-UAU-CUU-GUG-UAA"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Met-Glu-Phe-Leu-Glu-Arg-Thr-Tyr-Leu-Val
       AnswerSprite: {fileID: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
       AnswerSprite: {fileID: 0}
       IsCorrect: 0
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-CCU-ACG-GAA-GGU-UAA"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Met-Pro-Thr-Glu-Gly
       AnswerSprite: {fileID: 0}
@@ -106,7 +106,7 @@ MonoBehaviour:
       AnswerSprite: {fileID: 0}
       IsCorrect: 0
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-AAA-CCC-GGG-UUU-UGA"
-    QuestionSprite: {fileID: 0}
+    QuestionSprite: {fileID: 21300000, guid: 7bffd401297664c409daa73c494e0c74, type: 3}
     Answers:
     - AnswerText: Met-Asn-Lys-Asp-Leu
       AnswerSprite: {fileID: 0}
