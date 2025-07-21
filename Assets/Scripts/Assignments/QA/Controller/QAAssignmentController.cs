@@ -17,6 +17,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private QAQuitMessageController _quitMessageContainer;
     [SerializeField] private GameObject _closeQuitMessageButton;
 
+    private AnswerUI _answerUIPrefab;
+
     private PageMoveController _pages;
 
     private readonly Dictionary<QuizCard, bool> _loadedQuestions = new();
@@ -36,24 +38,29 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     {
         var questions = AssignmentDataBase.ShuffleArray(_assignmentData.Questions);
 
-        var answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/QAAssignment/Answer");
+        _answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/QAAssignment/Answer");
 
-        for (int i = 0; i < questions.Length; i++)
-        {
-            var item = questions[i];
-
-            var quizUI = Instantiate(_quizPrefab, transform.position + i * ((RectTransform)transform.parent).rect.width * Vector3.right, Quaternion.Euler(0, 0, 0));
-            quizUI.transform.SetParent(transform, false);
-            quizUI.Init(answerUIPrefab, item, _assignmentID, out var selectables);
-
-            _answerInteractables.AddRange(selectables);
-            _loadedQuestions.Add(quizUI, false);
-        }
+        AddQuizCards(questions);
 
         _uiInteractables = FindObjectsByType<Selectable>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
 
         _pages.OnMoveAnimationBeginAction = DeactivateInteractables;
         _pages.OnMoveAnimationFinishedAction = ActivateInteractables;
+    }
+
+    public void AddQuizCards(Question[] questions)
+    {
+        for (int i = 0; i < questions.Length; i++)
+        {
+            var item = questions[i];
+
+            var quizUI = Instantiate(_quizPrefab, transform.position + _loadedQuestions.Count * ((RectTransform)transform.parent).rect.width * Vector3.right, Quaternion.Euler(0, 0, 0));
+            quizUI.transform.SetParent(transform, false);
+            quizUI.Init(_answerUIPrefab, item, _assignmentID, out var selectables);
+
+            _answerInteractables.AddRange(selectables);
+            _loadedQuestions.Add(quizUI, false);
+        }
     }
 
     public void SetCardPositions()
@@ -119,6 +126,9 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
             _continueButton.transform.parent.gameObject.SetActive(false);
 
             _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = _quitButtonTextOnEnd;
+            _endMilestoneButton.image.color = Color.green;
+            _endMilestoneButton.onClick = new();
+            _endMilestoneButton.onClick.AddListener(OnEndMilestone);
 
             _isDone = true;
         }
@@ -129,6 +139,15 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     /// </summary>
     public void FinishAssignment()
     {
+        if (!_isDone)
+        {
+            _quitMessageContainer.SelectMessageOnEnable(QAAbortMessage.Abort);
+            _closeQuitMessageButton.SetActive(true);
+            _quitMessageContainer.gameObject.SetActive(true);
+            return;
+        }
+
+        /* Forcing the user to have every question correct while not giving them the opportunity to correct themselves, turned out to not be a good idea.
         if (!_loadedQuestions.ContainsValue(false))
         {
             _confettiCanon.Play();
@@ -143,6 +162,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
             _closeQuitMessageButton.SetActive(!_isDone);
             _quitMessageContainer.gameObject.SetActive(true);
         }
+        */
     }
 
     private void OnCorrectAnswer(bool useDebug = false)
@@ -163,15 +183,19 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 #endif
 
         _continueButton.image.color = Color.red;
+
+        AddQuizCards(new[]{ _loadedQuestions.ElementAt(_pages.CurrentPage).Key.Question });
     }
 
     public void OnEndMilestone()
     {
+        UnitAndAssignmentManager.Instance.SetAssignmentCompletionState(_assignmentID);
+
         UnitAndAssignmentManager.Instance.UploadCompletionStates();
 
         if (RuntimeDataHolder.CurrentMilestone.IsCompleted) CurrentUser.RaiseXP(RuntimeDataHolder.CurrentMilestone.XP);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        ReturnToMenu();
     }
 
     public void ReturnToMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(1);

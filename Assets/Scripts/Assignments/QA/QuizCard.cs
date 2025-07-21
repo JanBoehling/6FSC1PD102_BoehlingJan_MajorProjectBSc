@@ -14,6 +14,8 @@ public class QuizCard : MonoBehaviour
 
     public uint AssignmentID { get; private set; }
 
+    public Question Question { get; private set; }
+
     public void Init(AnswerUI answerUIPrefab, Question question, uint assignmentID, out List<AnswerUI> selectables)
     {
         _questionText.text = question.QuestionText;
@@ -33,6 +35,8 @@ public class QuizCard : MonoBehaviour
         selectables = _answerButtons;
 
         AssignmentID = assignmentID;
+
+        Question = question;
     }
 
     [System.Obsolete("Use the new QAAssignment")]
