@@ -44,7 +44,7 @@ MonoBehaviour:
       IsCorrect: 0
     - AnswerText: Met-Ile-Asn
       AnswerSprite: {fileID: 0}
-      IsCorrect: 1
+      IsCorrect: 0
   - QuestionText: "Entschl\xFCssle die folgende mRNA-Sequenz: AUG-AAA-GGC-UGA"
     QuestionSprite: {fileID: 0}
     Answers:
