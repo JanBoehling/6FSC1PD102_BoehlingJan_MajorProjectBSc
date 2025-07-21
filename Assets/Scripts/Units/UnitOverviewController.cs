@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UnitOverviewController : MonoBehaviour, IToggleVisibility
 {
     [SerializeField] private UnitListItem _unitListItemPrefab;
     [SerializeField] private Transform _unitListContainer;
+    [Space]
+    [SerializeField] private UnityEvent _onNoMilestoneEvent;
 
     private TopIslandController _topIsland;
 
@@ -23,7 +26,12 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
 
         _topIsland.DisplayTitle(unitData.Title);
 
-        foreach (var milestone in unitData.Milestones)
+        if (unitData.Milestones.Count == 0)
+        {
+            _onNoMilestoneEvent?.Invoke();
+        }
+
+        else foreach (var milestone in unitData.Milestones)
         {
             var listItem = Instantiate(_unitListItemPrefab, _unitListContainer);
             listItem.Init(milestone);
