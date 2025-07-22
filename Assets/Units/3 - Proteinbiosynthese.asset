@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Die Proteinbiosynthese
   <DetailsPrefab>k__BackingField: {fileID: 5907989282002388955, guid: 2b8c2c2c79ed4be4480f97f05447d399, type: 3}
+  <TerminologyPrefab>k__BackingField: {fileID: 5907989282002388955, guid: 237eadb0196446b43be6ebf726a08d98, type: 3}
   <Milestones>k__BackingField:
   - Title: Die Herstellung von Proteinen
     Notes: Video
