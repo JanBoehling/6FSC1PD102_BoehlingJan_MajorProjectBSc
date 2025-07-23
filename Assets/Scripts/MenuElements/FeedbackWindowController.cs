@@ -28,12 +28,12 @@ public class FeedbackWindowController : MonoBehaviour
     public void OpenFeedbackForm()
     {
 #if !UNITY_EDITOR
-		openWindow(_feedbackFormURL);
+		OpenWindow(_feedbackFormURL);
 #endif
     }
 
     [DllImport("__Internal")]
-    private static extern void openWindow(string url);
+    private static extern void OpenWindow(string url);
 }
 
 #if UNITY_EDITOR
