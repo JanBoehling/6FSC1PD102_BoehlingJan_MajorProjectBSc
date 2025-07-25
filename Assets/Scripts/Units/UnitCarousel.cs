@@ -59,22 +59,6 @@ public class UnitCarousel : MonoBehaviour
         UpdateInteractivity();
     }
 
-    public void SetUnitPositions()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            // Set offset position
-            var offset = i * transform.localScale.x * _screenWidth;
-            transform.GetChild(i).position = new(offset, transform.position.y, -offset);
-
-            // Activate animation
-            if (transform.GetChild(i).TryGetComponent<SineBounce>(out var sineBounce))
-            {
-                sineBounce.Init();
-            }
-        }
-    }
-
     private void OnValidate()
     {
         UnitPosition = Mathf.Clamp(UnitPosition, 0f, transform.childCount - 1f);
@@ -87,26 +71,35 @@ public class UnitCarousel : MonoBehaviour
         MoveCarousel();
     }
 
+    public void SetUnitPositions()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var child = transform.GetChild(i);
+
+            // Set offset position
+            var offset = i * _screenWidth;
+
+            // Apply new local position to child
+            child.localPosition = new(offset, child.localPosition.y, -offset);
+
+            // Activate animation
+            if (child.TryGetComponent<SineBounce>(out var sineBounce))
+            {
+                sineBounce.Init();
+            }
+        }
+    }
+
     public void CalculateScreenWidth()
     {
         //var canvas = FindAnyObjectByType<Canvas>();
         //var screenSize = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height);
         //var screenToWord = Camera.main.ViewportToWorldPoint(screenSize);        
         //_screenWidth = Mathf.Abs(screenToWord.x);
-        _screenWidth = GetScreenSizeInWorld().width;
-        Debug.Log(_screenWidth);
-    }
 
-    private (float width, float height) GetScreenSizeInWorld()
-    {
         var cam = Camera.main;
-
-        float aspect = cam.aspect;
-
-        float worldWidth = cam.orthographicSize * aspect;
-        float worldHeight = cam.orthographicSize * 2;
-
-        return (worldWidth, worldHeight);
+        _screenWidth = cam.orthographicSize * cam.aspect;
     }
 
     private void UpdateInteractivity()
