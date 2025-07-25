@@ -12,11 +12,19 @@ public class EnterPlaymodeController
 
     private const string DefaultScenePath = "Assets/Scenes/LoginScreen.unity";
 
-    private const bool AutoLoginAsAdmin = true;
+    private const string AutoLoginMennuItem = "Biolexica/Auto Login";
 
     #endregion
 
+    private static bool AutoLoginAsAdmin => Menu.GetChecked(AutoLoginMennuItem);
+
     static EnterPlaymodeController() => EditorApplication.playModeStateChanged += LoadDefaultScene;
+
+    [MenuItem(AutoLoginMennuItem)]
+    public static void ToggleAutoLoginMenu()
+    {
+        Menu.SetChecked(AutoLoginMennuItem, !AutoLoginAsAdmin);
+    }
 
     private static void LoadDefaultScene(PlayModeStateChange state)
     {
