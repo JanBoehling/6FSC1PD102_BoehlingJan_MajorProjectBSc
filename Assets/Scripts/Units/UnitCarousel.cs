@@ -93,11 +93,6 @@ public class UnitCarousel : MonoBehaviour
 
     public void CalculateScreenWidth()
     {
-        //var canvas = FindAnyObjectByType<Canvas>();
-        //var screenSize = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height);
-        //var screenToWord = Camera.main.ViewportToWorldPoint(screenSize);        
-        //_screenWidth = Mathf.Abs(screenToWord.x);
-
         var cam = Camera.main;
         _screenWidth = cam.orthographicSize * cam.aspect;
     }
