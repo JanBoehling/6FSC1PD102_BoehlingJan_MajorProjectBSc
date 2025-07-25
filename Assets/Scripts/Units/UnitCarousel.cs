@@ -87,7 +87,27 @@ public class UnitCarousel : MonoBehaviour
         MoveCarousel();
     }
 
-    public void CalculateScreenWidth() => _screenWidth = Mathf.Abs(Camera.main.ScreenToWorldPoint(new(FindAnyObjectByType<Canvas>().pixelRect.width, FindAnyObjectByType<Canvas>().pixelRect.height)).x);
+    public void CalculateScreenWidth()
+    {
+        //var canvas = FindAnyObjectByType<Canvas>();
+        //var screenSize = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height);
+        //var screenToWord = Camera.main.ViewportToWorldPoint(screenSize);        
+        //_screenWidth = Mathf.Abs(screenToWord.x);
+        _screenWidth = GetScreenSizeInWorld().width;
+        Debug.Log(_screenWidth);
+    }
+
+    private (float width, float height) GetScreenSizeInWorld()
+    {
+        var cam = Camera.main;
+
+        float aspect = cam.aspect;
+
+        float worldWidth = cam.orthographicSize * aspect;
+        float worldHeight = cam.orthographicSize * 2;
+
+        return (worldWidth, worldHeight);
+    }
 
     private void UpdateInteractivity()
     {
