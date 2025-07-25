@@ -17,6 +17,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private QAQuitMessageController _quitMessageContainer;
     [SerializeField] private GameObject _closeQuitMessageButton;
 
+    private RectTransform _canvasTransform;
+
     private AnswerUI _answerUIPrefab;
 
     private PageMoveController _pages;
@@ -32,6 +34,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     protected override void Awake()
     {
         base.Awake();
+        _canvasTransform = FindFirstObjectByType<Canvas>().GetComponent<RectTransform>();
         _pages = GetComponent<PageMoveController>();
         _orientation = GetComponent<DeviceOrientationDetector>();
     }
@@ -57,6 +60,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
             var item = questions[i];
 
             var quizUI = Instantiate(_quizPrefab, transform);
+            quizUI.GetComponent<RectTransform>().sizeDelta = new(_canvasTransform.sizeDelta.x, _canvasTransform.sizeDelta.y);
 
             quizUI.Init(_answerUIPrefab, item, _assignmentID, out var selectables);
 
@@ -70,10 +74,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         for (int i = 0; i < _loadedQuestions.Keys.Count; i++)
         {
             var card = _loadedQuestions.ElementAt(i).Key.GetComponent<RectTransform>();
-            var offset = _loadedQuestions.Count * _orientation.RecalculateScreenSize().width * Vector2.right;
 
-            card.offsetMin = offset;
-            card.offsetMax = -offset;
+            card.sizeDelta = new(_canvasTransform.sizeDelta.x, _canvasTransform.sizeDelta.y);
         }
     }
 
