@@ -2,7 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
@@ -59,6 +58,9 @@ public class LoginManager : MonoBehaviour
 
         DB.Instance.TestConnection(callback);
     }
+
+    // Used for submit event
+    public void TrySubmitLogin(string password) => TrySubmitLogin(_usernameInput.text, password);
 
     public void TrySubmitLogin(string username, string password)
     {
@@ -238,8 +240,6 @@ public class LoginManager : MonoBehaviour
 public class LoginManagerEditor : Editor
 {
     private LoginManager _loginManager;
-
-    private bool _doAutoLogin;
 
     private void OnEnable()
     {
