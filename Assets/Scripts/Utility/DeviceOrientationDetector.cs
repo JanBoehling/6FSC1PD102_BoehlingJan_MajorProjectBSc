@@ -35,15 +35,17 @@ public class DeviceOrientationDetector : MonoBehaviour
         RecalculateScreenSize();
     }
 
-    public void RecalculateScreenSize()
+    public (int width, int height) RecalculateScreenSize()
     {
         if (_checkWidth) _width = _widthComparator.Invoke();
         if (_checkHeight) _height = _heightComparator.Invoke();
 
         _onDeviceOrientationChangedEvent?.Invoke();
+
+        return (_width, _height);
     }
 
-    public void ScreenWidthToWorldSpace()
+    public (float width, float height) ScreenWidthToWorldSpace()
     {
         var cam = Camera.main;
 
@@ -51,6 +53,8 @@ public class DeviceOrientationDetector : MonoBehaviour
         float height = cam.orthographicSize * 2f;
 
         ScreenSizeInWorldSpace = (width, height);
+
+        return ScreenSizeInWorldSpace;
     }
 }
 

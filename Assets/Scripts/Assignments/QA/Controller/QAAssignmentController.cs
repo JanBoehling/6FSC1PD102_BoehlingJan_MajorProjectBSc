@@ -20,6 +20,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     private AnswerUI _answerUIPrefab;
 
     private PageMoveController _pages;
+    private DeviceOrientationDetector _orientation;
 
     private readonly Dictionary<QuizCard, bool> _loadedQuestions = new();
 
@@ -32,6 +33,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     {
         base.Awake();
         _pages = GetComponent<PageMoveController>();
+        _orientation = GetComponent<DeviceOrientationDetector>();
     }
 
     public override void Init(uint assignmentID)
@@ -54,8 +56,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         {
             var item = questions[i];
 
-            var quizUI = Instantiate(_quizPrefab, transform.position + _loadedQuestions.Count * ((RectTransform)transform.parent).rect.width * Vector3.right, Quaternion.Euler(0, 0, 0));
-            quizUI.transform.SetParent(transform, false);
+            var quizUI = Instantiate(_quizPrefab, transform);
+
             quizUI.Init(_answerUIPrefab, item, _assignmentID, out var selectables);
 
             _answerInteractables.AddRange(selectables);
@@ -67,7 +69,11 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     {
         for (int i = 0; i < _loadedQuestions.Keys.Count; i++)
         {
-            _loadedQuestions.ElementAt(i).Key.transform.position = transform.position + i * ((RectTransform)transform.parent).rect.width * Vector3.right;
+            var card = _loadedQuestions.ElementAt(i).Key.GetComponent<RectTransform>();
+            var offset = _loadedQuestions.Count * _orientation.RecalculateScreenSize().width * Vector2.right;
+
+            card.offsetMin = offset;
+            card.offsetMax = -offset;
         }
     }
 
