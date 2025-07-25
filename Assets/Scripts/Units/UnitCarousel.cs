@@ -17,15 +17,14 @@ public class UnitCarousel : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button _leftSwipeButton;
     [SerializeField] private UnityEngine.UI.Button _rightSwipeButton;
 
-
-    private float _screenWidth;
-
     private Coroutine _currentAnimation;
 
     private static UnitCarousel _instance;
 
     private Func<bool> pageLeftMovePredicate;
     private Func<bool> pageRightMovePredicate;
+
+    private DeviceOrientationDetector _orientation;
 
     public static UnitCarousel GetUnitCarousel()
     {
@@ -49,21 +48,12 @@ public class UnitCarousel : MonoBehaviour
         pageLeftMovePredicate = () => UnitIndex > 0;
         pageRightMovePredicate = () => UnitIndex < transform.childCount - 1;
 
-        CalculateScreenWidth();
+        _orientation = GetComponent<DeviceOrientationDetector>();
     }
 
     private void Start()
     {
-        SetUnitPositions();
-
         UpdateInteractivity();
-    }
-
-    private void OnValidate()
-    {
-        UnitPosition = Mathf.Clamp(UnitPosition, 0f, transform.childCount - 1f);
-
-        MoveCarousel();
     }
 
     private void Update()
@@ -78,7 +68,7 @@ public class UnitCarousel : MonoBehaviour
             var child = transform.GetChild(i);
 
             // Set offset position
-            var offset = i * _screenWidth;
+            var offset = i * _orientation.ScreenSizeInWorldSpace.width;
 
             // Apply new local position to child
             child.localPosition = new(offset, child.localPosition.y, -offset);
@@ -91,12 +81,6 @@ public class UnitCarousel : MonoBehaviour
         }
     }
 
-    public void CalculateScreenWidth()
-    {
-        var cam = Camera.main;
-        _screenWidth = cam.orthographicSize * cam.aspect;
-    }
-
     private void UpdateInteractivity()
     {
         _leftSwipeButton.interactable = pageLeftMovePredicate.Invoke();
@@ -106,8 +90,8 @@ public class UnitCarousel : MonoBehaviour
     private void MoveCarousel()
     {
         var pos = transform.position;
-        pos.x = -UnitPosition * transform.localScale.x * _screenWidth;
-        pos.z = UnitPosition * transform.localScale.x * _screenWidth;
+        pos.x = -UnitPosition * transform.localScale.x * _orientation.ScreenSizeInWorldSpace.width;
+        pos.z = UnitPosition * transform.localScale.x * _orientation.ScreenSizeInWorldSpace.width;
         transform.position = pos;
     }
 

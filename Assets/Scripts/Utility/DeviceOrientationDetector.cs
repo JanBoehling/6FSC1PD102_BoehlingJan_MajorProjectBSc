@@ -8,6 +8,8 @@ using UnityEditor;
 
 public class DeviceOrientationDetector : MonoBehaviour
 {
+    public (float width, float height) ScreenSizeInWorldSpace { get; private set; }
+
     [SerializeField] private bool _checkWidth = true;
     [SerializeField] private bool _checkHeight = false;
     [Space]
@@ -21,13 +23,15 @@ public class DeviceOrientationDetector : MonoBehaviour
 
     private void Start()
     {
-        _width = Screen.width;
-        _height = Screen.height;
+        ScreenWidthToWorldSpace();
+        RecalculateScreenSize();
     }
 
     private void Update()
     {
         if ((!_checkWidth || _width == _widthComparator.Invoke()) && (!_checkHeight || _height != _heightComparator.Invoke())) return;
+
+        ScreenWidthToWorldSpace();
         RecalculateScreenSize();
     }
 
@@ -37,6 +41,16 @@ public class DeviceOrientationDetector : MonoBehaviour
         if (_checkHeight) _height = _heightComparator.Invoke();
 
         _onDeviceOrientationChangedEvent?.Invoke();
+    }
+
+    public void ScreenWidthToWorldSpace()
+    {
+        var cam = Camera.main;
+
+        float width = cam.orthographicSize * cam.aspect;
+        float height = cam.orthographicSize * 2f;
+
+        ScreenSizeInWorldSpace = (width, height);
     }
 }
 
