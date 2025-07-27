@@ -4244,6 +4244,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5907989282002388955}
     m_Modifications:
+    - target: {fileID: 160165178306223019, guid: 2e1ef24daaf2a034983c7bea44837256, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 1311754264020025207, guid: 2e1ef24daaf2a034983c7bea44837256, type: 3}
       propertyPath: m_Name
       value: SearchContainer
@@ -4379,6 +4383,10 @@ PrefabInstance:
     - target: {fileID: 6499175400476322833, guid: 2e1ef24daaf2a034983c7bea44837256, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767010846975021864, guid: 2e1ef24daaf2a034983c7bea44837256, type: 3}
+      propertyPath: m_fontSize
+      value: 72
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

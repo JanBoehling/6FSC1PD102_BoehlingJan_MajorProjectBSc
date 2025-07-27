@@ -441,7 +441,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e664248c811c7be48b7c3cd34142cb5f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ae28198a2c335ca439279a78d5310b36, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
