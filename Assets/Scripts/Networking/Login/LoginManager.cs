@@ -15,11 +15,20 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Button _loginButton;
     [SerializeField] private Button _registerButton;
     [SerializeField] private TMP_Text _messageDisplay;
+    [SerializeField] private GameObject _loadingImage;
+    [Space]
+    [SerializeField] private Image _titleImage;
+    [SerializeField] private Sprite _celloDefaultSprite;
+    [SerializeField] private Sprite _celloSadSprite;
+    [SerializeField] private Sprite _celloVerySadSprite;
+    [SerializeField] private Sprite _celloExtremelySadSprite;
     [Space]
     [SerializeField] private float CheckConnectionDelay = 2f;
     [SerializeField] private uint MinPasswordLength = 5;
 
-    private float _checkConnectionTimer;
+    private float _checkConnectionTimer = 0f;
+    private bool _hasCollectionBeenLost = false;
+    private bool _doTestConnection = true;
 
     private void Start()
     {
@@ -30,33 +39,51 @@ public class LoginManager : MonoBehaviour
     {
         _checkConnectionTimer += Time.deltaTime;
 
-        if (_checkConnectionTimer < CheckConnectionDelay) return;
+        if (_doTestConnection && _checkConnectionTimer < CheckConnectionDelay) return;
 
         TestConnection();
 
         _checkConnectionTimer = 0f;
     }
 
+    private void SetTitleImage(Sprite sprite = null)
+    {
+        if (sprite) _titleImage.sprite = sprite;
+        else _titleImage.sprite = _celloDefaultSprite;
+    }
+
+    private void SetMessage(string msg = "")
+    {
+        _messageDisplay.text = msg;
+
+        if (string.IsNullOrWhiteSpace(msg) && _loadingImage) _loadingImage.SetActive(true);
+        else if (_loadingImage) _loadingImage.SetActive(false);
+    }
+
     private void TestConnection()
     {
-        var callback = new Action<string[]>((testConnection) =>
+        DB.Instance.TestConnection((testConnection) =>
         {
             if (Application.internetReachability == NetworkReachability.NotReachable || testConnection is null || !testConnection[0].Equals("0"))
             {
-                _messageDisplay.text = ErrorMessages.ConnectionToDBFailedError;
+                SetMessage(ErrorMessages.ConnectionToDBFailedError);
+                SetTitleImage(_celloExtremelySadSprite);
 
                 _loginButton.interactable = false;
                 _registerButton.interactable = false;
+
+                _hasCollectionBeenLost = true;
             }
-            else
+            else if (_hasCollectionBeenLost)
             {
-                _messageDisplay.text = "";
+                SetMessage();
+                SetTitleImage();
+
                 _loginButton.interactable = true;
                 _registerButton.interactable = true;
+                _hasCollectionBeenLost = false;
             }
         });
-
-        DB.Instance.TestConnection(callback);
     }
 
     // Used for submit event
@@ -64,44 +91,49 @@ public class LoginManager : MonoBehaviour
 
     public void TrySubmitLogin(string username, string password)
     {
-        _messageDisplay.text = "Logging in...";
+        SetMessage();
+        _doTestConnection = false;
 
-        var passwordCorrectCallback = new Action<string[]>((passwordResult) =>
+        DB.Instance.Select((passwordResult) =>
         {
-            _messageDisplay.text = "Log in successful!";
-
             // User could not be found
-            if (string.IsNullOrWhiteSpace(passwordResult[0]))
+            if (passwordResult.Length == 0 || string.IsNullOrWhiteSpace(passwordResult[0]))
             {
-                _messageDisplay.text = ErrorMessages.UserNotFoundError;
+                SetMessage(ErrorMessages.UserNotFoundError);
+                SetTitleImage(_celloSadSprite);
+
                 _usernameInput.image.color = Color.red;
+
+                _doTestConnection = true;
                 return;
             }
 
             // Wrong password
             if (!passwordResult[0].Equals(password))
             {
-                _messageDisplay.text = ErrorMessages.WrongPasswordError;
+                SetMessage(ErrorMessages.WrongPasswordError);
+                SetTitleImage(_celloSadSprite);
+
                 _passwordInput.image.color = Color.red;
+
+                _doTestConnection = true;
                 return;
             }
 
-            var getUserCallback = new Action<UserData>((userData) =>
+            GetUser((userData) =>
             {
                 CurrentUser.SetUser(userData);
 
                 UnitAndAssignmentManager.Instance.DownloadCompletionData(() =>
                 {
+#if UNITY_EDITOR
                     Debug.Log($"<color=green>Successfully logged int user with ID {userData.UserID}</color>");
+#endif
                     SceneManager.LoadScene(1);
                 });
-            });
+            }, username);
 
-            GetUser(getUserCallback, username);
-            
-        });
-
-        DB.Instance.Select(passwordCorrectCallback, select: "password", from: "UserData", where: "username", predicate: username);
+        }, select: "password", from: "UserData", where: "username", predicate: username);
     }
 
     public void TrySubmitLogin() => TrySubmitLogin(_usernameInput.text, _passwordInput.text);
@@ -113,57 +145,55 @@ public class LoginManager : MonoBehaviour
 
         if (username.Length == 0)
         {
-            _messageDisplay.text = ErrorMessages.UsernamePromptEmptyError;
+            SetMessage(ErrorMessages.UsernamePromptEmptyError);
+            SetTitleImage(_celloSadSprite);
             return;
         }
 
         if (password.Length < MinPasswordLength)
         {
-            _messageDisplay.text = ErrorMessages.PasswordPromptEmptyError;
+            SetMessage(ErrorMessages.PasswordPromptEmptyError);
+            SetTitleImage(_celloSadSprite);
             return;
         }
 
-        var checkForDuplicateUsernameCallback = new Action<string[]>((checkForDuplicateUsername) =>
+        DB.Instance.Select((checkForDuplicateUsername) =>
         {
             if (checkForDuplicateUsername.Length > 0)
             {
-                _messageDisplay.text = ErrorMessages.UserAlreadyExistsError;
+                SetMessage(ErrorMessages.UserAlreadyExistsError);
+                SetTitleImage(_celloSadSprite);
                 return;
             }
 
-            // Add every progression data to user
-            var addProgressionDataCallback = new Action<string[]>((insert) =>
+            // Insert new user to db
+            DB.Instance.Insert((insert) =>
             {
-                var addProgressionDataSuccessCallback = new Action<bool>((success) =>
+                AddProgressionData((success) =>
                 {
                     if (!success)
                     {
+#if UNITY_EDITOR
                         Debug.LogError("Could not add progression data!");
+#endif
                         return;
                     }
 
                     TrySubmitLogin();
-                });
-
-                AddProgressionData(addProgressionDataSuccessCallback, username);
-            });
-
-            // Insert new user to db
-            DB.Instance.Insert(addProgressionDataCallback, username, password, 1, 0);
-        });
-
-        DB.Instance.Select(checkForDuplicateUsernameCallback, select: "username", from: "UserData", where: "username", predicate: username);
-        
+                }, username);
+            }, username, password, 1, 0);
+        }, select: "username", from: "UserData", where: "username", predicate: username);
     }
 
     private void AddProgressionData(Action<bool> callback, string username)
     {
-        var getUserIDCallback = new Action<string[]>((userIDRaw) =>
+        DB.Instance.Select((userIDRaw) =>
         {
             if (userIDRaw.Length == 0)
             {
-                string errorMessage = ErrorMessages.UserIDNotFoundError.Replace("%s", username);
-                Debug.LogError(errorMessage);
+                SetMessage(ErrorMessages.UserIDNotFoundError.Replace("%s", username));
+
+                SetTitleImage(_celloVerySadSprite);
                 callback?.Invoke(false);
                 return;
             }
@@ -200,9 +230,7 @@ public class LoginManager : MonoBehaviour
             {
                 DB.Instance.Insert(null, Table.AssignmentProgress, item[0], item[1], item[2]);
             }
-        });
-        
-        DB.Instance.Select(getUserIDCallback, select: "userID", from: "UserData", where: "username", predicate: username);
+        }, select: "userID", from: "UserData", where: "username", predicate: username);
         callback?.Invoke(true);
     }
 
@@ -210,17 +238,19 @@ public class LoginManager : MonoBehaviour
     {
         const int coulumCount = 5;
 
-        var getUserCallback = new Action<string[]>((result) =>
+        DB.Instance.Select((result) =>
         {
-            if (result.Length -1 > coulumCount)//-1 because of error code being passed as last element in array
+            if (result.Length - 1 > coulumCount)//-1 because of error code being passed as last element in array
             {
-                Debug.LogError($"Multiple entires in DB found for {username}!");
+                SetMessage($"Multiple entires in DB found for {username}!");
+                SetTitleImage(_celloExtremelySadSprite);
                 callback?.Invoke(null);
                 return;
             }
-            else if (result.Length +1 < coulumCount)//+1 because of error code being passed as last element in array
+            else if (result.Length + 1 < coulumCount)//+1 because of error code being passed as last element in array
             {
-                Debug.LogError("Could not fetch complete data!");
+                SetMessage("Could not fetch complete data!");
+                SetTitleImage(_celloExtremelySadSprite);
                 callback?.Invoke(null);
                 return;
             }
@@ -229,9 +259,7 @@ public class LoginManager : MonoBehaviour
                 callback?.Invoke(new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4])));
                 return;
             }
-        });
-
-        DB.Instance.Select(getUserCallback, select: "*", from: "UserData", where: "username", predicate: username);
+        }, select: "*", from: "UserData", where: "username", predicate: username);
     }
 }
 
