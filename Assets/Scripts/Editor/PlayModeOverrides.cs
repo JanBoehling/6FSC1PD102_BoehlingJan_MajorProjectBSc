@@ -3,10 +3,10 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 
 /// <summary>
-/// This class lets me enter play mode from whereever i want and still load up the login screen. When entering the game not via the login screen, stuff does not work properly as there is no user data created.
+/// This class lets me i.e. enter play mode from whereever i want and still load up the login screen. When entering the game not via the login screen, stuff does not work properly as there is no user data created.
 /// </summary>
 [InitializeOnLoad]
-public class EnterPlaymodeController
+public static class PlayModeOverrides
 {
     #region Settings
 
@@ -21,7 +21,7 @@ public class EnterPlaymodeController
 
     private static readonly System.Action _loginAsAdmin = () => Object.FindAnyObjectByType<LoginManager>().TrySubmitLogin("admin", "t8734qzp920ßtvhrtbui23op");
 
-    static EnterPlaymodeController() => EditorApplication.playModeStateChanged += OnModeSwitch;
+    static PlayModeOverrides() => EditorApplication.playModeStateChanged += OnModeSwitch;
 
     /// <summary>
     /// When active, automatically logs in as admin when entering play mode
