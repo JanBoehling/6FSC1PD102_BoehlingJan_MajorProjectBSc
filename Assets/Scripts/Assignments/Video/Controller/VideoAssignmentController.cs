@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System;
+using TMPro;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,6 +18,8 @@ public class VideoAssignmentController : MonoBehaviour
     [SerializeField] private RectTransform _quitMessageContainer;
     [SerializeField] private RectTransform _videoControlsContainer;
     [SerializeField] private Button _continueButton;
+    [SerializeField] private TMP_Text _messageText;
+    [SerializeField] private float _onErrorRetryDelay = 2f;
     [field: SerializeField] public VideoClip DebugVideoClip { get; private set; }
     [Space]
     [SerializeField] private float _timer;
@@ -48,10 +52,11 @@ public class VideoAssignmentController : MonoBehaviour
         _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
         var assignmentData = UnitAndAssignmentManager.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
 
-        StartVideo(assignmentData.VideoURL);
-
+        if (!_hasLoadedOnce) _videoPlayer.errorReceived += OnError;
         if (!_hasLoadedOnce) _videoPlayer.prepareCompleted += PlayVideo;
         _hasLoadedOnce = true;
+
+        StartVideo(assignmentData.VideoURL);
     }
 
     /// <summary>
@@ -63,10 +68,26 @@ public class VideoAssignmentController : MonoBehaviour
         _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
         var assignmentData = UnitAndAssignmentManager.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
 
-        StartVideo(clip);
-
+        if (!_hasLoadedOnce) _videoPlayer.errorReceived += OnError;
         if (!_hasLoadedOnce) _videoPlayer.prepareCompleted += PlayVideo;
         _hasLoadedOnce = true;
+
+        StartVideo(clip);
+    }
+
+    private void OnError(VideoPlayer source, string message)
+    {
+        Debug.Log(source.name + ": " + message);
+        _messageText.text = $"Das Video kann gerade nicht abgespielt werden...\nIch versuche es in {_onErrorRetryDelay:F2} Sekunden nochmal.";
+        StartCoroutine(RetryCO());
+    }
+
+    private IEnumerator RetryCO()
+    {
+        yield return new WaitForSeconds(_onErrorRetryDelay);
+
+        _messageText.text = "Video lädt...";
+        Init();
     }
 
     /// <summary>
