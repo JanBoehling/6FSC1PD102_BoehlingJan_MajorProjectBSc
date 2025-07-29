@@ -181,7 +181,7 @@ public class LoginManager : MonoBehaviour
 
                     TrySubmitLogin();
                 }, username);
-            }, username, password, 1, 0);
+            }, username, password, 1, 0, 0);
         }, select: "username", from: "UserData", where: "username", predicate: username);
     }
 
@@ -256,7 +256,7 @@ public class LoginManager : MonoBehaviour
             }
             else
             {
-                callback?.Invoke(new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4])));
+                callback?.Invoke(new UserData(uint.Parse(result[0]), result[1], result[2], uint.Parse(result[3]), uint.Parse(result[4]), uint.Parse(result[5])));
                 return;
             }
         }, select: "*", from: "UserData", where: "username", predicate: username);

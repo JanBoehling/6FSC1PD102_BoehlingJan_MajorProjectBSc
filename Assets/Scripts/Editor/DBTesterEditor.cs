@@ -14,6 +14,7 @@ public class DBTesterEditor : Editor
     private string password;
     private int streak;
     private int xp;
+    private int profilePictureIndex;
 
     private string query;
 
@@ -45,6 +46,7 @@ public class DBTesterEditor : Editor
         password = EditorGUILayout.TextField("Password", password);
         streak = EditorGUILayout.IntField("Streak", streak);
         xp = EditorGUILayout.IntField("XP", xp);
+        profilePictureIndex = EditorGUILayout.IntField("Profile pic", profilePictureIndex);
         if (GUILayout.Button("INSERT")) TestInsertUserData();
 
         EditorGUILayout.Space();
@@ -75,7 +77,7 @@ public class DBTesterEditor : Editor
 
         Cls();
 
-        DB.Instance.Insert(_testCallback, username, password, (uint)streak, (uint)xp);
+        DB.Instance.Insert(_testCallback, username, password, (uint)streak, (uint)xp, (uint)profilePictureIndex);
     }
 
     private void TestQuery()

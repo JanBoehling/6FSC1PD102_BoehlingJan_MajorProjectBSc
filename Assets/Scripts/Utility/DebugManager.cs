@@ -7,7 +7,7 @@ using UnityEditor;
 public class DebugManager : MonoBehaviour
 {
     [SerializeField] private bool _useDebugUserData;
-    [field: SerializeField] public UserData DebugUserData { get; private set; } = new(0, "Test", "pwd", 0, 69);
+    [field: SerializeField] public UserData DebugUserData { get; private set; } = new(0, "Test", "pwd", 0, 69, 0);
 
     private void Awake()
     {

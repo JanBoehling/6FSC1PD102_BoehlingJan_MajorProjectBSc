@@ -78,9 +78,9 @@ public class DB : MonoSingleton<DB>
     /// <param name="streak">The current streak of the user. Should always be 0 at account creation</param>
     /// <param name="XP">The current XP of the user. Should always be 0 at account creation</param>
     /// <returns>The raw result from the SQL query as a string</returns>
-    public void Insert(Action<string[]> callback, string username, string password, uint streak, uint XP)
+    public void Insert(Action<string[]> callback, string username, string password, uint streak, uint XP, uint profilePictureIndex)
     {
-        var requestURL = $"{Url}{PhpInsertUserData}?username={username}&password={password}&streak={streak}&XP={XP}";
+        var requestURL = $"{Url}{PhpInsertUserData}?username={username}&password={password}&streak={streak}&XP={XP}&ProfilePictureIndex={profilePictureIndex}";
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
