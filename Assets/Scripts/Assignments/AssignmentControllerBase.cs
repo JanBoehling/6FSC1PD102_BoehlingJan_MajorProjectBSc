@@ -3,32 +3,32 @@ using UnityEngine;
 public abstract class AssignmentControllerBase<T> : MonoBehaviour where T : AssignmentDataBase
 {
     [Header("Assignment ID")]
-    [SerializeField] protected uint _assignmentID;
-    [SerializeField] protected bool _useDebugAssignment;
+    [SerializeField] protected uint AssignmentID;
+    [SerializeField] protected bool UseDebugAssignment;
 
-    protected T _assignmentData;
-    protected ParticleSystem _confettiCanon;
+    protected T AssignmentData;
+    protected ParticleSystem ConfettiCanon;
 
     protected virtual void Awake()
     {
-        _confettiCanon = FindFirstObjectByType<ParticleSystem>();
+        ConfettiCanon = FindFirstObjectByType<ParticleSystem>();
     }
 
     protected virtual void Start()
     {
 #if UNITY_EDITOR
-        if (_useDebugAssignment)
+        if (UseDebugAssignment)
         {
             RuntimeDataHolder.CurrentMilestone = new()
             {
-                Assignments = new[] { _assignmentID }
+                Assignments = new[] { AssignmentID }
             };
         }
 #endif
-        _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
-        _assignmentData = UnitAndAssignmentManager.Instance.GetAssignmentByID(_assignmentID) as T;
+        AssignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
+        AssignmentData = UnitAndAssignmentManager.Instance.GetAssignmentByID(AssignmentID) as T;
 
-        Init(_assignmentID);
+        Init(AssignmentID);
     }
 
     public abstract void Init(uint assignmentID);

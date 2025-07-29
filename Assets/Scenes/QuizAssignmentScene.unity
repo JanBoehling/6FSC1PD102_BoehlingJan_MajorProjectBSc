@@ -367,8 +367,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 339.99994, y: -100}
-  m_SizeDelta: {x: 679.9999, y: 100}
+  m_AnchoredPosition: {x: 340.63983, y: -100}
+  m_SizeDelta: {x: 681.27966, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &180757357
 MonoBehaviour:
@@ -1102,8 +1102,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 339.99994, y: -300}
-  m_SizeDelta: {x: 679.9999, y: 100}
+  m_AnchoredPosition: {x: 340.63983, y: -300}
+  m_SizeDelta: {x: 681.27966, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &585071874
 MonoBehaviour:
@@ -1358,7 +1358,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 73.05
+  m_fontSize: 39.4
   m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1501,6 +1501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eded3a3ed28bf7e49a6fadf364b06a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _closeMessageButton: {fileID: 585071874}
+  _confirmAbortButton: {fileID: 180757357}
   _abortMessageTextDisplay: {fileID: 396402829}
   _defaultAbortMessage: 'Warte, wo willst du hin?!
 

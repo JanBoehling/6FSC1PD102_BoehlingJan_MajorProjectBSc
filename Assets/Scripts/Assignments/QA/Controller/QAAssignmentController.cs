@@ -46,7 +46,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     public override void Init(uint assignmentID)
     {
-        var questions = AssignmentDataBase.ShuffleArray(_assignmentData.Questions);
+        var questions = AssignmentDataBase.ShuffleArray(AssignmentData.Questions);
 
         _answerUIPrefab = Resources.Load<AnswerUI>("AssignmentUI/QAAssignment/Answer");
 
@@ -67,7 +67,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
             var quizUI = Instantiate(_quizPrefab, transform);
             quizUI.GetComponent<RectTransform>().sizeDelta = new(_canvasTransform.sizeDelta.x, _canvasTransform.sizeDelta.y);
 
-            quizUI.Init(_answerUIPrefab, item, _assignmentID, out var selectables);
+            quizUI.Init(_answerUIPrefab, item, AssignmentID, out var selectables);
 
             _answerInteractables.AddRange(selectables);
             _loadedQuestions.Add(quizUI, false);
@@ -137,13 +137,21 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         // If last page, override continue button action with back to menu
         if (_pages.CurrentPage >= _loadedQuestions.Count - 1)
         {
-            _continueButton.onClick = new();
+            _continueButton.onClick.RemoveAllListeners();
             _continueButton.transform.parent.gameObject.SetActive(false);
 
             _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = _quitButtonTextOnEnd;
             _endMilestoneButton.image.color = Color.green;
-            _endMilestoneButton.onClick = new();
-            _endMilestoneButton.onClick.AddListener(OnEndMilestone);
+            _endMilestoneButton.onClick.RemoveAllListeners();
+            _endMilestoneButton.onClick.AddListener(() =>
+            {
+                _quitMessageContainer.SelectMessageOnEnable(QAAbortMessage.None);
+                _quitMessageContainer.DisplayText($"+{RuntimeDataHolder.CurrentMilestone.XP} XP!");
+                _quitMessageContainer.CloseMessageButton.gameObject.SetActive(false);
+                _quitMessageContainer.ConfirmAbortButton.onClick.RemoveAllListeners();
+                _quitMessageContainer.ConfirmAbortButton.onClick.AddListener(OnEndMilestone);
+                _quitMessageContainer.gameObject.SetActive(true);
+            });
 
             _isDone = true;
         }
@@ -154,30 +162,11 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     /// </summary>
     public void FinishAssignment()
     {
-        if (!_isDone)
-        {
-            _quitMessageContainer.SelectMessageOnEnable(QAAbortMessage.Abort);
-            _closeQuitMessageButton.SetActive(true);
-            _quitMessageContainer.gameObject.SetActive(true);
-            return;
-        }
+        if (_isDone) return;
 
-        /* Forcing the user to have every question correct while not giving them the opportunity to correct themselves, turned out to not be a good idea.
-        if (!_loadedQuestions.ContainsValue(false))
-        {
-            _confettiCanon.Play();
-            UnitAndAssignmentManager.Instance.SetAssignmentCompletionState(_assignmentID);
-            _endMilestoneButton.image.color = Color.green;
-            _endMilestoneButton.onClick = new();
-            _endMilestoneButton.onClick.AddListener(OnEndMilestone);
-        }
-        else
-        {
-            _quitMessageContainer.SelectMessageOnEnable(_isDone ? QAAbortMessage.OnAssignmentFailiure : QAAbortMessage.Abort);
-            _closeQuitMessageButton.SetActive(!_isDone);
-            _quitMessageContainer.gameObject.SetActive(true);
-        }
-        */
+        _quitMessageContainer.SelectMessageOnEnable(QAAbortMessage.Abort);
+        _closeQuitMessageButton.SetActive(true);
+        _quitMessageContainer.gameObject.SetActive(true);
     }
 
     private void OnCorrectAnswer(bool useDebug = false)
@@ -188,7 +177,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
         _continueButton.image.color = Color.green;
 
-        _confettiCanon.Play();
+        ConfettiCanon.Play();
     }
 
     private void OnWrongAnswer(bool useDebug = false)
@@ -204,7 +193,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     public void OnEndMilestone()
     {
-        UnitAndAssignmentManager.Instance.SetAssignmentCompletionState(_assignmentID);
+        UnitAndAssignmentManager.Instance.SetAssignmentCompletionState(AssignmentID);
 
         UnitAndAssignmentManager.Instance.UploadCompletionStates();
 
