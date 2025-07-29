@@ -17,6 +17,7 @@ $usernameIN = $_GET["username"];
 $passwordIN = $_GET["password"];
 $streakIN = (int)$_GET["streak"];
 $xpIN = (int)$_GET["XP"];
+$profilePictureIndexIN = (int)$_GET["profilePictureIndex"];
 
 try {
     $conn = new mysqli($servername, $username, $password, $database);
@@ -28,7 +29,7 @@ catch(Exception $e) {
     die();
 }
 
-$sql = "INSERT INTO UserData (username, password, streak, XP) VALUES ('$usernameIN', '$passwordIN', '$streakIN', '$xpIN')";
+$sql = "INSERT INTO UserData (username, password, streak, XP, profilePictureIndex) VALUES ('$usernameIN', '$passwordIN', '$streakIN', '$xpIN', '$profilePictureIndexIN')";
 
 if ($conn->query($sql) === TRUE) {
     echo "200"; // HTTP-Statuscode 'OK'

@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0){
     while ($row = $result->fetch_assoc()){
-        echo "ID: " . $row["userID"] . "<br>Username: " . $row["username"] . "<br>Password: " . $row["password"] . "<br>Streak: " . $row["streak"] . "<br>XP: " . $row["XP"] . "<br><br>";
+        echo "ID: " . $row["userID"] . "<br>Username: " . $row["username"] . "<br>Password: " . $row["password"] . "<br>Streak: " . $row["streak"] . "<br>XP: " . $row["XP"] . "<br>ProfilePictureIndex: " . $row["profilePictureIndex"] . "<br><br>";
     }
 }
 else{
