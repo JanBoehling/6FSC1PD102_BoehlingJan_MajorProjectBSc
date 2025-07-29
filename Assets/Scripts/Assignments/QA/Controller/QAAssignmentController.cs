@@ -18,6 +18,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private GameObject _closeQuitMessageButton;
 
     private RectTransform _canvasTransform;
+    private RectTransform _transform;
 
     private AnswerUI _answerUIPrefab;
 
@@ -31,12 +32,16 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     private bool _isDone;
 
+    private Vector2 _basePosition;
+
     protected override void Awake()
     {
         base.Awake();
+        _transform = GetComponent<RectTransform>();
         _canvasTransform = FindFirstObjectByType<Canvas>().GetComponent<RectTransform>();
         _pages = GetComponent<PageMoveController>();
         _orientation = GetComponent<DeviceOrientationDetector>();
+        _basePosition = _transform.anchoredPosition;
     }
 
     public override void Init(uint assignmentID)
@@ -71,12 +76,14 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
 
     public void SetCardPositions()
     {
+        // Sets card width to fill viewport width
         for (int i = 0; i < _loadedQuestions.Keys.Count; i++)
         {
-            var card = _loadedQuestions.ElementAt(i).Key.GetComponent<RectTransform>();
-
-            card.sizeDelta = new(_canvasTransform.sizeDelta.x, _canvasTransform.sizeDelta.y);
+            _loadedQuestions.ElementAt(i).Key.GetComponent<LayoutElement>().minWidth = _canvasTransform.rect.width;
         }
+        
+        // Sets container offset
+        _transform.anchoredPosition = _canvasTransform.rect.width * _pages.CurrentPage * Vector2.left + _basePosition;
     }
 
     private void ActivateInteractables()

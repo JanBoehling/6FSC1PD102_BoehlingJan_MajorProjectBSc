@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,6 +11,7 @@ using UnityEditor;
 public class DeviceOrientationDetector : MonoBehaviour
 {
     public (float width, float height) ScreenSizeInWorldSpace { get; private set; }
+    public (int width, int height) ScreenSize { get; private set; }
 
     [SerializeField] private bool _checkWidth = true;
     [SerializeField] private bool _checkHeight = false;
@@ -18,43 +21,52 @@ public class DeviceOrientationDetector : MonoBehaviour
     private static readonly Func<int> _widthComparator = () => Screen.width;
     private static readonly Func<int> _heightComparator = () => Screen.height;
 
-    private int _width;
-    private int _height;
-
     private void Start()
     {
-        ScreenWidthToWorldSpace();
-        RecalculateScreenSize();
+        ScreenSizeInWorldSpace = ScreenWidthToWorldSpace();
+        ScreenSize = RecalculateScreenSize();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if ((!_checkWidth || _width == _widthComparator.Invoke()) && (!_checkHeight || _height != _heightComparator.Invoke())) return;
+        if ((!_checkWidth || ScreenSize.width == _widthComparator.Invoke()) && (!_checkHeight || ScreenSize.height != _heightComparator.Invoke())) return;
 
-        ScreenWidthToWorldSpace();
-        RecalculateScreenSize();
+        ScreenSizeInWorldSpace = ScreenWidthToWorldSpace();
+        ScreenSize = RecalculateScreenSize();
     }
 
     public (int width, int height) RecalculateScreenSize()
     {
-        if (_checkWidth) _width = _widthComparator.Invoke();
-        if (_checkHeight) _height = _heightComparator.Invoke();
+        var screenSize = (width: default(int), height: default(int));
 
-        _onDeviceOrientationChangedEvent?.Invoke();
+        if (_checkWidth) screenSize.width = _widthComparator.Invoke();
+        if (_checkHeight) screenSize.height = _heightComparator.Invoke();
 
-        return (_width, _height);
+        if (_onDeviceOrientationChangedEvent != null) StartCoroutine(DelayedExecution(_onDeviceOrientationChangedEvent.Invoke));
+
+        return screenSize;
     }
 
     public (float width, float height) ScreenWidthToWorldSpace()
     {
+        var screenSize = (width: default(float), height: default(float));
+
         var cam = Camera.main;
 
-        float width = cam.orthographicSize * cam.aspect;
-        float height = cam.orthographicSize * 2f;
+        screenSize.width = cam.orthographicSize * cam.aspect;
+        screenSize.height = cam.orthographicSize * 2f;
 
-        ScreenSizeInWorldSpace = (width, height);
+        return screenSize;
+    }
 
-        return ScreenSizeInWorldSpace;
+    /// <summary>
+    /// Waits to the next frame to execute given action
+    /// </summary>
+    /// <param name="delayedAction">The action that should be executed next frame</param>
+    private IEnumerator DelayedExecution(Action delayedAction)
+    {
+        yield return null;
+        delayedAction?.Invoke();
     }
 }
 
