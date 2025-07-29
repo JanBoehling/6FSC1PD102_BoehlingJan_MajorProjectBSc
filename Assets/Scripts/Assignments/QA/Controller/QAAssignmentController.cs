@@ -65,8 +65,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
             var item = questions[i];
 
             var quizUI = Instantiate(_quizPrefab, transform);
-            quizUI.GetComponent<RectTransform>().sizeDelta = new(_canvasTransform.sizeDelta.x, _canvasTransform.sizeDelta.y);
-
+            SetQuizCardPosition(quizUI);
             quizUI.Init(_answerUIPrefab, item, AssignmentID, out var selectables);
 
             _answerInteractables.AddRange(selectables);
@@ -79,12 +78,14 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         // Sets card width to fill viewport width
         for (int i = 0; i < _loadedQuestions.Keys.Count; i++)
         {
-            _loadedQuestions.ElementAt(i).Key.GetComponent<LayoutElement>().minWidth = _canvasTransform.rect.width;
+            SetQuizCardPosition(_loadedQuestions.ElementAt(i).Key);
         }
         
         // Sets container offset
         _transform.anchoredPosition = _canvasTransform.rect.width * _pages.CurrentPage * Vector2.left + _basePosition;
     }
+
+    private void SetQuizCardPosition(QuizCard card) => card.GetComponent<LayoutElement>().minWidth = _canvasTransform.rect.width;
 
     private void ActivateInteractables()
     {
