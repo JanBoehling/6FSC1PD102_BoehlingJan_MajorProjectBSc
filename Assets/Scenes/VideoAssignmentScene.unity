@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e95dda7d11b0444bbaa61990c8b4f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressBar: {fileID: 189283583}
+  ProgressBar: {fileID: 0}
 --- !u!1 &342234458
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a36b4a7d52fe5a4a862c189d3ccf1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressBar: {fileID: 189283583}
+  ProgressBar: {fileID: 189283583}
 --- !u!1 &523208241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,7 +2354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc0c50971ef4c8f4d9246e0345ad8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressBar: {fileID: 0}
+  ProgressBar: {fileID: 0}
   _playIcon: {fileID: 21300000, guid: 99744f73413ae8549aae6c05e309da23, type: 3}
   _pauseIcon: {fileID: 21300000, guid: 49c84979806310248a61203974959c1d, type: 3}
   _playPauseImage: {fileID: 343801198}
