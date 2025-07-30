@@ -24,10 +24,7 @@ public class ProgressController : MonoBehaviour
     // This is a number between 0f and 1f and represents the default percentage, when a unit has no milestones (i.e. Coming Soon Unit)
     private const float DefaultPercentageWhenEmpty = 0f;
 
-    private void Awake()
-    {
-        _unitCarousel = UnitCarousel.GetUnitCarousel();
-    }
+    private void Awake() => _unitCarousel = UnitCarousel.GetUnitCarousel();
 
     private IEnumerator Start()
     {
@@ -35,6 +32,9 @@ public class ProgressController : MonoBehaviour
         UpdateProgressDisplay();
     }
 
+    /// <summary>
+    /// Updates the progress bar visuals to the current progress value
+    /// </summary>
     public void UpdateProgressDisplay()
     {
         var currentUnitData = _unitCarousel.GetCurrentUnitData();
@@ -51,6 +51,11 @@ public class ProgressController : MonoBehaviour
         if (_totalProgressDisplayText) _totalProgressDisplayText.text = (TotalProgress * 100f).ToString("0");
     }
 
+    /// <summary>
+    /// Calculates the current progress based on the amount of completed videos and assignments
+    /// </summary>
+    /// <param name="currentUnitData">The data of the current unit</param>
+    /// <returns>The progress of the videos watched, the milestones completed and the total progress</returns>
     private (float videoProgress, float milestoneProgress, float totalProgress) CalculateProgress(UnitData currentUnitData)
     {
         var milestones = currentUnitData.Milestones;

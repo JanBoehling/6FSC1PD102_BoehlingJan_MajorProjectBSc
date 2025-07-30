@@ -31,22 +31,14 @@ public abstract class TextWindowController : MonoBehaviour, IToggleVisibility
 
         if (!obj) return;
 
+        // Instantiates the given object when the window opens
         var content = Instantiate(obj, _viewport);
         _scrollRect.content = content;
     }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() => gameObject.SetActive(false);
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Show() => gameObject.SetActive(true);
 
-    public void ToggleVisibility()
-    {
-        gameObject.SetActive(!gameObject.activeInHierarchy);
-    }
+    public void ToggleVisibility() => gameObject.SetActive(!gameObject.activeInHierarchy);
 }

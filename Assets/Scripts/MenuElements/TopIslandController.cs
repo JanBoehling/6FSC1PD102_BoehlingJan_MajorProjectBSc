@@ -1,17 +1,8 @@
 using UnityEngine;
 using TMPro;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class TopIslandController : MonoBehaviour
 {
-    [SerializeField] private GameObject _titleTextContainer;
-    [SerializeField] private GameObject _progressDisplayContainer;
-    
-    private bool _isDisplayingTitle;
-
     /// <summary>
     /// If true, the title text is shown and the progress bars are hidden
     /// </summary>
@@ -27,14 +18,15 @@ public class TopIslandController : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameObject _titleTextContainer;
+    [SerializeField] private GameObject _progressDisplayContainer;
+    
+    private bool _isDisplayingTitle;
+
     /// <summary>
     /// Toggles between showing the title text and the progress bars
     /// </summary>
-    public void ToggleTitle()
-    {
-        IsDisplayingTitle = !IsDisplayingTitle;
-    }
-
+    public void ToggleTitle() => IsDisplayingTitle = !IsDisplayingTitle;
 
     /// <summary>
     /// Displays given text as title
@@ -46,28 +38,3 @@ public class TopIslandController : MonoBehaviour
         _titleTextContainer.GetComponentInChildren<TMP_Text>().text = title;
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(TopIslandController))]
-public class TopIslandControllerEditor : Editor
-{
-    private TopIslandController _controller;
-
-    private string _debugTitle;
-
-    private void OnEnable()
-    {
-        _controller = (TopIslandController)target;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        EditorGUILayout.Separator();
-        if (GUILayout.Button("Toggle Title")) _controller.ToggleTitle();
-        _debugTitle = EditorGUILayout.TextField(_debugTitle);
-        if (GUILayout.Button("Display Title")) _controller.DisplayTitle(_debugTitle);
-    }
-}
-#endif

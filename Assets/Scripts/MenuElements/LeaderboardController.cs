@@ -6,14 +6,14 @@ public class LeaderboardController : MonoBehaviour
     [SerializeField] private RectTransform _nameColumn;
     [SerializeField] private RectTransform _levelColumn;
 
-    private TMP_Text[] _nameTexts;
-    private TMP_Text[] _levelTexts;
-
     // The size of each entry in the database data
     private const int EntrySize = 2;
 
     // The max amount of entries times the size of an entry. The range needs to be multiplied because one entry takes up multiple slots in the array
     private const int MaxEntryCount = 10 * EntrySize;
+
+    private TMP_Text[] _nameTexts;
+    private TMP_Text[] _levelTexts;
 
     private void Awake()
     {

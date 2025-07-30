@@ -26,7 +26,7 @@ public class DB : MonoSingleton<DB>
     /// <summary>
     /// Tests connection
     /// </summary>
-    /// <returns>The success message of the connection to the database</returns>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
     public void TestConnection(Action<string[]> callback)
     {
         var requestURL = $"{Url}{PhpTest}";
@@ -36,8 +36,8 @@ public class DB : MonoSingleton<DB>
     /// <summary>
     /// Executes a SQL Query on the Database
     /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
     /// <param name="sqlQuery">The SQL Command string</param>
-    /// <returns>The raw result from the SQL query as a string</returns>
     public void Query(Action<string[]> callback, string sqlQuery)
     {
         var requestURL = $"{Url}{PhpQuery}?sql={sqlQuery}";
@@ -47,11 +47,11 @@ public class DB : MonoSingleton<DB>
     /// <summary>
     /// Retrieves value from DB. Syntax based of SQL SELECT
     /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
     /// <param name="select">DB Column that should be retrieved</param>
     /// <param name="from">Table name</param>
     /// <param name="where">Constraint</param>
     /// <param name="predicate">Constraint-value</param>
-    /// <returns>The raw result from the SQL query as a string</returns>
     public void Select(Action<string[]> callback, string select, string from, string where, string predicate)
     {
         var requestURL = $"{Url}{PhpSelectWhere}?select={select}&from={from}&where={where}&predicate={predicate}";
@@ -61,9 +61,9 @@ public class DB : MonoSingleton<DB>
     /// <summary>
     /// Retrieves value from DB. Syntax based of SQL SELECT
     /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
     /// <param name="select">DB Column that should be retrieved</param>
     /// <param name="from">Table name</param>
-    /// <returns>The raw result from the SQL query as a string</returns>
     public void Select(Action<string[]> callback, string select, string from)
     {
         var requestURL = $"{Url}{PhpSelect}?select={select}&from={from}";
@@ -73,11 +73,12 @@ public class DB : MonoSingleton<DB>
     /// <summary>
     /// Creates a new record inside the Database
     /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
     /// <param name="username">The name of the new user</param>
     /// <param name="password">The password of the new user</param>
     /// <param name="streak">The current streak of the user. Should always be 0 at account creation</param>
     /// <param name="XP">The current XP of the user. Should always be 0 at account creation</param>
-    /// <returns>The raw result from the SQL query as a string</returns>
+    /// <param name="profilePictureIndex">The index of the selected profile picture</param>
     public void Insert(Action<string[]> callback, string username, string password, uint streak, uint XP, uint profilePictureIndex)
     {
         var requestURL = $"{Url}{PhpInsertUserData}?username={username}&password={password}&streak={streak}&XP={XP}&ProfilePictureIndex={profilePictureIndex}";
@@ -87,16 +88,18 @@ public class DB : MonoSingleton<DB>
     /// <summary>
     /// Creates a new record inside the Database
     /// </summary>
-    /// <param name="username">The name of the new user</param>
-    /// <param name="password">The password of the new user</param>
-    /// <param name="streak">The current streak of the user. Should always be 0 at account creation</param>
-    /// <param name="XP">The current XP of the user. Should always be 0 at account creation</param>
-    /// <returns>The raw result from the SQL query as a string</returns>
+    /// <param name="callback"></param>
+    /// <param name="table"></param>
+    /// <param name="link"></param>
+    /// <param name="isCompleted"></param>
+    /// <param name="userID"></param>
     public void Insert(Action<string[]> callback, Table table, uint link, uint isCompleted, uint userID)
     {
         if (table == Table.UserData)
         {
+#if UNITY_EDITOR
             Debug.LogError("Wrong Insert method used. Cannot insert progress data into UserData Table!");
+#endif
             callback(null);
             return;
         }
@@ -113,6 +116,15 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
+    /// <summary>
+    /// Updates the given record in the database with a new value
+    /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
+    /// <param name="tableName">The name of the table in which the record is located</param>
+    /// <param name="column">The record that should be changed</param>
+    /// <param name="value">The value in which the given record should be changed</param>
+    /// <param name="where">Constraint</param>
+    /// <param name="predicate">Constraint-value</param>
     public void UpdateQuery(Action<string[]> callback, string tableName, string column, string value, string where = "UserID", string predicate = null)
     {
         predicate ??= CurrentUser.UserID.ToString();
@@ -121,6 +133,14 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
+    /// <summary>
+    /// Updates the given record in the database with a new value
+    /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
+    /// <param name="tableName">The name of the table in which the record is located</param>
+    /// <param name="values">The values in which the given records should be changed</param>
+    /// <param name="where">Constraint</param>
+    /// <param name="predicate">Constraint-value</param>
     public void UpdateQuery(Action<string[]> callback, string tableName, System.Collections.Generic.KeyValuePair<string, string>[] values, string where = "UserID", string predicate = null)
     {
         predicate ??= CurrentUser.UserID.ToString();
@@ -136,6 +156,13 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
+    /// <summary>
+    /// Updates the given record in the database with a new value
+    /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
+    /// <param name="tableName">The name of the table in which the record is located</param>
+    /// <param name="set">The values in which the given records should be changed</param>
+    /// <param name="predicate">Constraint-value</param>
     public void UpdateQuery(Action<string[]> callback, string tableName, string set, string predicate)
     {
         string updateQuery = $"UPDATE {tableName} SET {set} WHERE userID={CurrentUser.UserID} AND {predicate}";
@@ -144,6 +171,13 @@ public class DB : MonoSingleton<DB>
         StartCoroutine(WebRequest(callback, HttpMethod.Post, requestURL));
     }
 
+    /// <summary>
+    /// Updates the given record in the database with a new value
+    /// </summary>
+    /// <param name="callback">Returns the raw result from the SQL query as a string array</param>
+    /// <param name="tableName">The name of the table in which the record is located</param>
+    /// <param name="set">The record that should be changed</param>
+    /// <param name="value">The value in which the given record should be changed</param>
     public void UpdateQuery(Action<string[]> callback, string tableName, string set, object value)
     {
         string updateQuery = $"UPDATE {tableName} SET {set}={value} WHERE userID={CurrentUser.UserID}";

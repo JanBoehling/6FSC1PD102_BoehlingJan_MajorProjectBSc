@@ -6,16 +6,10 @@ public class ProgressControls : VideoControlsBase, IPointerDownHandler
     protected override void Awake()
     {
         base.Awake();
-        _progressBar = GetComponent<Image>();
+        ProgressBar = GetComponent<Image>();
     }
 
-    private void Update()
-    {
-        _progressBar.fillAmount = VideoProgress;
-    }
+    private void Update() => ProgressBar.fillAmount = VideoProgress;
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Wind(eventData.position);
-    }
+    public void OnPointerDown(PointerEventData eventData) => Wind(eventData.position);
 }

@@ -28,35 +28,5 @@ public class Milestone
         } 
     }
 
-    //public int VideoCount
-    //{
-    //    get
-    //    {
-    //        int videoCount = 0;
-
-    //        foreach (uint assignmentID in Assignments)
-    //        {
-    //            if (CompletionTracker.Instance.GetAssignmentByID(assignmentID) is VideoAssignment) videoCount++;
-    //        }
-
-    //        return videoCount;
-    //    }
-    //}
-
-    //public int CompletedVideos
-    //{
-    //    get
-    //    {
-    //        int completedVideos = 0;
-
-    //        foreach (uint assignmentID in Assignments)
-    //        {
-    //            if (CompletionTracker.Instance.GetAssignmentByID(assignmentID) is VideoAssignment && CompletionTracker.Instance.AssignmentCompletionState[assignmentID]) completedVideos++;
-    //        }
-
-    //        return completedVideos;
-    //    }
-    //}
-
     public bool IsCompleted => CompletedAssignments / Assignments.Length >= CompletionPercentThreshold;
 }

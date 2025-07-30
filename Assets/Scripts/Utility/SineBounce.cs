@@ -12,13 +12,13 @@ public class SineBounce : MonoBehaviour
 
     private Vector3 _basePosition;
 
-    private void Awake()
-    {
-        _transform = TryGetComponent<RectTransform>(out var rectTransform) ? rectTransform : transform;
-    }
+    private void Awake() => _transform = TryGetComponent<RectTransform>(out var rectTransform) ? rectTransform : transform;
 
     private void Update() => LerpPosition(_basePosition - _offset, _basePosition + _offset);
 
+    /// <summary>
+    /// Retrieves the original position of the object
+    /// </summary>
     public void Init() => _basePosition = _transform is RectTransform ? (_transform as RectTransform).offsetMax : transform.localPosition;
 
     /// <summary>

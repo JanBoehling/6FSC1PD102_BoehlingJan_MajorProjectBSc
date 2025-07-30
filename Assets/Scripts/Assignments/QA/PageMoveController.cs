@@ -2,22 +2,21 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class PageMoveController : MonoSingleton<PageMoveController>
 {
-    [SerializeField, Tooltip("The duration of the animation in seconds")] private float _animationDuration = 1f;
-    [SerializeField] private AnimationCurve _pageMoveAnimationCurve;
-
     public Action OnMoveAnimationBeginAction { get; set; }
     public Action OnMoveAnimationFinishedAction { get; set; }
 
     public int CurrentPage { get; private set; }
 
+    [SerializeField, Tooltip("The duration of the animation in seconds")] private float _animationDuration = 1f;
+    [SerializeField] private AnimationCurve _pageMoveAnimationCurve;
+
     private Coroutine _pageMoveAnimation;
 
+    /// <summary>
+    /// Increments the current page index and starts the page move animation
+    /// </summary>
     public void MovePage()
     {
         if (_pageMoveAnimation != null) return;
@@ -26,6 +25,10 @@ public class PageMoveController : MonoSingleton<PageMoveController>
         _pageMoveAnimation = StartCoroutine(MovePageCO());
     }
 
+    /// <summary>
+    /// Increments the current page index and starts the page move animation in the given direction
+    /// </summary>
+    /// <param name="direction">The direction of the movement</param>
     public void MovePage(int direction)
     {
         if (_pageMoveAnimation != null) return;
@@ -34,6 +37,10 @@ public class PageMoveController : MonoSingleton<PageMoveController>
         _pageMoveAnimation = StartCoroutine(MovePageCO(direction));
     }
 
+    /// <summary>
+    /// Moves the quiz card in the given direction just outside of the viewport
+    /// </summary>
+    /// <param name="direction">The direction of the movement of the page. -1 is left and +1 is right. Default is right</param>
     private IEnumerator MovePageCO(int direction = 1)
     {
         OnMoveAnimationBeginAction?.Invoke();
@@ -62,32 +69,3 @@ public class PageMoveController : MonoSingleton<PageMoveController>
         _pageMoveAnimation = null;
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(PageMoveController))]
-public class PageMoverEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        EditorGUILayout.LabelField($"Current Page: {PageMoveController.Instance.CurrentPage}");
-
-        if (!Application.isPlaying) return;
-
-        EditorGUILayout.BeginHorizontal();
-
-        if (GUILayout.Button("<"))
-        {
-            PageMoveController.Instance.MovePage(-1);
-        }
-
-        else if (GUILayout.Button(">"))
-        {
-            PageMoveController.Instance.MovePage(1);
-        }
-
-        EditorGUILayout.EndHorizontal();
-    }
-    public override bool RequiresConstantRepaint() => true;
-}
-#endif

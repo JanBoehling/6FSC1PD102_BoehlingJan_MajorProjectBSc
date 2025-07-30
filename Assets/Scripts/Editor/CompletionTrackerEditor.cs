@@ -16,6 +16,5 @@ public class UnitAndAssignmentManagerEditor : MyCustomEditor<UnitAndAssignmentMa
 
         // Draws inspectors of assignments in list
         DrawFoldout("Assignments", () => DrawFoldoutEditor(targetScript.Assignments));
-        
     }
 }

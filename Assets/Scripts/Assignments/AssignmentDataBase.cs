@@ -29,10 +29,10 @@ public abstract class AssignmentDataBase : ScriptableObject
         return copy;
     }
 
-    public void LoadAssignmentUI()
-    {
-        SceneManager.LoadScene(_assignmentSceneIndex);
-    }
+    /// <summary>
+    /// Loads the scene at the given index
+    /// </summary>
+    public void LoadAssignmentUI() => SceneManager.LoadScene(_assignmentSceneIndex);
 }
 
 [System.Serializable]

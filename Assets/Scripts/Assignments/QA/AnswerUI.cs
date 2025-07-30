@@ -23,9 +23,18 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
         _backgroundImage = GetComponent<Image>();
         _backgroundBaseColor = _backgroundImage.color;
         _quizAssignmentController = transform.parent.GetComponentInParent<QuizCard>();
+#if UNITY_EDITOR
         if (!_quizAssignmentController) Debug.LogError($"{name}: Error: Could not fetch Quiz Assignment Controller.");
+#endif
     }
 
+    /// <summary>
+    /// Sets the answer text and image and deposits the informations of correctness and index
+    /// </summary>
+    /// <param name="answerText"></param>
+    /// <param name="answerSprite"></param>
+    /// <param name="isCorrect"></param>
+    /// <param name="index"></param>
     public void Init(string answerText, Sprite answerSprite, bool isCorrect, int index)
     {
         _answerText.text = answerText;
@@ -34,6 +43,9 @@ public class AnswerUI : MonoBehaviour, IPointerClickHandler
         Index = index;
     }
 
+    /// <summary>
+    /// Toggles the selection state of the answer buttons
+    /// </summary>
     public void ToggleSelection()
     {
         IsSelected = !IsSelected;

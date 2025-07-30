@@ -2,12 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using System;
 using TMPro;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class VideoAssignmentController : MonoBehaviour
 {
@@ -47,6 +42,9 @@ public class VideoAssignmentController : MonoBehaviour
         Init();
     }
 
+    /// <summary>
+    /// Gets the video information of the current video assignment and initiates the start of the video
+    /// </summary>
     public void Init()
     {
         _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
@@ -75,13 +73,23 @@ public class VideoAssignmentController : MonoBehaviour
         StartVideo(clip);
     }
 
+    /// <summary>
+    /// Retries the video initiation when an error occures
+    /// </summary>
+    /// <param name="source">The source video player</param>
+    /// <param name="message">The message of the error</param>
     private void OnError(VideoPlayer source, string message)
     {
+#if UNITY_EDITOR
         Debug.Log(source.name + ": " + message);
+#endif
         _messageText.text = $"Das Video kann gerade nicht abgespielt werden...\nIch versuche es in {_onErrorRetryDelay:F2} Sekunden nochmal.";
         StartCoroutine(RetryCO());
     }
 
+    /// <summary>
+    /// Retries the video initiation after a predefined amount of seconds
+    /// </summary>
     private IEnumerator RetryCO()
     {
         yield return new WaitForSeconds(_onErrorRetryDelay);
@@ -140,8 +148,14 @@ public class VideoAssignmentController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads the main menu scene
+    /// </summary>
     public void ReturnToMenu() => UnityEngine.SceneManagement.SceneManager.LoadScene(1);
 
+    /// <summary>
+    /// Closes the quit message window, changes the on click action of the continue button and resumes video playback
+    /// </summary>
     public void CloseQuitMessage()
     {
         _quitMessageContainer.gameObject.SetActive(false);
@@ -150,6 +164,10 @@ public class VideoAssignmentController : MonoBehaviour
         _videoPlayer.Play();
     }
 
+    /// <summary>
+    /// Starts the video and audio playback
+    /// </summary>
+    /// <param name="src">The video player that is supposed to play the video</param>
     private void PlayVideo(VideoPlayer src)
     {
         _videoLoadingScreen.SetActive(false);
@@ -165,6 +183,9 @@ public class VideoAssignmentController : MonoBehaviour
         _timerCoroutine = StartCoroutine(VideoWatchtimeWatcherCO());
     }
 
+    /// <summary>
+    /// Increments a timer in the background that tracks the watchtime
+    /// </summary>
     private IEnumerator VideoWatchtimeWatcherCO()
     {
         var assignmentData = UnitAndAssignmentManager.Instance.GetAssignmentByID(_assignmentID) as VideoAssignment;
@@ -187,33 +208,3 @@ public class VideoAssignmentController : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(VideoAssignmentController))]
-public class VideoAssignmentControllerEditor : Editor
-{
-    private VideoAssignmentController _assignmentController;
-
-    private void OnEnable()
-    {
-        _assignmentController = (VideoAssignmentController)target;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (!Application.isPlaying) return;
-
-        // Displays the current watchtime and the duration of the video
-        EditorGUILayout.Space();
-        EditorGUILayout.HelpBox($"{_assignmentController.CurrentWatchtime:F2} / {_assignmentController.VideoDuration:F2}", MessageType.None, true);
-
-        EditorGUILayout.Separator();
-
-        if (GUILayout.Button("Force Play Video")) _assignmentController.Init(_assignmentController.DebugVideoClip);
-    }
-
-    public override bool RequiresConstantRepaint() => true;
-}
-#endif

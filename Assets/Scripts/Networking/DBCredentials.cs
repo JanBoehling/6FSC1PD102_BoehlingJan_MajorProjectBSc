@@ -16,7 +16,9 @@ public struct DBCredentials
         Password = password;
     }
 
-    public string GetConnectionString() => new MySql.Data.MySqlClient.MySqlConnectionStringBuilder()
+    
+    /// <returns>The given database connection string</returns>
+    public readonly string GetConnectionString() => new MySql.Data.MySqlClient.MySqlConnectionStringBuilder()
     {
         Server = Server,
         UserID = UserID,

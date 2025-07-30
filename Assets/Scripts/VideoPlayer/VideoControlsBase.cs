@@ -4,13 +4,13 @@ using UnityEngine.Video;
 
 public abstract class VideoControlsBase : MonoBehaviour
 {
-    [SerializeField] protected Image _progressBar;
+    [SerializeField] protected Image ProgressBar;
 
-    protected VideoPlayer _videoPlayer;
+    protected VideoPlayer VideoPlayer;
 
-    protected float VideoProgress => (float)_videoPlayer.time / (float)_videoPlayer.length;
+    protected float VideoProgress => (float)VideoPlayer.time / (float)VideoPlayer.length;
 
-    protected virtual void Awake() => _videoPlayer = FindAnyObjectByType<VideoPlayer>();
+    protected virtual void Awake() => VideoPlayer = FindAnyObjectByType<VideoPlayer>();
 
     /// <summary>
     /// Winds the video back or forth depending on the given positional offset on the bar
@@ -18,15 +18,17 @@ public abstract class VideoControlsBase : MonoBehaviour
     /// <param name="position">The positional offset on the bar</param>
     protected void Wind(Vector2 position)
     {
-        if (!_progressBar)
+        if (!ProgressBar)
         {
+#if UNITY_EDITOR
             Debug.LogError($"{name}: No progress bar selected.");
+#endif
             return;
         }
 
-        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(_progressBar.rectTransform, position, null, out var localPoint)) return;
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(ProgressBar.rectTransform, position, null, out var localPoint)) return;
 
-        float progress = Mathf.InverseLerp(_progressBar.rectTransform.rect.xMin, _progressBar.rectTransform.rect.xMax, localPoint.x);
-        _videoPlayer.time = progress * _videoPlayer.length;
+        float progress = Mathf.InverseLerp(ProgressBar.rectTransform.rect.xMin, ProgressBar.rectTransform.rect.xMax, localPoint.x);
+        VideoPlayer.time = progress * VideoPlayer.length;
     }
 }

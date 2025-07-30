@@ -23,8 +23,16 @@ public class QAQuitMessageController : MonoBehaviour
         _ => _abortMessageTextDisplay.text
     };
 
+    /// <summary>
+    /// Defines what type of message is displayed when quit message window is activated
+    /// </summary>
+    /// <param name="message">The type of message to be displayed</param>
     public void SelectMessageOnEnable(QAAbortMessage message) => _messageOnEnable = message;
 
+    /// <summary>
+    /// Displays a specific text in the quit message window
+    /// </summary>
+    /// <param name="text">The text that should be displayed</param>
     public void DisplayText(string text) => _abortMessageTextDisplay.text = text;
 }
 

@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -19,7 +18,9 @@ public class BookmarkSearchHandler : MonoBehaviour
     {
         if (!_bookmarkHandler)
         {
+#if UNITY_EDITOR
             Debug.LogErrorFormat("{0}: Bookmark Handler could not be found.", name);
+#endif
             return;
         }
 

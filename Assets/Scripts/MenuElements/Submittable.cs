@@ -27,11 +27,4 @@ public class Submittable : MonoBehaviour
     /// Submits the value from the input field
     /// </summary>
     public void Submit() => OnSubmit?.Invoke(_inputField.text);
-
-    //private void Update()
-    //{
-    //    if (!_inputField.isFocused || (!Input.GetKeyUp(KeyCode.Return) && !Input.GetKeyUp(KeyCode.KeypadEnter))) return;
-
-    //    Submit();
-    //}
 }

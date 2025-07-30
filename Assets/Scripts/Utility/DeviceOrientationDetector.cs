@@ -3,11 +3,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class DeviceOrientationDetector : MonoBehaviour
 {
     public (float width, float height) ScreenSizeInWorldSpace { get; private set; }
@@ -20,6 +15,10 @@ public class DeviceOrientationDetector : MonoBehaviour
 
     private static readonly Func<int> _widthComparator = () => Screen.width;
     private static readonly Func<int> _heightComparator = () => Screen.height;
+
+    private Camera _cam;
+
+    private void Awake() => _cam = Camera.main;
 
     private void Start()
     {
@@ -35,6 +34,10 @@ public class DeviceOrientationDetector : MonoBehaviour
         ScreenSize = RecalculateScreenSize();
     }
 
+    /// <summary>
+    /// Sets the current screen width and height and invokes orientation changed event
+    /// </summary>
+    /// <returns>The width and height of the screen</returns>
     public (int width, int height) RecalculateScreenSize()
     {
         var screenSize = (width: default(int), height: default(int));
@@ -47,14 +50,16 @@ public class DeviceOrientationDetector : MonoBehaviour
         return screenSize;
     }
 
+    /// <summary>
+    /// Convertes the screen size to world coordinates
+    /// </summary>
+    /// <returns>The width and height of the screen in world space</returns>
     public (float width, float height) ScreenWidthToWorldSpace()
     {
         var screenSize = (width: default(float), height: default(float));
 
-        var cam = Camera.main;
-
-        screenSize.width = cam.orthographicSize * cam.aspect;
-        screenSize.height = cam.orthographicSize * 2f;
+        screenSize.width = _cam.orthographicSize * _cam.aspect;
+        screenSize.height = _cam.orthographicSize * 2f;
 
         return screenSize;
     }
@@ -69,23 +74,3 @@ public class DeviceOrientationDetector : MonoBehaviour
         delayedAction?.Invoke();
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(DeviceOrientationDetector))]
-public class DeviceOrientationDetectorEditor : Editor
-{
-    private DeviceOrientationDetector _detector;
-
-    private void OnEnable() => _detector = (DeviceOrientationDetector)target;
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        EditorGUILayout.Separator();
-
-        if (!GUILayout.Button("Recalculate Screen Size")) return;
-        _detector.RecalculateScreenSize();
-    }
-}
-#endif

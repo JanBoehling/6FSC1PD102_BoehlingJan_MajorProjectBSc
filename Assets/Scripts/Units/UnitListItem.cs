@@ -14,6 +14,10 @@ public class UnitListItem : MonoBehaviour
     [SerializeField] private Sprite _videoIcon;
     [SerializeField] private Sprite _assignmentQAIcon;
 
+    /// <summary>
+    /// Retrieves the assignment data of the given milestone, sets the title text and assignment icon, deposits the button logic and colors the button based on completion state
+    /// </summary>
+    /// <param name="milestone">The milestone that the button is connected with</param>
     public void Init(Milestone milestone)
     {
         var assignmentData = UnitAndAssignmentManager.Instance.GetAssignmentByID(milestone.Assignments[0]);

@@ -12,5 +12,8 @@ public class ProfileController : MonoBehaviour, IToggleVisibility
 
     public void ToggleVisibility() => gameObject.SetActive(!gameObject.activeInHierarchy);
 
+    /// <summary>
+    /// Displays the name of the current user in the top island
+    /// </summary>
     public void DisplayUserName() => _topIsland.DisplayTitle(CurrentUser.Data.UserName);
 }

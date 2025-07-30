@@ -10,10 +10,7 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
 
     private TopIslandController _topIsland;
 
-    private void Awake()
-    {
-        _topIsland = FindFirstObjectByType<TopIslandController>();
-    }
+    private void Awake() => _topIsland = FindFirstObjectByType<TopIslandController>();
 
     /// <summary>
     /// Is called when the unit overview is opened
@@ -38,18 +35,9 @@ public class UnitOverviewController : MonoBehaviour, IToggleVisibility
         }
     }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
+    public void Hide() => gameObject.SetActive(false);
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Show() => gameObject.SetActive(true);
 
-    public void ToggleVisibility()
-    {
-        gameObject.SetActive(!gameObject.activeInHierarchy);
-    }
+    public void ToggleVisibility() => gameObject.SetActive(!gameObject.activeInHierarchy);
 }

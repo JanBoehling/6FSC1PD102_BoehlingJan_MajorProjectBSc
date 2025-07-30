@@ -17,7 +17,7 @@ public class QuizAssignmentController : MonoBehaviour
     [SerializeField] private Button _endMilestoneButton;
 
     private PageMoveController _pages;
-    private List<QuizCard> _loadedAssignments = new();
+    private readonly List<QuizCard> _loadedAssignments = new();
 
     private ParticleSystem _confettiCanon;
 
@@ -95,7 +95,9 @@ public class QuizAssignmentController : MonoBehaviour
 
     private void OnCorrectAnswer(bool useDebug = false)
     {
+#if UNITY_EDITOR
         if (useDebug) Debug.Log("<color=green>Answer correct!");
+#endif
 
         _continueButton.image.color = Color.green;
 
@@ -104,7 +106,9 @@ public class QuizAssignmentController : MonoBehaviour
 
     private void OnWrongAnswer(bool useDebug = false)
     {
+#if UNITY_EDITOR
         if (useDebug) Debug.Log("<color=red>Answer wrong!");
+#endif
 
         _continueButton.image.color = Color.red;
     }

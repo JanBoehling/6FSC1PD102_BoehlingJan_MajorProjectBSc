@@ -10,13 +10,17 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private List<AchievementBase> _achievements;
     [SerializeField] private Image[] _achievementImageSlots;
 
-    private List<AchievementBase> _completedAchievements = new();
+    private readonly List<AchievementBase> _completedAchievements = new();
 
     private void Start()
     {
+        // Sorts the completed achievements by completion date
         _completedAchievements.Sort((x, y) => DateTime.Compare(x.CompletionTimestamp, y.CompletionTimestamp));
     }
 
+    /// <summary>
+    /// Checks all achievements if one of the has been completed.
+    /// </summary>
     public void CheckForAchievementCompletion()
     {
         foreach (var item in _achievements)
@@ -28,6 +32,9 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the achievement image display in the profile view
+    /// </summary>
     public void UpdateDisplay()
     {
         var recentAchievements = _completedAchievements.Take(_achievementImageSlots.Length).ToArray();

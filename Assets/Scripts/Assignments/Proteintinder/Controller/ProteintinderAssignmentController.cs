@@ -3,12 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProteintinderAssignmentController : MonoBehaviour
+public class ProteintinderAssignmentController : AssignmentControllerBase<ProteintinderAssignment>
 {
-    [Header("Assignment ID")]
-    [SerializeField] private uint _assignmentID;
-    [SerializeField] private bool _useDebugAssignment;
-
     [Header("Settings")]
     [Tooltip("The speed of the swipe animation")]
     [SerializeField] private float _animationSpeed = 1f;
@@ -23,23 +19,29 @@ public class ProteintinderAssignmentController : MonoBehaviour
 
     private Coroutine _currentAnimation;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
 #if UNITY_EDITOR
-        if (_useDebugAssignment)
+        if (UseDebugAssignment)
         {
             RuntimeDataHolder.CurrentMilestone = new()
             {
-                Assignments = new[] { _assignmentID }
+                Assignments = new[] { AssignmentID }
             };
         }
 #endif
-        _assignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
-
-        Init(_assignmentID);
+        AssignmentID = RuntimeDataHolder.CurrentMilestone.Assignments[0];
+        
+        Init(AssignmentID);
     }
 
-    public void Init(uint assignmentID)
+    /// <summary>
+    /// Gets the assignment data and prepares the assignment UI
+    /// </summary>
+    /// <param name="assignmentID">The ID of the assignment</param>
+    public override void Init(uint assignmentID)
     {
         var assignment = UnitAndAssignmentManager.Instance.GetAssignmentByID(assignmentID) as ProteintinderAssignment;
 
@@ -60,6 +62,10 @@ public class ProteintinderAssignmentController : MonoBehaviour
         _questionText.text = assignment.QuestionText;
     }
 
+    /// <summary>
+    /// This method is called when the user swipes the screen
+    /// </summary>
+    /// <param name="direction">The direction of the swipe. -1 is left and +1 is right</param>
     public void OnSwipe(float direction)
     {
         if (_currentAnimation != null) return;
@@ -67,6 +73,10 @@ public class ProteintinderAssignmentController : MonoBehaviour
         _currentAnimation = StartCoroutine(OnSwipeCO(Mathf.Sign(direction)));
     }
 
+    /// <summary>
+    /// Moves the topmost image from the image stack to the given direction and increments the current image index
+    /// </summary>
+    /// <param name="direction">The direction of the swipe. -1 is left and +1 is right</param>
     private IEnumerator OnSwipeCO(float direction)
     {
         float position = _imgStack[_currentImg].transform.position.x;

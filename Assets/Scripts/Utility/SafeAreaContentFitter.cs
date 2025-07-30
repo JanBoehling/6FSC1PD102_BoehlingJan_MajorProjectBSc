@@ -1,9 +1,5 @@
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 [RequireComponent(typeof(RectTransform))]
 public class SafeAreaContentFitter : MonoBehaviour
 {
@@ -16,10 +12,7 @@ public class SafeAreaContentFitter : MonoBehaviour
         _cam = Camera.main;
     }
 
-    private void Start()
-    {
-        FitToSafeArea();
-    }
+    private void Start() => FitToSafeArea();
 
     /// <summary>
     /// Fetches the devices safe area and calculates the anchor offset by using the camera's width and height.<br/>
@@ -45,27 +38,3 @@ public class SafeAreaContentFitter : MonoBehaviour
         _rectTransform.anchorMax = anchorMax;
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(SafeAreaContentFitter))]
-public class SafeAreaContentFitterEditor : Editor
-{
-    private SafeAreaContentFitter _contentFitter;
-    private bool _foldout;
-
-    private void OnEnable()
-    {
-        _contentFitter = (SafeAreaContentFitter)target;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        _foldout = EditorGUILayout.Foldout(_foldout, "Safe Area");
-        if (_foldout) EditorGUILayout.RectField(Screen.safeArea);
-
-        if (!Application.isPlaying) return;
-
-        if (GUILayout.Button("Fit content to safe area")) _contentFitter.FitToSafeArea();
-    }
-}
-#endif

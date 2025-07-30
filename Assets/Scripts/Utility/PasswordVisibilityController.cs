@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Image))]
 public class PasswordVisibilityController : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _inputField;
@@ -11,11 +12,11 @@ public class PasswordVisibilityController : MonoBehaviour
 
     private Image _image;
 
-    private void Awake()
-    {
-        _image = GetComponent<Image>();
-    }
+    private void Awake() => _image = GetComponent<Image>();
 
+    /// <summary>
+    /// Toggles the visibility of the typed characters in the given input field
+    /// </summary>
     public void TogglePasswordVisibility()
     {
         if (_inputField.contentType == TMP_InputField.ContentType.Password)

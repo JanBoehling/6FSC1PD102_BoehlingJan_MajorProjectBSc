@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(MaskableGraphic))]
 public class ImageLoader : MonoBehaviour
 {
-    private MaskableGraphic imgComponent;
+    private MaskableGraphic _imgComponent;
 
-    private void Awake()
-    {
-        imgComponent = GetComponent<MaskableGraphic>();
-    }
+    private void Awake() => _imgComponent = GetComponent<MaskableGraphic>();
 
+    /// <summary>
+    /// Loads a sprite and either sets it in the image component or converts it to a texture and sets it in the raw image component
+    /// </summary>
+    /// <param name="sprite"></param>
     public void LoadImage(Sprite sprite)
     {
         if (!sprite)
@@ -18,21 +20,23 @@ public class ImageLoader : MonoBehaviour
             return;
         }
 
-        if (imgComponent is Image image)
+        if (_imgComponent is Image image)
         {
             image.sprite = sprite;
             image.type = Image.Type.Simple;
             image.preserveAspect = true;
         }
 
-        else if (imgComponent is RawImage rawImage)
+        else if (_imgComponent is RawImage rawImage)
         {
             rawImage.texture = sprite.texture;
             rawImage.SetNativeSize();
         }
 
-        else Debug.LogError($"Error: {name} has neither a Image nor a RawImage component. Instead found: {imgComponent}");
+#if UNITY_EDITOR
+        else Debug.LogError($"Error: {name} has neither a Image nor a RawImage component. Instead found: {_imgComponent}");
+#endif
 
-        imgComponent.enabled = true;
+        _imgComponent.enabled = true;
     }
 }

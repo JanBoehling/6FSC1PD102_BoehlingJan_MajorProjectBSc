@@ -4,10 +4,6 @@ using UnityEngine;
 using TMPro;
 using Random = UnityEngine.Random;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class StreakManager : MonoBehaviour
 {
     public uint DayStreak => CurrentUser.Streak;
@@ -21,18 +17,20 @@ public class StreakManager : MonoBehaviour
     [field:SerializeField] public bool UseDebugDay { get; private set; }
     public DateTime CustomDate { get; set; }
 
-
     private const string StreakNumberPlaceholder = "%s";
 
-    private DateTime _lastStreakRefresh;
-
     private bool IsStreakRefreshed => _lastStreakRefresh == DateTime.Today;
+
+    private DateTime _lastStreakRefresh;
 
     private void Start()
     {
         if (!IsStreakRefreshed) UpdateStreak();
     }
 
+    /// <summary>
+    /// Updates the current streak. Raises it by one if the login was consecutive or resets it to one if not
+    /// </summary>
     public void UpdateStreak()
     {
         var today = UseDebugDay ? CustomDate : DateTime.Today;
@@ -48,6 +46,9 @@ public class StreakManager : MonoBehaviour
         else CurrentUser.ResetStreak();
     }
 
+    /// <summary>
+    /// Updates the streak display text element to the current streak
+    /// </summary>
     public void UpdateDisplay()
     {
         var customMessages = new List<string>();
@@ -71,60 +72,12 @@ public class StreakManager : MonoBehaviour
         _streakDayText.text = DayStreak.ToString();
     }
 
+    /// <summary>
+    /// Enables debug tools to override the last login date
+    /// </summary>
+    /// <param name="date">The date that the last login date should be overridden with</param>
     public void OverrideLastRefreshDate(DateTime date) => _lastStreakRefresh = date;
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(StreakManager))]
-public class StreakManagerEditor : Editor
-{
-    private StreakManager _streakManager;
-
-    private int _newTodayD = DateTime.Today.Day;
-    private int _newTodayM = DateTime.Today.Month;
-    private int _newTodayY = DateTime.Today.Year;
-
-    private int _newLastRefreshD = DateTime.Today.Day;
-    private int _newLastRefreshM = DateTime.Today.Month;
-    private int _newLastRefreshY = DateTime.Today.Year;
-
-    private void OnEnable()
-    {
-        _streakManager = (StreakManager)target;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        EditorGUILayout.Space();
-
-        if (!_streakManager.UseDebugDay) return;
-
-        _streakManager.CustomDate = GetCustomDate(ref _newTodayY, ref _newTodayM, ref _newTodayD, "Override Today");
-        _streakManager.OverrideLastRefreshDate(GetCustomDate(ref _newLastRefreshY, ref _newLastRefreshM, ref _newLastRefreshD, "Override Last Refresh Date"));
-
-        EditorGUILayout.Space();
-
-        if (GUILayout.Button("Refresh Streak"))
-        {
-            _streakManager.UpdateStreak();
-        }
-    }
-
-    private DateTime GetCustomDate(ref int year, ref int month, ref int day, string label = "")
-    {
-        EditorGUILayout.Space();
-        if (!string.IsNullOrWhiteSpace(label)) EditorGUILayout.LabelField(label);
-
-        day = EditorGUILayout.IntSlider("D", day, 1, 31);
-        month = EditorGUILayout.IntSlider("M", month, 1, 12);
-        year = EditorGUILayout.IntSlider("Y", year, 1, DateTime.Today.Year);
-
-        return new(year, month, day);
-    }
-}
-#endif
 
 [System.Serializable]
 public struct CustomStreakMessage
@@ -132,5 +85,5 @@ public struct CustomStreakMessage
     public int DayStreak;
     public string Message;
 
-    public override string ToString() => Message;
+    public override readonly string ToString() => Message;
 }

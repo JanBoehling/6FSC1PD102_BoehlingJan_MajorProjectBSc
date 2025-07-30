@@ -1,9 +1,8 @@
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
+/// <summary>
+/// This class is used in combination with the editor script
+/// </summary>
 public class DebugManager : MonoBehaviour
 {
     [SerializeField] private bool _useDebugUserData;
@@ -14,22 +13,3 @@ public class DebugManager : MonoBehaviour
         if (_useDebugUserData) CurrentUser.SetUser(DebugUserData);
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(DebugManager))]
-public class DebugManagerEditor : Editor
-{
-    private DebugManager _debugManager;
-
-    private void OnEnable()
-    {
-        _debugManager = (DebugManager)target;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        if (GUILayout.Button("Refresh User Data")) CurrentUser.SetUser(_debugManager.DebugUserData);
-    }
-}
-#endif

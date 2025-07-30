@@ -6,10 +6,7 @@ public class SwipeControllerEditor : Editor
 {
     private SwipeController _controller;
 
-    private void OnEnable()
-    {
-        _controller = (SwipeController)target;
-    }
+    private void OnEnable() => _controller = (SwipeController)target;
 
     public override void OnInspectorGUI()
     {

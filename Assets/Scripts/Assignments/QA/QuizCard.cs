@@ -1,21 +1,27 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class QuizCard : MonoBehaviour
 {
+    public List<AnswerUI> AnswerButtons => _answerButtons;
+
+    public uint AssignmentID { get; private set; }
+    public Question Question { get; private set; }
+
     [SerializeField] private TMP_Text _questionText;
     [SerializeField] private ImageLoader _questionImageLoader;
     [SerializeField] private Transform _answerContainer;
 
     private readonly List<AnswerUI> _answerButtons = new();
-    public List<AnswerUI> AnswerButtons => _answerButtons;
 
-    public uint AssignmentID { get; private set; }
-
-    public Question Question { get; private set; }
-
+    /// <summary>
+    /// Shuffles the answers of the given question ans instantiates the answer buttons
+    /// </summary>
+    /// <param name="answerUIPrefab">The prefab of the answer buttons</param>
+    /// <param name="question">The question of the quiz card</param>
+    /// <param name="assignmentID">The ID of the current assignment</param>
+    /// <param name="selectables">A list of all answer buttons</param>
     public void Init(AnswerUI answerUIPrefab, Question question, uint assignmentID, out List<AnswerUI> selectables)
     {
         _questionText.text = question.QuestionText;

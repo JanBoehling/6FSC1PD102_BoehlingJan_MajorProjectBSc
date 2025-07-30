@@ -18,7 +18,7 @@ public class DBTesterEditor : Editor
 
     private string query;
 
-    private System.Action<string[]> _testCallback = new((response) =>
+    private readonly System.Action<string[]> _testCallback = new(response =>
     {
         foreach (var item in response)
         {
@@ -56,6 +56,9 @@ public class DBTesterEditor : Editor
         if (GUILayout.Button("QUERY")) TestQuery();
     }
 
+    /// <summary>
+    /// Tests the connection to the DB
+    /// </summary>
     private void TestConnection()
     {
         Cls();
@@ -63,6 +66,9 @@ public class DBTesterEditor : Editor
         DB.Instance.TestConnection(_testCallback);
     }
 
+    /// <summary>
+    /// Tests the select query by trying to retrieve user data
+    /// </summary>
     private void TestGetUserData()
     {
         Cls();
@@ -71,6 +77,9 @@ public class DBTesterEditor : Editor
         else DB.Instance.Select(_testCallback, select: select, from: from, where: where, predicate: predicate);
     }
 
+    /// <summary>
+    /// Tests the insert query by trying to add a new user to the DB
+    /// </summary>
     private void TestInsertUserData()
     {
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || streak < 0 || xp < 0) return;
@@ -80,6 +89,9 @@ public class DBTesterEditor : Editor
         DB.Instance.Insert(_testCallback, username, password, (uint)streak, (uint)xp, (uint)profilePictureIndex);
     }
 
+    /// <summary>
+    /// Tests the generic query
+    /// </summary>
     private void TestQuery()
     {
         if (string.IsNullOrEmpty(query)) return;
