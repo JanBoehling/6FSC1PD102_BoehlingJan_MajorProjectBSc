@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 99e0bb4ccaf7e674492a5a05a402db9d
+timeCreated: 1504328285
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Prefabs/AnimalCell.prefab
+  uploadId: 199146

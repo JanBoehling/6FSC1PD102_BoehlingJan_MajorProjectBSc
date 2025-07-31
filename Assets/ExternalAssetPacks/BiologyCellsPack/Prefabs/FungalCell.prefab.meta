@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f04334d74d40ef547876bcb8d7a7b9ab
+timeCreated: 1504328267
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Prefabs/FungalCell.prefab
+  uploadId: 199146

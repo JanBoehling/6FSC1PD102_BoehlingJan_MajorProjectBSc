@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: dd7d586a4dfb80749af74244a8e5eac9
+timeCreated: 1501136456
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: "Assets/BiologyCellsPack/Meshes/Materials/\u0421itoskeleton_Plant.mat"
+  uploadId: 199146

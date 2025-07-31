@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 4ae65f41e325a4342b80a5d8b9ab8488
+timeCreated: 1501757202
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Demo/Scripts/BtnEvents.cs
+  uploadId: 199146

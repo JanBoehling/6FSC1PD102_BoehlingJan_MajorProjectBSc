@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 2b2f6f0d988b6f44e837288cdbb49fd1
+timeCreated: 1502276933
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 25800000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Demo/DemoScene/LightingData.asset
+  uploadId: 199146

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ded98eb4bedac3e4f95d9602a471ab43
+timeCreated: 1502250616
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/Riticulum.mat
+  uploadId: 199146

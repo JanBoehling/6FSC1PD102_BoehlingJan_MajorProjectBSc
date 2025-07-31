@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: dc87e169680dc2a4eb1a4a7e621afed9
+timeCreated: 1501147217
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Demo/Scripts/MouseOrbitSample.cs
+  uploadId: 199146

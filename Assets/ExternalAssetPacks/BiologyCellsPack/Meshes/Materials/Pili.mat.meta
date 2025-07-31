@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0b6b9eabb40fa664ba3a91c90e20e3b4
+timeCreated: 1501136452
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/Pili.mat
+  uploadId: 199146

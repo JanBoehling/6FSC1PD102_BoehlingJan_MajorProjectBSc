@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 305ef8713bfeaa54395f9b365b482774
+timeCreated: 1501136454
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/MitochondrionTransparent.mat
+  uploadId: 199146

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f1e90f3d5cbd89144936ae77888b5a89
+timeCreated: 1501136453
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/GolgiApparatus_Fungal.mat
+  uploadId: 199146

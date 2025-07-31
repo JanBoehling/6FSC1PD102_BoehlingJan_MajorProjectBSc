@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c8b0af3fec4f70548a41a7f8fcf34c30
+timeCreated: 1498389431
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Demo/DemoScene.unity
+  uploadId: 199146

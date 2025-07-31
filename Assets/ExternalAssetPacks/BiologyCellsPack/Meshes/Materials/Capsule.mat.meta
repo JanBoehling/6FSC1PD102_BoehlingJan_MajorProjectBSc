@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ff3b2d88ecb9d2f45a535f914485a9f1
+timeCreated: 1501136452
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/Capsule.mat
+  uploadId: 199146

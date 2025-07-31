@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 6e1f625caf12183498f70340701499ff
+timeCreated: 1501146460
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Demo/Scripts/ChangeRenderQueue.cs
+  uploadId: 199146

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bd632f6310a4e5442bc4918cbeee995b
+timeCreated: 1504329145
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Prefabs/BacterialCell.prefab
+  uploadId: 199146

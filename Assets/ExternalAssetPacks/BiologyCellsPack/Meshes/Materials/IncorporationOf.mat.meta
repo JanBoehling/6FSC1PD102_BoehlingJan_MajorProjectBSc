@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d4f4fc79661c8ad4c82a282e9310b9d7
+timeCreated: 1501136451
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/IncorporationOf.mat
+  uploadId: 199146

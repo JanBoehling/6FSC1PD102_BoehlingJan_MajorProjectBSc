@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3b2fc3fc7728d4540bb8a18ce1a1ee97
+timeCreated: 1501136454
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/EntrailsMitochondrion.mat
+  uploadId: 199146

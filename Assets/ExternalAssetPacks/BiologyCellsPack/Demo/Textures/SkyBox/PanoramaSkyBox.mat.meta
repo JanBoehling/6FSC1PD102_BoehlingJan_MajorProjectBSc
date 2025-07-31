@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 70343ec6df190514ea4564369ae12b84
+timeCreated: 1498559788
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Demo/Textures/SkyBox/PanoramaSkyBox.mat
+  uploadId: 199146

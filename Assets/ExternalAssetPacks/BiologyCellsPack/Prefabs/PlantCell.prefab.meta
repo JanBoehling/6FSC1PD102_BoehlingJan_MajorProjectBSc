@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fb59502e77ab27b46a6b6572969726fd
+timeCreated: 1504328102
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Prefabs/PlantCell.prefab
+  uploadId: 199146

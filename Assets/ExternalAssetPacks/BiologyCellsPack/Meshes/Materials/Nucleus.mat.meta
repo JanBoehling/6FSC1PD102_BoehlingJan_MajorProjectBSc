@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f5ae58486b8280d4aa52243c4bfdbc90
+timeCreated: 1501136454
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 97118
+  packageName: Biology Cells Pack
+  packageVersion: 1.0
+  assetPath: Assets/BiologyCellsPack/Meshes/Materials/Nucleus.mat
+  uploadId: 199146
