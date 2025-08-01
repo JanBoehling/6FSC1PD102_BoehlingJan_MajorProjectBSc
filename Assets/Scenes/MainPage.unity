@@ -1544,7 +1544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c65f029af1cf45b5e8ec8b2747d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bounceSpeed: 2
+  _bounceSpeed: 1
   _offset: {x: 0, y: 0.05, z: 0}
 --- !u!114 &118933930
 MonoBehaviour:
@@ -22754,7 +22754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c65f029af1cf45b5e8ec8b2747d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bounceSpeed: 2
+  _bounceSpeed: 1
   _offset: {x: 0, y: 0.05, z: 0}
 --- !u!114 &2099669633
 MonoBehaviour:
