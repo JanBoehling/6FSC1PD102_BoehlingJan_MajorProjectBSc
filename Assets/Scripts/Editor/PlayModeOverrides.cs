@@ -8,38 +8,46 @@ using UnityEditor.SceneManagement;
 [InitializeOnLoad]
 public static class PlayModeOverrides
 {
-    #region Settings
+    #region Menu Paths
 
     private const string DefaultScenePath = "Assets/Scenes/LoginScreen.unity";
 
-    private const string AutoLoginMennuItem = "Biolexica/Auto Login";
-    private const string LoginAsAdminMennuItem = "Biolexica/Login as Admin";
+    private const string EnableOverridesMenuItem = "Biolexica/Enable Overrides";
+    private const string AutoLoginMenuItem = "Biolexica/Auto Login";
+    private const string LoginAsAdminMenuItem = "Biolexica/Login as Admin";
 
     #endregion
 
-    private static bool AutoLoginAsAdmin => Menu.GetChecked(AutoLoginMennuItem);
+    private static bool EnableOverrides => Menu.GetChecked(EnableOverridesMenuItem);
+    private static bool AutoLoginAsAdmin => Menu.GetChecked(AutoLoginMenuItem);
 
     private static readonly System.Action _loginAsAdmin = () => Object.FindAnyObjectByType<LoginManager>().TrySubmitLogin("admin", "t8734qzp920ßtvhrtbui23op");
 
     static PlayModeOverrides() => EditorApplication.playModeStateChanged += OnModeSwitch;
 
     /// <summary>
+    /// Enables or disables this script
+    /// </summary>
+    [MenuItem(EnableOverridesMenuItem, priority = 0)]
+    public static void ToggleEnableOverrides() => Menu.SetChecked(EnableOverridesMenuItem, !EnableOverrides);
+
+    /// <summary>
     /// When active, automatically logs in as admin when entering play mode
     /// </summary>
-    [MenuItem(AutoLoginMennuItem)]
-    public static void ToggleAutoLoginMenu() => Menu.SetChecked(AutoLoginMennuItem, !AutoLoginAsAdmin);
+    [MenuItem(AutoLoginMenuItem, priority = 1)]
+    public static void ToggleAutoLoginMenu() => Menu.SetChecked(AutoLoginMenuItem, !AutoLoginAsAdmin);
 
     /// <summary>
     /// Validates the menu item to log the user in as admin. The button may only be active if the login scene is active and the editor is in play mode
     /// </summary>
     /// <returns></returns>
-    [MenuItem(LoginAsAdminMennuItem, true)]
+    [MenuItem(LoginAsAdminMenuItem, true)]
     public static bool ValidateLoginMenu() => EditorSceneManager.GetActiveScene().buildIndex == 0 && Application.isPlaying;
 
     /// <summary>
     /// When in login screen and in play mode, this menu item logs the user in as admin
     /// </summary>
-    [MenuItem(LoginAsAdminMennuItem)]
+    [MenuItem(LoginAsAdminMenuItem, priority = 2)]
     public static void LoginMenu() => _loginAsAdmin.Invoke();
 
     /// <summary>
@@ -48,6 +56,8 @@ public static class PlayModeOverrides
     /// <param name="state">The current play mode state</param>
     private static void OnModeSwitch(PlayModeStateChange state)
     {
+        if (!EnableOverrides) return;
+
         switch (state)
         {
             case PlayModeStateChange.EnteredEditMode:
@@ -71,9 +81,9 @@ public static class PlayModeOverrides
     /// </summary>
     private static void ReturnToPreviousScene()
     {
-        if (!PlayerPrefs.HasKey("PreviousScenePath")) return;
+        if (!EditorPrefs.HasKey("PreviousScenePath")) return;
 
-        EditorSceneManager.OpenScene(PlayerPrefs.GetString("PreviousScenePath"));
+        EditorSceneManager.OpenScene(EditorPrefs.GetString("PreviousScenePath"));
     }
 
     /// <summary>
@@ -83,8 +93,7 @@ public static class PlayModeOverrides
     {
         if (EditorSceneManager.GetActiveScene().path.Equals(DefaultScenePath)) return;
 
-        PlayerPrefs.SetString("PreviousScenePath", EditorSceneManager.GetActiveScene().path);
-        PlayerPrefs.Save();
+        EditorPrefs.SetString("PreviousScenePath", EditorSceneManager.GetActiveScene().path);
 
         EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 
