@@ -31,4 +31,15 @@ public interface IToggleVisibility
             item.Hide();
         }
     }
+
+    /// <summary>
+    /// Shows all overlay views
+    /// </summary>
+    public static void ShowAllOverlays()
+    {
+        foreach (var item in Overlays)
+        {
+            item.Show();
+        }
+    }
 }
