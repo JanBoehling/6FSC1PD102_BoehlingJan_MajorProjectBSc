@@ -20,6 +20,7 @@ public class DB : MonoSingleton<DB>
     private const string PhpInsertUserData = "UserDataINSERT.php";
     private const string PhpInsertUnitProgress = "UnitProgressINSERT.php";
     private const string PhpInsertAssignmentProgress = "AssignmentProgressINSERT.php";
+    private const string PhpInsertAchievementProgress = "AchievementProgressINSERT.php";
     private const string PhpQuery = "QUERY.php";
     private const string PhpUpdate = "UPDATE.php";
 
@@ -108,6 +109,7 @@ public class DB : MonoSingleton<DB>
         {
             Table.UnitProgress => PhpInsertUnitProgress,
             Table.AssignmentProgress => PhpInsertAssignmentProgress,
+            Table.AchievementProgress => PhpInsertAchievementProgress,
             Table.UserData => PhpInsertUserData, // this case should never be reached
             _ => ""
         };
@@ -216,7 +218,8 @@ public enum Table
 {
     UserData,
     UnitProgress,
-    AssignmentProgress
+    AssignmentProgress,
+    AchievementProgress
 }
 
 public enum HttpMethod

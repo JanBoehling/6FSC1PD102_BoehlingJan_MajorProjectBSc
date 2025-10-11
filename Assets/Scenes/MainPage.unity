@@ -5206,13 +5206,14 @@ GameObject:
   - component: {fileID: 516746578}
   - component: {fileID: 516746580}
   - component: {fileID: 516746581}
+  - component: {fileID: 516746582}
   m_Layer: 5
   m_Name: AchievementDisplayBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &516746578
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5269,6 +5270,29 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &516746582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516746577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70e1bba083e3f84784f68982f0498d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Achievements>k__BackingField:
+  - <AchievementName>k__BackingField: Leaderboard Opened
+    <AchievementIcon>k__BackingField: {fileID: 21300046, guid: 0fd21678280ad9c47aa2d32baf438c5d, type: 3}
+  - <AchievementName>k__BackingField: Detailes Opened
+    <AchievementIcon>k__BackingField: {fileID: 21300000, guid: d116f2ceb2d13c845a07c08bf96b48b0, type: 3}
+  - <AchievementName>k__BackingField: I said, it's coming soon!
+    <AchievementIcon>k__BackingField: {fileID: 21300000, guid: 005c7965db3794e4aad8f0b55ce6d7db, type: 3}
+  _achievementImageSlots:
+  - {fileID: 814916647}
+  - {fileID: 1024233003}
+  - {fileID: 1648369515}
 --- !u!1 &519800588
 GameObject:
   m_ObjectHideFlags: 0
@@ -5692,55 +5716,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 530822726}
   m_CullTransparentMesh: 1
---- !u!1 &542902280
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 542902281}
-  - component: {fileID: 542902282}
-  m_Layer: 0
-  m_Name: AchievementManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &542902281
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542902280}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &542902282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542902280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f70e1bba083e3f84784f68982f0498d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _achievements: []
-  _achievementImageSlots:
-  - {fileID: 814916647}
-  - {fileID: 1024233003}
-  - {fileID: 1648369515}
 --- !u!1 &550394307
 GameObject:
   m_ObjectHideFlags: 0
@@ -23861,5 +23836,4 @@ SceneRoots:
   - {fileID: 1174710834}
   - {fileID: 713352736}
   - {fileID: 2103883612}
-  - {fileID: 542902281}
   - {fileID: 813357129}

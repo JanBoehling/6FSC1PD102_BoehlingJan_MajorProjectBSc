@@ -1,47 +1,78 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class AchievementManager : MonoBehaviour
+public class AchievementManager : MonoSingleton<AchievementManager>
 {
-    [SerializeField] private List<AchievementBase> _achievements;
+    [field: SerializeField] public Achievement[] Achievements { get; private set; }
+
     [SerializeField] private Image[] _achievementImageSlots;
 
-    private readonly List<AchievementBase> _completedAchievements = new();
+    private List<Achievement> _completedAchievements;
+
+    private bool _hasFetchedAchievements;
 
     private void Start()
     {
-        // Sorts the completed achievements by completion date
-        _completedAchievements.Sort((x, y) => DateTime.Compare(x.CompletionTimestamp, y.CompletionTimestamp));
+        FetchAchievementStates();
+    }
+
+    private void OnEnable()
+    {
+        if (!_hasFetchedAchievements) return;
+        RefreshAchievementIcons();
     }
 
     /// <summary>
-    /// Checks all achievements if one of the has been completed.
+    /// Creates a list with all the completed achievements from the given list
     /// </summary>
-    public void CheckForAchievementCompletion()
+    /// <param name="achievements">Complete achievement pool</param>
+    /// <returns>A sorted list with all completed achievements</returns>
+    private static List<Achievement> GetAllCompletedAchievements(Achievement[] achievements)
     {
-        foreach (var item in _achievements)
-        {
-            if (!item.HasCompleted()) continue;
-
-            _achievements.Remove(item);
-            _completedAchievements.Add(item);
-        }
+        return achievements
+            .Where((achievement) => achievement.IsCompleted)
+            .OrderByDescending(achievement => achievement.CompletionTimestamp) // Descending or ascending?
+            .ToList();
     }
 
-    /// <summary>
-    /// Updates the achievement image display in the profile view
-    /// </summary>
-    public void UpdateDisplay()
+    private void DisplayRecentAchievements()
     {
-        var recentAchievements = _completedAchievements.Take(_achievementImageSlots.Length).ToArray();
-
         for (int i = 0; i < _achievementImageSlots.Length; i++)
         {
-            _achievementImageSlots[i].sprite = recentAchievements[i].GetAchievementIcon();
+            _achievementImageSlots[i].sprite = _completedAchievements[i].AchievementIcon;
         }
+    }
+
+    public void RefreshAchievementIcons()
+    {
+        _completedAchievements = GetAllCompletedAchievements(Achievements);
+
+        DisplayRecentAchievements();
+    }
+
+    /// <summary>
+    /// Fetches all achievements from DB
+    /// </summary>
+    private void FetchAchievementStates()
+    {
+        DB.Instance.Query(achievementCompletionState =>
+        {
+            DB.Instance.Query(achievementLinks =>
+            {
+                for (int i = 0; i < achievementCompletionState.Length; i++)
+                {
+                    int link = int.Parse(achievementLinks[i]);
+                    bool state = int.Parse(achievementCompletionState[i]) != 0;
+
+                    Achievements[link].SetCompletionState(state);
+                }
+
+                _hasFetchedAchievements = true;
+
+            }, $"SELECT achievementLink FROM AchievementProgress INNER JOIN UserData ON UserData.userID = AchievementProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY achievementLink");
+
+        }, $"SELECT isCompleted FROM UserData INNER JOIN AchievementProgress ON UserData.userID = AchievementProgress.userID WHERE UserData.userID = {CurrentUser.UserID} ORDER BY achievementLink");
     }
 }

@@ -223,38 +223,44 @@ public class LoginManager : MonoBehaviour
 
             uint userID = uint.Parse(userIDRaw[0]);
 
-            var unitData = new uint[UnitAndAssignmentManager.Instance.Units.Length][];
-            for (uint i = 0; i < UnitAndAssignmentManager.Instance.Units.Length; i++)
-            {
-                unitData[i] = new uint[]
-                {
-                i, // unitLink
-                0, // isCompleted
-                userID
-                };
-            }
+            var unitData = CreateProgressionDataArray(userID, UnitAndAssignmentManager.Instance.Units.Length);
 
-            var assignmentData = new uint[UnitAndAssignmentManager.Instance.Assignments.Length][];
-            for (uint i = 0; i < UnitAndAssignmentManager.Instance.Assignments.Length; i++)
-            {
-                assignmentData[i] = new uint[]
-                {
-                i, // assignmentLink
-                0, // isCompleted
-                userID
-                };
-            }
+            var assignmentData = CreateProgressionDataArray(userID, UnitAndAssignmentManager.Instance.Assignments.Length);
+
+            var achievementData = CreateProgressionDataArray(userID, AchievementManager.Instance.Achievements.Length);
 
             foreach (var item in unitData)
             {
                 DB.Instance.Insert(null, Table.UnitProgress, item[0], item[1], item[2]);
             }
+
             foreach (var item in assignmentData)
             {
                 DB.Instance.Insert(null, Table.AssignmentProgress, item[0], item[1], item[2]);
             }
+
+            foreach (var item in achievementData)
+            {
+                DB.Instance.Insert(null, Table.AchievementProgress, item[0], item[1], item[2]);
+            }
         }, select: "userID", from: "UserData", where: "username", predicate: username);
         callback?.Invoke(true);
+    }
+
+    private static uint[][] CreateProgressionDataArray(uint userID, int length)
+    {
+        var data = new uint[length][];
+        for (uint i = 0; i < length; i++)
+        {
+            data[i] = new uint[]
+            {
+                i, // link
+                0, // isCompleted
+                userID
+            };
+        }
+
+        return data;
     }
 
     /// <summary>
