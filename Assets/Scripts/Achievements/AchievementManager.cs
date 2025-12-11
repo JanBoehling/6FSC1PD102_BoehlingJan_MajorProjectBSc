@@ -39,6 +39,8 @@ public class AchievementManager : MonoSingleton<AchievementManager>
 
     private void DisplayRecentAchievements()
     {
+        if (_completedAchievements == null || _completedAchievements.Count == 0) return;
+
         for (int i = 0; i < _achievementImageSlots.Length; i++)
         {
             _achievementImageSlots[i].sprite = _completedAchievements[i].AchievementIcon;

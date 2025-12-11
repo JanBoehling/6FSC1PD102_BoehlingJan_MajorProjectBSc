@@ -15,6 +15,7 @@ public static class PlayModeOverrides
     private const string EnableOverridesMenuItem = "Biolexica/Enable Overrides";
     private const string AutoLoginMenuItem = "Biolexica/Auto Login";
     private const string LoginAsAdminMenuItem = "Biolexica/Login as Admin";
+    private const string OfflineLoginMenuItem = "Biolexica/Login offline";
 
     #endregion
 
@@ -22,6 +23,7 @@ public static class PlayModeOverrides
     private static bool AutoLoginAsAdmin => Menu.GetChecked(AutoLoginMenuItem);
 
     private static readonly System.Action _loginAsAdmin = () => Object.FindAnyObjectByType<LoginManager>().TrySubmitLogin("admin", "t8734qzp920ßtvhrtbui23op");
+    private static readonly System.Action _loginOffline = () => Object.FindAnyObjectByType<LoginManager>().LoginOffline();
 
     static PlayModeOverrides() => EditorApplication.playModeStateChanged += OnModeSwitch;
 
@@ -40,15 +42,26 @@ public static class PlayModeOverrides
     /// <summary>
     /// Validates the menu item to log the user in as admin. The button may only be active if the login scene is active and the editor is in play mode
     /// </summary>
-    /// <returns></returns>
     [MenuItem(LoginAsAdminMenuItem, true)]
     public static bool ValidateLoginMenu() => EditorSceneManager.GetActiveScene().buildIndex == 0 && Application.isPlaying;
+
+    /// <summary>
+    /// Validates the menu item to log in offline using fake user data. The button may only be active if the login scene is active and the editor is in play mode
+    /// </summary>
+    [MenuItem(OfflineLoginMenuItem, true)]
+    public static bool ValidateOfflineLogin() => EditorSceneManager.GetActiveScene().buildIndex == 0 && Application.isPlaying;
 
     /// <summary>
     /// When in login screen and in play mode, this menu item logs the user in as admin
     /// </summary>
     [MenuItem(LoginAsAdminMenuItem, priority = 2)]
     public static void LoginMenu() => _loginAsAdmin.Invoke();
+
+    /// <summary>
+    /// When in login screen and in play mode, ths manu item uses fake user data to log in offline
+    /// </summary>
+    [MenuItem(OfflineLoginMenuItem, priority = 3)]
+    public static void OfflineLogin() => _loginOffline.Invoke();
 
     /// <summary>
     /// Executes specific behaviour when switching play mode states

@@ -154,6 +154,19 @@ public class LoginManager : MonoBehaviour
     }
 
     /// <summary>
+    /// When programming inside the trains of the Deutsche Bahn, I often have no internet.
+    /// Thats why a way to login with fake offline user data is neccessary.
+    /// </summary>
+    public void LoginOffline()
+    {
+        var userData = new UserData(0, "Offline Demo", "", 0, 0, 0);
+
+        CurrentUser.SetUser(userData);
+
+        SceneManager.LoadScene(1);
+    }
+
+    /// <summary>
     /// Tries to insert a new user to the database with the given username and password and default statistics
     /// </summary>
     public void TryRegisterNewUser()
