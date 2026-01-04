@@ -129,7 +129,7 @@ public class LoginManager : MonoBehaviour
             }
 
             // Wrong password
-            if (!passwordResult[0].Equals(password))
+            if (!VerifyPassword(password, passwordResult[0]))
             {
                 SetMessage(ErrorMessages.WrongPasswordError);
                 SetTitleImage(_celloSadSprite);
@@ -219,7 +219,7 @@ public class LoginManager : MonoBehaviour
 
                     TrySubmitLogin();
                 }, username);
-            }, username, password, 1, 0, 0);
+            }, username, EncryptPassword(password), 1, 0, 0);
         }, select: "username", from: "UserData", where: "username", predicate: username);
     }
 
@@ -310,6 +310,7 @@ public class LoginManager : MonoBehaviour
                 if (_failureAudioPlayer) _failureAudioPlayer.Play();
                 callback?.Invoke(null);
                 return;
+
             }
             else
             {
@@ -318,4 +319,7 @@ public class LoginManager : MonoBehaviour
             }
         }, select: "*", from: "UserData", where: "username", predicate: username);
     }
+
+    private string EncryptPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password);
+    private bool VerifyPassword(string password, string hash) => BCrypt.Net.BCrypt.Verify(password, hash);
 }
