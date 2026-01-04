@@ -19,6 +19,8 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private Sprite _celloVerySadSprite;
     [SerializeField] private Sprite _celloExtremelySadSprite;
     [Space]
+    [SerializeField] private AudioPlayer _failureAudioPlayer;
+    [Space]
     [SerializeField] private float CheckConnectionDelay = 2f;
     [SerializeField] private uint MinPasswordLength = 5;
 
@@ -118,6 +120,7 @@ public class LoginManager : MonoBehaviour
             {
                 SetMessage(ErrorMessages.UserNotFoundError);
                 SetTitleImage(_celloSadSprite);
+                if (_failureAudioPlayer) _failureAudioPlayer.Play();
 
                 _usernameInput.image.color = Color.red;
 
@@ -130,6 +133,7 @@ public class LoginManager : MonoBehaviour
             {
                 SetMessage(ErrorMessages.WrongPasswordError);
                 SetTitleImage(_celloSadSprite);
+                if (_failureAudioPlayer) _failureAudioPlayer.Play();
 
                 _passwordInput.image.color = Color.red;
 
@@ -178,6 +182,7 @@ public class LoginManager : MonoBehaviour
         {
             SetMessage(ErrorMessages.UsernamePromptEmptyError);
             SetTitleImage(_celloSadSprite);
+            if (_failureAudioPlayer) _failureAudioPlayer.Play();
             return;
         }
 
@@ -185,6 +190,7 @@ public class LoginManager : MonoBehaviour
         {
             SetMessage(ErrorMessages.PasswordPromptEmptyError);
             SetTitleImage(_celloSadSprite);
+            if (_failureAudioPlayer) _failureAudioPlayer.Play();
             return;
         }
 
@@ -194,6 +200,7 @@ public class LoginManager : MonoBehaviour
             {
                 SetMessage(ErrorMessages.UserAlreadyExistsError);
                 SetTitleImage(_celloSadSprite);
+                if (_failureAudioPlayer) _failureAudioPlayer.Play();
                 return;
             }
 
@@ -230,6 +237,7 @@ public class LoginManager : MonoBehaviour
                 SetMessage(ErrorMessages.UserIDNotFoundError.Replace("%s", username));
 
                 SetTitleImage(_celloVerySadSprite);
+                if (_failureAudioPlayer) _failureAudioPlayer.Play();
                 callback?.Invoke(false);
                 return;
             }
@@ -291,6 +299,7 @@ public class LoginManager : MonoBehaviour
             {
                 SetMessage($"Multiple entires in DB found for {username}!");
                 SetTitleImage(_celloExtremelySadSprite);
+                if (_failureAudioPlayer) _failureAudioPlayer.Play();
                 callback?.Invoke(null);
                 return;
             }
@@ -298,6 +307,7 @@ public class LoginManager : MonoBehaviour
             {
                 SetMessage("Could not fetch complete data!");
                 SetTitleImage(_celloExtremelySadSprite);
+                if (_failureAudioPlayer) _failureAudioPlayer.Play();
                 callback?.Invoke(null);
                 return;
             }
