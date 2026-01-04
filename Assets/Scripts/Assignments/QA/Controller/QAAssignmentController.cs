@@ -16,6 +16,8 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [SerializeField] private string _quitButtonTextOnEnd = "Das war's!";
     [SerializeField] private QAQuitMessageController _quitMessageContainer;
     [SerializeField] private GameObject _closeQuitMessageButton;
+    [SerializeField] private AudioPlayer _successAudioPlayer;
+    [SerializeField] private AudioPlayer _failureAudioPlayer;
 
     private RectTransform _canvasTransform;
     private RectTransform _transform;
@@ -211,6 +213,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         _continueButton.image.color = Color.green;
 
         ConfettiCanon.Play();
+        if (_successAudioPlayer) _successAudioPlayer.Play();
     }
 
     /// <summary>
@@ -221,6 +224,7 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         _continueButton.image.color = Color.red;
 
         AddQuizCards(new[]{ _loadedQuestions.ElementAt(_pages.CurrentPage).Key.Question });
+        if (_failureAudioPlayer) _failureAudioPlayer.Play();
     }
 
     /// <summary>

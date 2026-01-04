@@ -11,6 +11,7 @@ public class PageMoveController : MonoSingleton<PageMoveController>
 
     [SerializeField, Tooltip("The duration of the animation in seconds")] private float _animationDuration = 1f;
     [SerializeField] private AnimationCurve _pageMoveAnimationCurve;
+    [SerializeField, Tooltip("Optional: Plays audio when page moves.")] private AudioPlayer _moveAudioPlayer;
 
     private Coroutine _pageMoveAnimation;
 
@@ -44,6 +45,7 @@ public class PageMoveController : MonoSingleton<PageMoveController>
     private IEnumerator MovePageCO(int direction = 1)
     {
         OnMoveAnimationBeginAction?.Invoke();
+        if (_moveAudioPlayer) _moveAudioPlayer.Play();
 
         var priorPos = transform.localPosition;
         var targetPos = priorPos + ((RectTransform)transform.parent).rect.width * direction * Vector3.left;

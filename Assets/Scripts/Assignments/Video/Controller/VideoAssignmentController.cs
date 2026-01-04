@@ -15,6 +15,7 @@ public class VideoAssignmentController : MonoBehaviour
     [SerializeField] private Button _continueButton;
     [SerializeField] private TMP_Text _messageText;
     [SerializeField] private float _onErrorRetryDelay = 2f;
+    [SerializeField] private AudioPlayer _successAudioPlayer;
     [field: SerializeField] public VideoClip DebugVideoClip { get; private set; }
     [Space]
     [SerializeField] private float _timer;
@@ -139,6 +140,7 @@ public class VideoAssignmentController : MonoBehaviour
             _continueButton.image.color = Color.green;
             _continueButton.onClick = new();
             _continueButton.onClick.AddListener(ReturnToMenu);
+            if (_successAudioPlayer) _successAudioPlayer.Play();
         }
         else
         {

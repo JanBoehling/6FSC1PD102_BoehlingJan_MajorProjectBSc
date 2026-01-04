@@ -16,6 +16,11 @@ public class AudioPlayer : MonoBehaviour
 
     [Tooltip("Select the play mode of the auto play feature. Requires a audio set in the \"Local Audio Set\" field.")]
     [SerializeField] private AutoPlayMode autoPlayMode;
+
+    [Space]
+
+    [Tooltip("If true, does not destroy object on scene transition")]
+    [SerializeField] private bool isScenePersistent;
     
     private enum AutoPlayMode
     {
@@ -30,10 +35,14 @@ public class AudioPlayer : MonoBehaviour
     {
         if (!gameObject.TryGetComponent<AudioSource>(out audioSource)) audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = audioMixerGroup;
+
+        if (isScenePersistent) DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        if (!audioSource) Debug.LogError($"{name}: AudioSource could not be added to GameObject.");
+
         switch (autoPlayMode)
         {
             case AutoPlayMode.Manual:
@@ -45,7 +54,7 @@ public class AudioPlayer : MonoBehaviour
                 PlayAllLooping();
                 break;
             default:
-                Debug.LogError($"A not supported play mode was set: {autoPlayMode.ToString()}");
+                Debug.LogError($"A not supported play mode was set: {autoPlayMode}");
                 break;
         }
     }
@@ -82,7 +91,7 @@ public class AudioPlayer : MonoBehaviour
 
         if (clipAmount == 0)
         {
-            string objectRoot = transform.parent ? transform.parent.name : gameObject.name;
+            string objectRoot = transform.parent ? $"{ transform.parent.name}.{gameObject.name}" : gameObject.name;
             Debug.LogWarning($"The audio set that was tried to play by {objectRoot} is empty.");
             return;
         }
@@ -115,9 +124,9 @@ public class AudioPlayer : MonoBehaviour
     /// Plays the given audio clip.
     /// </summary>
     /// <param name="clip">The audio clip to be played.</param>
-    public void Play(AudioClip clip)
+    public void Play(AudioResource clip)
     {
-        audioSource.clip = clip;
+        audioSource.resource = clip;
         audioSource.Play();
     }
 
@@ -126,9 +135,9 @@ public class AudioPlayer : MonoBehaviour
     /// </summary>
     /// <param name="clip">The audio clip to be played.</param>
     /// <param name="doLoop">Defines if the given audio clip should loop or not.</param>
-    public void Play(AudioClip clip, bool doLoop)
+    public void Play(AudioResource clip, bool doLoop)
     {
-        audioSource.clip = clip;
+        audioSource.resource = clip;
         audioSource.loop = doLoop;
         audioSource.Play();
     }
@@ -151,7 +160,7 @@ public class AudioPlayer : MonoBehaviour
     /// <param name="audioClips">The audio set, that should be played.</param>
     /// <param name="doLoop">If true, this coroutine will run infinitely.</param>
     /// <param name="playSingle">If true, only one random clip from the audio set will be played instead of all. Default is false.</param>
-    private IEnumerator PlayCO(IReadOnlyList<AudioClip> audioClips, bool doLoop, bool playSingle = false)
+    private IEnumerator PlayCO(IReadOnlyList<AudioResource> audioClips, bool doLoop, bool playSingle = false)
     {
         int clipAmount = audioClips.Count;
 
@@ -171,7 +180,7 @@ public class AudioPlayer : MonoBehaviour
             
             Play(currentClip);
 
-            yield return new WaitForSeconds(currentClip.length);
+            yield return new WaitWhile(() => audioSource.isPlaying);
 
             if (playSingle) yield return null;
 
