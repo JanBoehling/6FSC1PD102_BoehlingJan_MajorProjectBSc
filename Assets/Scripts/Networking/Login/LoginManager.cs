@@ -1,8 +1,9 @@
+using BCrypt.Net;
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
@@ -321,5 +322,22 @@ public class LoginManager : MonoBehaviour
     }
 
     private string EncryptPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password);
-    private bool VerifyPassword(string password, string hash) => BCrypt.Net.BCrypt.Verify(password, hash);
+    private bool VerifyPassword(string password, string hash)
+    {
+        bool success;
+
+        try
+        {
+            success = BCrypt.Net.BCrypt.Verify(password, hash);
+        }
+        catch (SaltParseException)
+        {
+            Debug.LogError($"Hash \"{hash}\" has an invalid salt version. Is this string even hashed?");
+
+            // Checks if this account is an old one with a non-hashed password
+            success = string.Equals(password, hash); // I don't know if this is a security thread but I really don't want to hash every already existing password...
+        }
+
+        return success;
+    }
 }
