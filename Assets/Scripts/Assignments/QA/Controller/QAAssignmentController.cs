@@ -11,13 +11,15 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     [Space]
     [SerializeField] private Button _sendAnswerButton;
     [SerializeField] private Button _continueButton;
-    [SerializeField] private Button _endMilestoneButton;
     [Space]
     [SerializeField] private string _quitButtonTextOnEnd = "Das war's!";
     [SerializeField] private QAQuitMessageController _quitMessageContainer;
     [SerializeField] private GameObject _closeQuitMessageButton;
+    [Space]
     [SerializeField] private AudioPlayer _successAudioPlayer;
     [SerializeField] private AudioPlayer _failureAudioPlayer;
+    [Space]
+    [SerializeField] private Image _progressBar;
 
     private RectTransform _canvasTransform;
     private RectTransform _transform;
@@ -164,9 +166,17 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
         _sendAnswerButton.gameObject.SetActive(false);
         _continueButton.gameObject.SetActive(true);
 
+        UpdateProgressBar();
+
         // If last page, override continue button action with back to menu
         if (_pages.CurrentPage < _loadedQuestions.Count - 1) return;
         OnLastQuestion();
+    }
+
+    private void UpdateProgressBar()
+    {
+        float progress = (float)_pages.CurrentPage / _loadedQuestions.Count;
+        _progressBar.fillAmount = progress;
     }
 
     /// <summary>
@@ -174,13 +184,10 @@ public class QAAssignmentController : AssignmentControllerBase<QAAssignment>
     /// </summary>
     private void OnLastQuestion()
     {
+        _continueButton.GetComponentInChildren<TMP_Text>().text = _quitButtonTextOnEnd;
+        _continueButton.image.color = Color.green;
         _continueButton.onClick.RemoveAllListeners();
-        _continueButton.transform.parent.gameObject.SetActive(false);
-
-        _endMilestoneButton.GetComponentInChildren<TMP_Text>().text = _quitButtonTextOnEnd;
-        _endMilestoneButton.image.color = Color.green;
-        _endMilestoneButton.onClick.RemoveAllListeners();
-        _endMilestoneButton.onClick.AddListener(() =>
+        _continueButton.onClick.AddListener(() =>
         {
             _quitMessageContainer.SelectMessageOnEnable(QAAbortMessage.None);
             _quitMessageContainer.DisplayText($"+{RuntimeDataHolder.CurrentMilestone.XP} XP!");
