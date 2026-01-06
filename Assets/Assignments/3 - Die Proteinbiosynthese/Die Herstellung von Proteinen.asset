@@ -18,3 +18,54 @@ MonoBehaviour:
     Herstellung von Proteinen.mp4
   <Duration>k__BackingField: 68
   <WatchtimePercentThreshold>k__BackingField: 0.9
+  <Subtitles>k__BackingField:
+  - <Text>k__BackingField: Die Proteinbiosynthese ist der zentrale Prozess,
+    <Time>k__BackingField: 0
+  - <Text>k__BackingField: mit dem unsere Zellen aus der genetischen Information
+      in der DNA
+    <Time>k__BackingField: 3
+  - <Text>k__BackingField: "funktionsf\xE4hige Proteine herstellen."
+    <Time>k__BackingField: 6
+  - <Text>k__BackingField: "Sie l\xE4uft in zwei Hauptschritten ab:"
+    <Time>k__BackingField: 9
+  - <Text>k__BackingField: der Transkription und der Translation.
+    <Time>k__BackingField: 11
+  - <Text>k__BackingField: 'Zuerst findet im Zellkern die Transkription statt. '
+    <Time>k__BackingField: 15
+  - <Text>k__BackingField: Hier wird die Information eines bestimmten Gens
+    <Time>k__BackingField: 19
+  - <Text>k__BackingField: 'von der DNA auf eine Boten-RNA, '
+    <Time>k__BackingField: 21
+  - <Text>k__BackingField: "die sogenannte mRNA, \xFCbertragen. "
+    <Time>k__BackingField: 24
+  - <Text>k__BackingField: "Die mRNA dient als transportf\xE4hige Kopie "
+    <Time>k__BackingField: 27
+  - <Text>k__BackingField: der genetischen Information.
+    <Time>k__BackingField: 30
+  - <Text>k__BackingField: Bei Eukaryoten
+    <Time>k__BackingField: 33
+  - <Text>k__BackingField: 'wird diese mRNA nach der Transkription noch weiter bearbeitet, '
+    <Time>k__BackingField: 34
+  - <Text>k__BackingField: "bevor sie den Zellkern verl\xE4sst. "
+    <Time>k__BackingField: 38
+  - <Text>k__BackingField: "Dieser Zwischenschritt hei\xDFt RNA-Splicing."
+    <Time>k__BackingField: 40
+  - <Text>k__BackingField: 'Im zweiten Schritt, '
+    <Time>k__BackingField: 45
+  - <Text>k__BackingField: 'der Translation, '
+    <Time>k__BackingField: 46
+  - <Text>k__BackingField: 'gelangt die mRNA ins Zellplasma zu den Ribosomen. '
+    <Time>k__BackingField: 47
+  - <Text>k__BackingField: 'Hier wird die Information der mRNA wie ein Bauplan gelesen '
+    <Time>k__BackingField: 51
+  - <Text>k__BackingField: "und in eine Kette von Aminos\xE4uren \xFCbersetzt. "
+    <Time>k__BackingField: 55
+  - <Text>k__BackingField: Und diese Kette ist das fertige Protein!
+    <Time>k__BackingField: 58
+  - <Text>k__BackingField: Gut, alles verstanden?
+    <Time>k__BackingField: 62
+  - <Text>k__BackingField: Sicher?
+    <Time>k__BackingField: 64
+  - <Text>k__BackingField: "Dann kannst du ja direkt in die nachfolgende \xDCbung
+      eintauchen!"
+    <Time>k__BackingField: 66

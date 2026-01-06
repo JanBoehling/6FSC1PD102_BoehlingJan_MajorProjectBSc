@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
 public abstract class VideoControlsBase : MonoBehaviour
 {
     [SerializeField] protected Image ProgressBar;
+    [Space]
+    [SerializeField] private UnityEvent<float> OnWind;
 
     protected VideoPlayer VideoPlayer;
 
@@ -30,5 +33,7 @@ public abstract class VideoControlsBase : MonoBehaviour
 
         float progress = Mathf.InverseLerp(ProgressBar.rectTransform.rect.xMin, ProgressBar.rectTransform.rect.xMax, localPoint.x);
         VideoPlayer.time = progress * VideoPlayer.length;
+
+        OnWind?.Invoke(progress);
     }
 }

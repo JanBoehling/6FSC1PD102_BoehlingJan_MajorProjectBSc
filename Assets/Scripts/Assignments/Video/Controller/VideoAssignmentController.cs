@@ -16,9 +16,13 @@ public class VideoAssignmentController : MonoBehaviour
     [SerializeField] private TMP_Text _messageText;
     [SerializeField] private float _onErrorRetryDelay = 2f;
     [SerializeField] private AudioPlayer _successAudioPlayer;
+    [SerializeField] private SubtitleSystem _subtitleSystem;
     [field: SerializeField] public VideoClip DebugVideoClip { get; private set; }
     [Space]
     [SerializeField] private float _timer;
+
+    // This should be toggleable by the user
+    private bool _enableSubtitles = true;
     
     private VideoPlayer _videoPlayer;
     private AudioSource _audioPlayer;
@@ -56,6 +60,8 @@ public class VideoAssignmentController : MonoBehaviour
         _hasLoadedOnce = true;
 
         StartVideo(assignmentData.VideoURL);
+
+        if (_enableSubtitles) _subtitleSystem.Init(assignmentData);
     }
 
     /// <summary>
